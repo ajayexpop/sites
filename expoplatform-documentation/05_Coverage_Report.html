@@ -1,0 +1,161 @@
+<!doctype html><html lang="en" data-theme="dark"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coverage &amp; Validation Report</title><style>
+:root{--bg:#0f1419;--panel:#161b22;--panel2:#1c2230;--border:#2a3240;--text:#e6edf3;--muted:#9aa7b4;
+--accent:#3b82f6;--accent2:#22d3ee;--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--chip:#243044;--shadow:0 4px 18px rgba(0,0,0,.35);--diagbg:#f7f9fc;}
+[data-theme=light]{--bg:#f6f8fa;--panel:#fff;--panel2:#f0f3f7;--border:#d8dee6;--text:#1c2330;--muted:#5b6776;--accent:#2563eb;--accent2:#0891b2;--chip:#eaf0fb;--shadow:0 4px 16px rgba(20,30,50,.08);--diagbg:#ffffff;}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:11px 18px;background:linear-gradient(90deg,var(--panel),var(--panel2));border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.topbar h1{font-size:16px;margin:0;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}.grow{flex:1}
+#search{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 12px;width:280px;max-width:42vw;font-size:13px;outline:none}
+.btn{background:var(--chip);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 11px;cursor:pointer;font-size:13px}
+.btn:hover{border-color:var(--accent)}
+.layout{display:flex;align-items:flex-start}
+#sidebar{position:sticky;top:55px;height:calc(100vh - 55px);overflow-y:auto;width:290px;flex:0 0 290px;padding:16px 12px 60px;border-right:1px solid var(--border);background:var(--panel)}
+#sidebar .navhead{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:8px 8px 6px}
+#sidebar a{display:block;padding:6px 10px;border-radius:7px;color:var(--text);font-size:13.5px;margin-bottom:1px}
+#sidebar a.lvl3{padding-left:24px;font-size:12.5px;color:var(--muted)}
+#sidebar a:hover{background:var(--chip);text-decoration:none}#sidebar a.active{background:var(--accent);color:#fff}
+main{flex:1;min-width:0;padding:26px 40px 120px;max-width:1080px;margin:0 auto}
+.hero{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:22px;box-shadow:var(--shadow)}
+.hero h2{margin:.1em 0 .25em;font-size:24px}.hero p{margin:.3em 0;color:var(--muted)}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.stat{background:var(--chip);border:1px solid var(--border);border-radius:10px;padding:9px 14px;min-width:96px}
+.stat b{display:block;font-size:21px;line-height:1.1}.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+section{background:var(--panel);border:1px solid var(--border);border-radius:14px;margin:14px 0;overflow:hidden;box-shadow:var(--shadow)}
+.sechead{display:flex;align-items:center;gap:10px;cursor:pointer;padding:15px 20px;margin:0;font-size:17.5px;font-weight:640;background:var(--panel2);user-select:none}
+.sechead .num{color:var(--accent);font-weight:700;font-size:14px;background:var(--chip);border-radius:6px;padding:2px 8px}
+.sechead .tw{margin-left:auto;color:var(--muted);transition:transform .2s;font-size:13px}
+section.collapsed .secbody{display:none}section.collapsed .sechead .tw{transform:rotate(-90deg)}
+section:not(.collapsed) .sechead{border-bottom:1px solid var(--border)}
+.secbody{padding:6px 22px 20px}
+h3.sub{font-size:15px;margin:20px 0 6px;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:9px}
+h4{font-size:13.5px;margin:14px 0 4px;text-transform:uppercase;letter-spacing:.5px}
+p{margin:.5em 0}ul,ol{margin:.4em 0 .8em;padding-left:22px}li{margin:3px 0}
+code{background:var(--chip);padding:1.5px 6px;border-radius:5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:620}tr:nth-child(even) td{background:rgba(127,127,127,.045)}
+.panelbox{border-left:4px solid var(--accent);background:var(--panel2);border-radius:0 10px 10px 0;padding:10px 16px;margin:12px 0}
+.panelbox.warn{border-color:var(--warn)}.panelbox.good{border-color:var(--good)}.panelbox.info{border-color:var(--accent2)}
+.panelbox .t{font-weight:650;font-size:12.5px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.mmbox{background:var(--panel2);border:1px solid var(--border);border-radius:12px;margin:14px 0;overflow:hidden}
+.mmbar{display:flex;gap:6px;align-items:center;padding:7px 10px;border-bottom:1px solid var(--border);background:var(--panel)}
+.mmbar .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-right:auto}
+.mmbar .b{background:var(--chip);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:4px 9px;font-size:12px;cursor:pointer}
+.mmbar .b:hover{border-color:var(--accent)}
+.mmstage{position:relative;height:380px;overflow:hidden;cursor:grab;background:var(--diagbg)}
+.mmstage.grabbing{cursor:grabbing}
+.mmcanvas{position:absolute;left:0;top:0;transform-origin:0 0;padding:14px}
+.mmcanvas svg{max-width:none!important;height:auto!important;display:block}
+.mmcanvas svg foreignObject{overflow:visible}
+.mmcanvas svg foreignObject *{overflow:visible!important;white-space:nowrap}
+#mmlb svg foreignObject{overflow:visible}
+#mmlb svg foreignObject *{overflow:visible!important;white-space:nowrap}
+pre.mmsrc{display:none}
+.mmhint{position:absolute;right:10px;bottom:8px;font-size:10.5px;color:#5b6776;background:#fff;border:1px solid #d8dee6;border-radius:6px;padding:2px 7px;pointer-events:none}
+#mmlb{position:fixed;inset:0;background:rgba(3,6,12,.92);z-index:200;display:none}#mmlb.on{display:block}
+#mmlb .lbstage{position:absolute;inset:54px 12px 12px;overflow:hidden;cursor:grab;background:var(--diagbg);border:1px solid var(--border);border-radius:12px}
+#mmlb .lbcanvas{position:absolute;left:0;top:0;transform-origin:0 0;padding:20px}
+#mmlb .lbcanvas svg{max-width:none!important;height:auto!important}
+#mmlb .lbbar{position:absolute;left:12px;right:12px;top:12px;height:36px;display:flex;gap:8px;align-items:center}
+#mmlb .lbbar .b{background:var(--chip);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 11px;font-size:13px;cursor:pointer}
+#mmlb .lbttl{color:var(--muted);font-size:12px;margin-right:auto}
+mark{background:var(--warn);color:#111;border-radius:3px;padding:0 2px}.toc-hidden{display:none!important}
+.footer{color:var(--muted);font-size:12px;text-align:center;padding:30px 10px;border-top:1px solid var(--border);margin-top:30px}
+@media(max-width:880px){#sidebar{position:fixed;left:0;top:55px;transform:translateX(-105%);transition:.25s;z-index:40}#sidebar.open{transform:none}main{padding:18px 16px 100px}#search{width:150px}}
+@media(min-width:881px){#menuBtn{display:none}}
+</style></head><body>
+<header class="topbar"><button class="btn" id="menuBtn">&#9776;</button>
+<div><div class="brand">ExpoPlatform &middot; Reconstructed Docs</div></div>
+<h1>Coverage &amp; Validation Report</h1><div class="grow"></div>
+<input id="search" placeholder="Search this document...">
+<button class="btn" id="themeBtn" title="Toggle theme">&#9681; Theme</button></header>
+<div class="layout"><nav id="sidebar"><div class="navhead">Contents</div>
+<div style="display:flex;gap:6px;margin:0 6px 10px"><button class="btn" id="expandAll" style="flex:1;font-size:11px">Expand all</button><button class="btn" id="collapseAll" style="flex:1;font-size:11px">Collapse all</button></div>
+<a href="#1-coverage-summary" class="lvl2">1. Coverage Summary</a>
+<a href="#2-per-product-documentation-coverage" class="lvl2">2. Per-Product Documentation Coverage</a>
+<a href="#3-full-product-catalogue-documentation-depth" class="lvl2">3. Full Product Catalogue &amp; Documentation Depth</a>
+<a href="#4-workflow-coverage" class="lvl2">4. Workflow Coverage</a>
+<a href="#5-business-rule-integration-edge-case-coverage" class="lvl2">5. Business-Rule, Integration &amp; Edge-Case Coverage</a>
+<a href="#6-jira-status-filtering-excluded-work" class="lvl2">6. Jira Status Filtering (Excluded Work)</a>
+<a href="#7-known-caveats-source-notes" class="lvl2">7. Known Caveats &amp; Source Notes</a>
+<a href="#8-validation-checklist" class="lvl2">8. Validation Checklist</a></nav>
+<main><div class="hero"><h2>Coverage &amp; Validation Report</h2><p>Final coverage vs the approved scope — 20 full product docs, totals, excluded work and honest caveats.</p><div class="stats"><div class="stat"><b>21</b><span>Products</span></div><div class="stat"><b>20</b><span>Full docs</span></div><div class="stat"><b>521</b><span>In-scope stories</span></div><div class="stat"><b>496</b><span>Excluded</span></div><div class="stat"><b>100%</b><span>Coverage</span></div></div></div><div class="hero"><p># ExpoPlatform Reconstruction — Coverage &amp; Validation Report</p></div><section class="doc" id="1-coverage-summary"><h3 class="sechead"><span class="num">1</span>1. Coverage Summary<span class="tw">&#9660;</span></h3><div class="secbody"><p>Final coverage of the ExpoPlatform reconstruction across all three sources, against the approved scope.</p>
+<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Products identified (ecosystem)</td><td><strong>21</strong></td></tr><tr><td>Products with FULL 15-section documentation</td><td><strong>20</strong> of 21</td></tr><tr><td>Profile</td><td>Documented as a <strong>shared identity layer</strong> (Registration, Networking, ecosystem map)</td></tr><tr><td>Breadth coverage (ecosystem map + master inventory)</td><td><strong>21 / 21 (100%)</strong></td></tr><tr><td>In-scope Jira issues analysed</td><td><strong>653</strong> (521 Stories + 132 Epics)</td></tr><tr><td>Stories excluded by status filter</td><td><strong>496</strong></td></tr><tr><td>In-scope stories mapped to a product</td><td><strong>521 / 521 (100%)</strong></td></tr><tr><td>Confluence pages enumerated</td><td><strong>1,262</strong> (ExpoDoc 923 + P2 339)</td></tr><tr><td>Interactive HTML documents produced</td><td><strong>23</strong> (20 products + ecosystem + coverage + index)</td></tr><tr><td>Mermaid diagrams</td><td><strong>102</strong> (100 across product docs + 2 ecosystem)</td></tr></tbody></table></div></section>
+<section class="doc" id="2-per-product-documentation-coverage"><h3 class="sechead"><span class="num">2</span>2. Per-Product Documentation Coverage<span class="tw">&#9660;</span></h3><div class="secbody"><p>Every product below contains all 15 required sections, 5 diagram types (user journey, system workflow, state transition, permission flow, ERD), and traceable in-scope user stories.</p>
+<table><thead><tr><th>Product</th><th>Domain</th><th>Sections</th><th>Stories traced</th><th>Business rules</th><th>Integrations</th><th>Diagrams</th></tr></thead><tbody><tr><td>Client Manager</td><td>Provisioning &amp; Core</td><td>15/15</td><td>4</td><td>9</td><td>4</td><td>5</td></tr><tr><td>Admin / Platform Core</td><td>Provisioning &amp; Core</td><td>15/15</td><td>15</td><td>16</td><td>7</td><td>5</td></tr><tr><td>Organiser Analytics</td><td>Insight</td><td>15/15</td><td>20</td><td>15</td><td>8</td><td>5</td></tr><tr><td>Onsite &amp; Kiosks</td><td>Onsite</td><td>15/15</td><td>36</td><td>14</td><td>8</td><td>5</td></tr><tr><td>Transactions &amp; Purchasing</td><td>Acquisition &amp; Commerce</td><td>15/15</td><td>10</td><td>16</td><td>8</td><td>5</td></tr><tr><td>Online Registration</td><td>Acquisition &amp; Commerce</td><td>15/15</td><td>28</td><td>14</td><td>8</td><td>5</td></tr><tr><td>Event Website</td><td>Acquisition &amp; Commerce</td><td>15/15</td><td>68</td><td>12</td><td>7</td><td>5</td></tr><tr><td>User Engagement</td><td>Acquisition &amp; Commerce</td><td>15/15</td><td>19</td><td>10</td><td>5</td><td>5</td></tr><tr><td>Networking &amp; Interactions</td><td>Engagement</td><td>15/15</td><td>43</td><td>12</td><td>8</td><td>5</td></tr><tr><td>Meetings &amp; Matchmaking</td><td>Engagement</td><td>15/15</td><td>43</td><td>14</td><td>8</td><td>5</td></tr><tr><td>Sessions &amp; Speakers</td><td>Engagement</td><td>15/15</td><td>44</td><td>12</td><td>9</td><td>5</td></tr><tr><td>Mobile App</td><td>Engagement</td><td>15/15</td><td>26</td><td>12</td><td>8</td><td>5</td></tr><tr><td>Community</td><td>Identity &amp; Community</td><td>15/15</td><td>5</td><td>12</td><td>6</td><td>5</td></tr><tr><td>Exhibitor Portal</td><td>Exhibitor &amp; Sponsor</td><td>15/15</td><td>95</td><td>12</td><td>9</td><td>5</td></tr><tr><td>Exhibitor Marketplace</td><td>Exhibitor &amp; Sponsor</td><td>15/15</td><td>28</td><td>12</td><td>9</td><td>5</td></tr><tr><td>Lead Intelligence</td><td>Exhibitor &amp; Sponsor</td><td>15/15</td><td>16</td><td>14</td><td>6</td><td>5</td></tr><tr><td>Floor Plan</td><td>Exhibitor &amp; Sponsor</td><td>15/15</td><td>17</td><td>11</td><td>6</td><td>5</td></tr><tr><td>Sponsorship</td><td>Exhibitor &amp; Sponsor</td><td>15/15</td><td>5</td><td>15</td><td>8</td><td>5</td></tr><tr><td>Hosted Buyer Management</td><td>Exhibitor &amp; Sponsor</td><td>15/15</td><td>5</td><td>12</td><td>6</td><td>5</td></tr><tr><td>Integrations</td><td>Provisioning &amp; Core</td><td>15/15</td><td>31</td><td>9</td><td>11</td><td>5</td></tr></tbody></table>
+<p><strong>Totals across the 20 deep docs:</strong> 558 story rows traced, 253 business rules, 149 integration entries, 100 Mermaid diagrams (5 types per doc).</p></div></section>
+<section class="doc" id="3-full-product-catalogue-documentation-depth"><h3 class="sechead"><span class="num">3</span>3. Full Product Catalogue &amp; Documentation Depth<span class="tw">&#9660;</span></h3><div class="secbody"><table><thead><tr><th>Product</th><th>In-scope stories</th><th>Epics</th><th>Confluence pages</th><th>Depth</th></tr></thead><tbody><tr><td>Exhibitor Portal</td><td>85</td><td>10</td><td>18</td><td>Full 15-section doc</td></tr><tr><td>Event Website</td><td>62</td><td>6</td><td>39</td><td>Full 15-section doc</td></tr><tr><td>Sessions &amp; Speakers</td><td>45</td><td>7</td><td>32</td><td>Full 15-section doc</td></tr><tr><td>Meetings &amp; Matchmaking</td><td>38</td><td>5</td><td>114</td><td>Full 15-section doc</td></tr><tr><td>Networking &amp; Interactions</td><td>37</td><td>7</td><td>49</td><td>Full 15-section doc</td></tr><tr><td>Onsite &amp; Kiosks</td><td>35</td><td>3</td><td>42</td><td>Full 15-section doc</td></tr><tr><td>Exhibitor Marketplace</td><td>27</td><td>1</td><td>32</td><td>Full 15-section doc</td></tr><tr><td>Online Registration</td><td>27</td><td>1</td><td>27</td><td>Full 15-section doc</td></tr><tr><td>Mobile App</td><td>26</td><td>0</td><td>87</td><td>Full 15-section doc</td></tr><tr><td>User Engagement</td><td>18</td><td>1</td><td>31</td><td>Full 15-section doc</td></tr><tr><td>Admin / Platform Core</td><td>18</td><td>9</td><td>64</td><td>Full 15-section doc</td></tr><tr><td>Organiser Analytics</td><td>16</td><td>4</td><td>17</td><td>Full 15-section doc</td></tr><tr><td>Floor Plan</td><td>15</td><td>2</td><td>21</td><td>Full 15-section doc</td></tr><tr><td>Transactions &amp; Purchasing</td><td>13</td><td>1</td><td>29</td><td>Full 15-section doc</td></tr><tr><td>Lead Intelligence</td><td>12</td><td>4</td><td>24</td><td>Full 15-section doc</td></tr><tr><td>Integrations</td><td>6</td><td>25</td><td>119</td><td>Full 15-section doc</td></tr><tr><td>Profile</td><td>6</td><td>1</td><td>0</td><td>Shared layer</td></tr><tr><td>Hosted Buyer Management</td><td>5</td><td>0</td><td>11</td><td>Full 15-section doc</td></tr><tr><td>Sponsorship</td><td>5</td><td>0</td><td>18</td><td>Full 15-section doc</td></tr><tr><td>Community</td><td>4</td><td>1</td><td>44</td><td>Full 15-section doc</td></tr></tbody></table></div></section>
+<section class="doc" id="4-workflow-coverage"><h3 class="sechead"><span class="num">4</span>4. Workflow Coverage<span class="tw">&#9660;</span></h3><div class="secbody"><p>Each documented product includes a <strong>user journey</strong> and a <strong>system workflow</strong> diagram plus narrative <strong>Happy / Alternate / Exception / Recovery</strong> paths; the ecosystem map adds the <strong>Master User Journey</strong> (7-phase lifecycle) and the system ecosystem flow.</p>
+<ul><li>End-to-end workflow diagrams: <strong>42</strong> (2 per product x 20 + 2 ecosystem)</li><li>Path-type narratives: <strong>80</strong> (4 path types x 20 products)</li><li>State machines: <strong>20</strong> (one per product — e.g. client, event lifecycle, export job, badge, payment, registrant, session, meeting status, campaign, listing, lead, stand)</li></ul></div></section>
+<section class="doc" id="5-business-rule-integration-edge-case-coverage"><h3 class="sechead"><span class="num">5</span>5. Business-Rule, Integration &amp; Edge-Case Coverage<span class="tw">&#9660;</span></h3><div class="secbody"><ul><li><strong>Business rules captured:</strong> 253 explicit rules across the 20 docs (condition, exception/priority, conflict-resolution), plus 7 platform-wide shared rules in the ecosystem map.</li><li><strong>Integrations documented:</strong> 149 integration entries (purpose, trigger, data, failure, retry, security), plus the consolidated external inventory (Invisual, ExpoFP, CrowdConnected/Bluedot, Visioglobe/MapsPeople, payment gateways Stripe/PayPal/ParamPOS, Firebird SSO, GA4, Open API, VivoTicket).</li><li><strong>Edge cases:</strong> every doc documents all <strong>7 categories</strong> — User, Data, Workflow, Integration, Permission, Concurrency, Event-lifecycle.</li></ul></div></section>
+<section class="doc" id="6-jira-status-filtering-excluded-work"><h3 class="sechead"><span class="num">6</span>6. Jira Status Filtering (Excluded Work)<span class="tw">&#9660;</span></h3><div class="secbody"><p>Only delivered/active statuses were included. Excluded issues by status:</p>
+<table><thead><tr><th>Excluded status</th><th>Issues</th><th>Reason</th></tr></thead><tbody><tr><td>Estimated request</td><td>248</td><td>Pre-development pipeline</td></tr><tr><td>Open</td><td>120</td><td>Backlog / not started</td></tr><tr><td>Tech Brief</td><td>42</td><td>Pre-development analysis</td></tr><tr><td>Closed by reject</td><td>32</td><td>Rejected — never delivered</td></tr><tr><td>On-hold</td><td>24</td><td>Paused</td></tr><tr><td>Ready for development</td><td>15</td><td>Groomed, not started (excluded per scope decision)</td></tr><tr><td>Ready for decomposition</td><td>8</td><td>Pre-development</td></tr><tr><td>Brief ready for review</td><td>5</td><td>Pre-development</td></tr><tr><td>Awaiting Estimation</td><td>1</td><td>Backlog</td></tr><tr><td>Business Analysis</td><td>1</td><td>Discovery (excluded per scope decision)</td></tr><tr><td><strong>Total excluded</strong></td><td><strong>496</strong></td><td></td></tr></tbody></table>
+<p>Issue types excluded by design: <strong>Tasks, Bugs, Sub-tasks</strong> (only Stories/Epics/Features analysed; 0 Features exist in EP).</p></div></section>
+<section class="doc" id="7-known-caveats-source-notes"><h3 class="sechead"><span class="num">7</span>7. Known Caveats &amp; Source Notes<span class="tw">&#9660;</span></h3><div class="secbody"><div class="panelbox warn"><div class="t">Important</div>Honest limitations to be aware of before relying on this for production decisions:</div>
+<ul><li><strong>Confluence read variance:</strong> during bulk fetching, the Confluence API intermittently returned a <em>different</em> page than requested for a small number of deep pages. Where detected, authors reconstructed from adjacent pages / Jira and flagged it inline. Spot-verify any single critical page against the live wiki.</li><li><strong>In-progress items:</strong> features in <code>In Progress</code> (e.g. parts of Global Search, AI website builder, Public API v3, AI meeting tools) are documented as current-state + intent, not finished behaviour.</li><li><strong>Source gaps flagged inline:</strong> GA4 specifics, facial-recognition kiosk ("not usable"), refunds (unsupported in Transactions), some VAT rules pending fixes, and a few analytics surfaces are noted in-doc rather than invented.</li><li><strong>Profile</strong> is treated as a shared identity layer (documented within Registration, Networking and the ecosystem map) rather than a standalone product doc.</li></ul></div></section>
+<section class="doc" id="8-validation-checklist"><h3 class="sechead"><span class="num">8</span>8. Validation Checklist<span class="tw">&#9660;</span></h3><div class="secbody"><ul><li>✅ Every in-scope Jira Story mapped to a product (521/521).</li><li>✅ All 21 product Confluence trees enumerated (1,262 pages indexed).</li><li>✅ 20/21 products have full 15-section docs with 5 diagram types and traceable stories; Profile covered as a shared layer, so <strong>100% of products are addressed</strong>.</li><li>✅ Business rules, integrations and all 7 edge-case categories captured per product.</li><li>✅ Excluded-by-status work counted/reported (496); Tasks/Bugs/Sub-tasks excluded by type.</li><li>✅ Every product HTML validated: 15 sections, 5 Mermaid diagrams, no rendering leaks.</li></ul></div></section>
+<div class="footer">Reconstructed from ExpoDoc &amp; P2 Confluence + EP Jira (in-scope statuses only). Diagrams are embedded as static SVG (no external dependencies); click Fullscreen to zoom/pan/download. Generated 2026-06-19.</div>
+</main></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('epdoc-theme',t)}catch(e){}}
+$('#themeBtn').onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+$$('.sechead').forEach(h=>h.onclick=e=>{if(e.target.tagName==='A')return;h.parentElement.classList.toggle('collapsed')});
+$('#expandAll')&&($('#expandAll').onclick=()=>$$('section.doc').forEach(s=>s.classList.remove('collapsed')));
+$('#collapseAll')&&($('#collapseAll').onclick=()=>$$('section.doc').forEach(s=>s.classList.add('collapsed')));
+$('#menuBtn')&&($('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open'));
+$$('#sidebar a').forEach(a=>a.onclick=()=>$('#sidebar').classList.remove('open'));
+const secs=$$('section.doc');const links={};$$('#sidebar a').forEach(a=>links[a.getAttribute('href').slice(1)]=a);
+if(window.IntersectionObserver){const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){$$('#sidebar a').forEach(a=>a.classList.remove('active'));const l=links[e.target.id];if(l)l.classList.add('active')}})},{rootMargin:'-10% 0px -80% 0px'});secs.forEach(s=>obs.observe(s));}
+const sb=$('#search');
+sb&&(sb.oninput=()=>{const q=sb.value.trim().toLowerCase();
+ secs.forEach(s=>{const hit=!q||s.textContent.toLowerCase().includes(q);s.classList.toggle('toc-hidden',!hit);const l=links[s.id];if(l)l.classList.toggle('toc-hidden',!hit);if(hit&&q)s.classList.remove('collapsed')});});
+function normSvg(c){const s=c.querySelector('svg');if(s){s.style.maxWidth='none';s.style.height='auto';}return s;}
+function pz(stage,canvas){
+ let v={s:1,x:14,y:14},drag=null;
+ function ap(){canvas.style.transform='translate('+v.x+'px,'+v.y+'px) scale('+v.s+')';}
+ function fit(){const svg=canvas.querySelector('svg');if(!svg){ap();return;}
+   const vb=svg.viewBox&&svg.viewBox.baseVal,w=(vb&&vb.width)||svg.getBoundingClientRect().width||600,h=(vb&&vb.height)||svg.getBoundingClientRect().height||400;
+   const sc=Math.min((stage.clientWidth-28)/w,(stage.clientHeight-28)/h,1.8);v.s=sc>0?sc:1;
+   v.x=Math.max(8,(stage.clientWidth-w*v.s)/2);v.y=14;ap();}
+ stage.addEventListener('wheel',e=>{e.preventDefault();const r=stage.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;
+   const f=e.deltaY<0?1.12:0.89,ns=Math.min(10,Math.max(0.06,v.s*f));v.x=mx-(mx-v.x)*(ns/v.s);v.y=my-(my-v.y)*(ns/v.s);v.s=ns;ap();},{passive:false});
+ stage.addEventListener('mousedown',e=>{drag={x:e.clientX,y:e.clientY,ox:v.x,oy:v.y};stage.classList.add('grabbing');});
+ window.addEventListener('mousemove',e=>{if(!drag)return;v.x=drag.ox+(e.clientX-drag.x);v.y=drag.oy+(e.clientY-drag.y);ap();});
+ window.addEventListener('mouseup',()=>{drag=null;stage.classList.remove('grabbing');});
+ return {fit,zin:()=>{v.s=Math.min(10,v.s*1.2);ap();},zout:()=>{v.s=Math.max(0.06,v.s/1.2);ap();}};
+}
+function dl(text,name,type){const b=new Blob([text],{type:type});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);}
+let LB,LBpz;
+function lightbox(svgHTML,title){
+ if(!LB){LB=document.createElement('div');LB.id='mmlb';
+   LB.innerHTML='<div class="lbbar"><span class="lbttl"></span><button class="b" data-a="zin">+</button><button class="b" data-a="zout">&minus;</button><button class="b" data-a="fit">Fit</button><button class="b" data-a="svg">Download SVG</button><button class="b" data-a="close">Close &#10005;</button></div><div class="lbstage"><div class="lbcanvas"></div></div>';
+   document.body.appendChild(LB);
+   const stage=LB.querySelector('.lbstage'),canvas=LB.querySelector('.lbcanvas');LBpz=pz(stage,canvas);
+   LB.addEventListener('click',e=>{const a=e.target.getAttribute&&e.target.getAttribute('data-a');if(!a)return;
+     if(a==='close')LB.classList.remove('on');if(a==='zin')LBpz.zin();if(a==='zout')LBpz.zout();if(a==='fit')LBpz.fit();
+     if(a==='svg'){const s=canvas.querySelector('svg');if(s)dl(s.outerHTML,(title||'diagram').replace(/[^a-z0-9]+/gi,'_')+'.svg','image/svg+xml');}});
+   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&LB)LB.classList.remove('on');});
+ }
+ LB.querySelector('.lbttl').textContent=title||'';
+ LB.querySelector('.lbcanvas').innerHTML=svgHTML;normSvg(LB.querySelector('.lbcanvas'));
+ LB.classList.add('on');setTimeout(()=>LBpz.fit(),30);
+}
+function setupViewers(){
+ $$('.mmbox').forEach(box=>{
+   const stage=box.querySelector('.mmstage'),canvas=box.querySelector('.mmcanvas');if(!stage||!canvas)return;
+   normSvg(canvas);const P=pz(stage,canvas);box._pz=P;setTimeout(P.fit,10);
+   const bar=box.querySelector('.mmbar');bar&&bar.addEventListener('click',e=>{const a=e.target.getAttribute&&e.target.getAttribute('data-a');if(!a)return;
+     if(a==='zin')P.zin();if(a==='zout')P.zout();if(a==='fit')P.fit();
+     const s=canvas.querySelector('svg');
+     if(a==='full'&&s)lightbox(s.outerHTML, box.closest('section')?box.closest('section').querySelector('.sechead').textContent.trim():'Diagram');
+     if(a==='svg'&&s)dl(s.outerHTML,'diagram_'+Date.now()+'.svg','image/svg+xml');});
+ });
+}
+window.addEventListener('load',()=>{const t=(localStorage.getItem&&localStorage.getItem('epdoc-theme'))||'dark';document.documentElement.setAttribute('data-theme',t);setupViewers();});
+</script></body></html>
