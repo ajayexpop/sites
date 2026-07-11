@@ -1,0 +1,2610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Product Logic Reference | ExpoPlatform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#041167; --sky:#03A7FF; --tea:#15BDC2;
+  --ink:#0D1230; --mut:#5B6488; --faint:#8A93B6;
+  --bg:#F5F7FB; --panel:#FFFFFF; --line:#E4E9F2; --line2:#EEF1F8;
+  --sky-soft:#E9F5FF; --code-bg:#F3F5FA; --sel:#DCEEFF;
+  --sidebar-w:320px; --header-h:58px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);
+  background:var(--bg);line-height:1.6;font-size:15.5px;-webkit-font-smoothing:antialiased}
+
+/* header */
+header.top{position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:40;
+  display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--navy);
+  color:#fff;box-shadow:0 2px 14px rgba(4,17,103,.22)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.2px;white-space:nowrap}
+.brand .dot{width:11px;height:11px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sky),var(--tea));box-shadow:0 0 0 3px rgba(3,167,255,.25)}
+.brand .sub{font-weight:500;color:#B9C4EA;font-size:12.5px}
+header.top .doc-title{font-weight:600;font-size:14.5px;color:#EAF0FF;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+header.top .spacer{flex:1}
+header.top a.home{color:#EAF0FF;text-decoration:none;font-size:13px;font-weight:500;
+  padding:7px 13px;border-radius:8px;border:1px solid rgba(255,255,255,.22);transition:.15s;white-space:nowrap}
+header.top a.home:hover{background:rgba(255,255,255,.12)}
+.menu-btn{display:none;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
+  color:#fff;width:38px;height:38px;border-radius:8px;font-size:17px;cursor:pointer}
+
+/* layout */
+.wrap{display:flex;padding-top:var(--header-h)}
+nav.side{position:fixed;top:var(--header-h);bottom:0;left:0;width:var(--sidebar-w);
+  background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:30}
+.side-head{padding:14px 16px 10px;border-bottom:1px solid var(--line2)}
+.side-head .eyebrow{font-size:11px;letter-spacing:.9px;text-transform:uppercase;color:var(--faint);font-weight:600}
+.side-head .meta{font-size:12px;color:var(--mut);margin-top:3px}
+.filter-box{position:relative;margin-top:11px}
+.filter-box input{width:100%;padding:9px 12px 9px 32px;border:1px solid var(--line);border-radius:9px;
+  font:inherit;font-size:13.5px;background:#fff;color:var(--ink);outline:none;transition:.15s}
+.filter-box input:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(3,167,255,.15)}
+.filter-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;
+  stroke:var(--faint);fill:none;stroke-width:2}
+.toc{overflow-y:auto;padding:10px 8px 40px;flex:1;scrollbar-width:thin}
+.toc a{display:block;text-decoration:none;color:var(--mut);border-radius:7px;
+  font-size:13.5px;line-height:1.4;transition:background .12s,color .12s}
+.toc a.nav-h1{color:var(--navy);font-weight:700;font-size:12px;letter-spacing:.4px;text-transform:uppercase;
+  padding:13px 10px 5px;margin-top:6px}
+.toc a.nav-h1:first-child{margin-top:0}
+.toc a.nav-h2{padding:6px 10px 6px 16px;border-left:2px solid transparent}
+.toc a.nav-h2:hover{background:var(--sky-soft);color:var(--navy)}
+.toc a.nav-h2.active{background:var(--sky-soft);color:var(--navy);font-weight:600;border-left-color:var(--sky)}
+.toc a.hidden{display:none}
+.nav-empty{color:var(--faint);font-size:13px;padding:10px}
+
+/* main */
+main{margin-left:var(--sidebar-w);flex:1;min-width:0;padding:34px 46px 120px;max-width:1020px}
+.doc-hero{margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.doc-hero h1.page-title{font-size:30px;line-height:1.2;margin:0 0 8px;color:var(--navy);letter-spacing:-.4px}
+.doc-hero p.page-sub{margin:0;color:var(--mut);font-size:15px}
+
+/* content typography */
+.content h1{font-size:25px;color:var(--navy);margin:44px 0 14px;padding-top:10px;letter-spacing:-.3px;
+  border-top:1px solid var(--line);padding-top:30px}
+.content h1:first-child{border-top:none;padding-top:0;margin-top:0}
+.content h2{font-size:20px;color:var(--navy);margin:34px 0 12px;letter-spacing:-.2px}
+.content h3{font-size:16.5px;color:var(--ink);margin:26px 0 9px;font-weight:700}
+.content h4{font-size:14.5px;color:var(--ink);margin:20px 0 7px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.content h5,.content h6{font-size:13.5px;color:var(--mut);margin:16px 0 6px;font-weight:700}
+.content p{margin:0 0 14px}
+.content a{color:var(--sky);text-decoration:none;border-bottom:1px solid rgba(3,167,255,.35)}
+.content a:hover{border-bottom-color:var(--sky)}
+.content ul,.content ol{margin:0 0 14px;padding-left:24px}
+.content li{margin:4px 0}
+.content li>ul,.content li>ol{margin:6px 0}
+.content strong{font-weight:700;color:var(--ink)}
+.content hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+.content blockquote{margin:0 0 16px;padding:12px 18px;border-left:3px solid var(--tea);
+  background:var(--panel);border-radius:0 8px 8px 0;color:var(--mut)}
+.content blockquote p:last-child{margin-bottom:0}
+
+/* inline + block code */
+.content code{font-family:var(--mono);font-size:.86em;background:var(--code-bg);
+  padding:.14em .4em;border-radius:5px;color:#0a2a5e;border:1px solid var(--line2)}
+.content pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow:auto;margin:0 0 16px;font-size:13px;line-height:1.55}
+.content pre code{background:none;border:none;padding:0;color:#1c2e52;font-size:13px}
+
+/* tables */
+.content table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:13.5px;
+  display:block;overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.content thead th{background:var(--navy);color:#fff;text-align:left;font-weight:600;
+  padding:10px 13px;white-space:nowrap;position:sticky;top:0}
+.content tbody td{padding:9px 13px;border-top:1px solid var(--line2);vertical-align:top}
+.content tbody tr:nth-child(even){background:#FAFBFE}
+.content tbody tr:hover{background:var(--sky-soft)}
+.content td code{white-space:nowrap}
+
+/* mermaid */
+figure.mmd{margin:0 0 20px;padding:14px;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;overflow-x:auto}
+figure.mmd .mmd-render{display:flex;justify-content:center;min-height:20px}
+figure.mmd .mmd-render svg{max-width:100%;height:auto}
+figure.mmd .mmd-code{display:none;margin:0;background:var(--code-bg);border:1px dashed var(--line);
+  border-radius:8px;padding:12px 14px;font-size:12.5px;color:#4a5578}
+figure.mmd .mmd-note{display:none;font-size:11.5px;color:var(--faint);margin-top:7px;letter-spacing:.3px}
+figure.mmd[data-state="pending"] .mmd-render::before{content:"Loading diagram";color:var(--faint);
+  font-size:12.5px;font-style:italic}
+figure.mmd[data-state="error"] .mmd-code,
+figure.mmd[data-state="error"] .mmd-note{display:block}
+figure.mmd[data-state="error"] .mmd-render{display:none}
+
+/* footer */
+.doc-foot{margin-left:var(--sidebar-w);padding:22px 46px 40px;color:var(--faint);font-size:12.5px;
+  border-top:1px solid var(--line)}
+
+/* scroll offset for anchors under fixed header */
+.content :is(h1,h2,h3,h4,h5,h6){scroll-margin-top:calc(var(--header-h) + 14px)}
+
+/* mobile */
+.backdrop{display:none;position:fixed;inset:var(--header-h) 0 0 0;background:rgba(4,17,103,.4);z-index:25}
+@media (max-width:960px){
+  .menu-btn{display:block}
+  nav.side{transform:translateX(-100%);transition:transform .22s ease;box-shadow:6px 0 24px rgba(4,17,103,.18)}
+  body.nav-open nav.side{transform:translateX(0)}
+  body.nav-open .backdrop{display:block}
+  main,.doc-foot{margin-left:0}
+  main{padding:24px 20px 100px}
+  .doc-hero h1.page-title{font-size:24px}
+  header.top .doc-title{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle contents">&#9776;</button>
+  <span class="brand"><span class="dot"></span>ExpoPlatform<span class="sub">Reference</span></span>
+  <span class="doc-title">Product Logic Reference</span>
+  <span class="spacer"></span>
+  <a class="home" href="../">All references</a>
+</header>
+
+<div class="wrap">
+  <nav class="side" id="side">
+    <div class="side-head">
+      <div class="eyebrow">On this page</div>
+      <div class="meta">9 sections &middot; No diagrams</div>
+      <div class="filter-box">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="tocFilter" type="text" placeholder="Filter sections" autocomplete="off" spellcheck="false"/>
+      </div>
+    </div>
+    <div class="toc" id="toc">
+<a class="nav-h1" href="#expoplatform-product-logic-reference" data-target="expoplatform-product-logic-reference">ExpoPlatform Product Logic Reference</a>
+<a class="nav-h2" href="#index" data-target="index">Index</a>
+<a class="nav-h2" href="#architecture-and-platform-objects-parts-1-2" data-target="architecture-and-platform-objects-parts-1-2">Architecture and Platform Objects (Parts 1-2)</a>
+<a class="nav-h2" href="#permissions-limits-and-interaction-logic-part-3" data-target="permissions-limits-and-interaction-logic-part-3">Permissions, Limits and Interaction Logic (Part 3)</a>
+<a class="nav-h2" href="#lifecycle-registration-marketplace-and-networking-parts-4-7" data-target="lifecycle-registration-marketplace-and-networking-parts-4-7">Lifecycle, Registration, Marketplace and Networking (Parts 4-7)</a>
+<a class="nav-h2" href="#floor-plan-hosted-buyer-sponsorship-community-parts-8-11" data-target="floor-plan-hosted-buyer-sponsorship-community-parts-8-11">Floor Plan, Hosted Buyer, Sponsorship, Community (Parts 8-11)</a>
+<a class="nav-h2" href="#communications-website-mobile-lead-mgmt-api-data-parts-12-17" data-target="communications-website-mobile-lead-mgmt-api-data-parts-12-17">Communications, Website, Mobile, Lead Mgmt, API, Data (Parts 12-17)</a>
+<a class="nav-h2" href="#backend-admin-panel-logic-part-18" data-target="backend-admin-panel-logic-part-18">Backend: Admin Panel Logic (Part 18)</a>
+<a class="nav-h2" href="#backend-engine-services-logic-part-19" data-target="backend-engine-services-logic-part-19">Backend: Engine &amp; Services Logic (Part 19)</a>
+    </div>
+  </nav>
+  <div class="backdrop" id="backdrop"></div>
+
+  <main>
+    <div class="doc-hero">
+      <h1 class="page-title">Product Logic Reference</h1>
+      <p class="page-sub">Architecture, objects, permissions and engine logic across the ExpoPlatform product.</p>
+    </div>
+    <article class="content">
+<h1 id="expoplatform-product-logic-reference">ExpoPlatform Product Logic Reference</h1>
+<h2 id="index">Index</h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Architecture and Platform Objects (Parts 1-2)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Permissions, Limits and Interaction Logic (Part 3)</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Lifecycle, Registration, Marketplace and Networking (Parts 4-7)</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Floor Plan, Hosted Buyer, Sponsorship, Community (Parts 8-11)</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Communications, Website, Mobile, Lead Mgmt, API, Data (Parts 12-17)</td>
+<td>51</td>
+</tr>
+<tr>
+<td>Backend: Admin Panel Logic (Part 18)</td>
+<td>65</td>
+</tr>
+<tr>
+<td>Backend: Engine &amp; Services Logic (Part 19)</td>
+<td>72</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="architecture-and-platform-objects-parts-1-2">Architecture and Platform Objects (Parts 1-2)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<h3 id="part-1-platform-architecture-and-infrastructure">Part 1: Platform Architecture and Infrastructure</h3>
+<p>Structural foundations only: multi-tenant hierarchy, global vs. local data, module management cascade, access control. Object definitions live in Part 2. Permissions and limits live in Part 3.</p>
+<h4>1.1 Multi-Tenant Hierarchy</h4>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Entity</th>
+<th>Scope</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Client (Organiser Account)</td>
+<td>Top container, one per organiser</td>
+<td>Isolated data, own API domain, own admin credentials</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Event</td>
+<td>One edition of a show</td>
+<td>Shares Client data environment, has local configurations</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Community (365)</td>
+<td>Year-round engagement layer</td>
+<td>Spans multiple Events within one Client</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Core rules:</strong></p>
+<ul>
+<li><strong>RULE:</strong> Client status: ON or OFF. OFF disables all credentials, events, and frontends.</li>
+<li><strong>RULE:</strong> Events within a Client share a Global Database. Identities persist across events.</li>
+<li><strong>RULE:</strong> Mobile apps are Single-Event or Multi-Event. Multi-Event uses Event Tags.</li>
+</ul>
+<h4>1.2 Global vs. Local Data Model</h4>
+<table>
+<thead>
+<tr>
+<th>Data Element</th>
+<th>Scope</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email</td>
+<td>Global (per Client)</td>
+<td>Globally unique. Second event registration matches existing account.</td>
+</tr>
+<tr>
+<td>Products</td>
+<td>Global creation, Local activation</td>
+<td>Created once, activated/deactivated per event.</td>
+</tr>
+<tr>
+<td>Exhibitor Category</td>
+<td>Local</td>
+<td>Gold at one event, Silver at another.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Field-level chart (confirmed):</strong> [1027113172]</p>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Global fields</th>
+<th>Local fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visitor</td>
+<td>Name, Email, Company, Job Title, Photo, Login credentials, Behavioural matchmaking data, External QR</td>
+<td>Interest categories, Activity categories, T+C acceptance, Notification settings</td>
+</tr>
+<tr>
+<td>Exhibitor</td>
+<td>Company name/description/logo/contact info, Contact person, Login credentials, Product creation, Overall product taxonomy</td>
+<td>Team members, Product activation, Product-category tagging, Exhibitor category, News</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>EDGE CASE:</strong> If content from a previous edition is visible, resaving that page makes the new edition's details visible.</li>
+</ul>
+<h4>1.3 Module Management: The Cascade</h4>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Scope</th>
+<th>Controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 1: Global MM</td>
+<td>Client level</td>
+<td>Frontend modules (by entity type) and backend modules for ALL events under the Client.</td>
+</tr>
+<tr>
+<td>Tier 2: Event MM</td>
+<td>Event level</td>
+<td>Operates within constraints set by Global MM.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Confirmed structure:</strong> Global Module Management lives at <code>/admin/manage</code> (SuperAdmin only, reached from the events list <code>/admin/exhibitions/list</code>), with two tabs: "Modules Managing" (a Frontend table and a Backend table) and "Settings". Event-level control is "Sub/Event Module Management" under Event Setup → Module Management. [872087577]</p>
+<ul>
+<li><strong>RULE:</strong> Frontend role groups in Module Management: Exhibitors, Participants, Buyers, Team Members (Exhibitor is technically not a role). Settings outside a group affect all users. [872087577]</li>
+</ul>
+<p><strong>Cascade flow:</strong> Global MM → Event MM → Frontend visibility</p>
+<ul>
+<li><strong>RULE:</strong> Disabled at Global MM = disabled on frontend AND toggle disappears from Event MM. Event admin cannot re-enable.</li>
+<li><strong>RULE:</strong> Enabled at Global MM = event admin can disable at event level.</li>
+<li><strong>RULE:</strong> Cascade is strictly one-directional: Global constrains Event.</li>
+<li><strong>RULE:</strong> Cache must be cleared after saving Global MM changes (module flags are cached server-side). [872087577]</li>
+</ul>
+<p><strong>Access Control States (per module)</strong></p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open Access</td>
+<td>Unlogged users see content. Must log in to interact.</td>
+</tr>
+<tr>
+<td>Sign-in Only</td>
+<td>Only logged-in users see the page.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cascade gotchas</strong></p>
+<ul>
+<li>If a module is disabled for at least one category/role, it is also disabled for all Guest (unlogged) users.</li>
+<li>Disabling a module at Global MM removes the toggle from Event MM entirely. Event admins may not know the feature exists.</li>
+<li>Disabling <code>Buyers: Make a Meeting</code> or <code>Buyers: Messages</code> in Module Management blocks those interactions even if the Permissions Matrix allows them.</li>
+</ul>
+<p><strong>Module toggles added since v10</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Location</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speed Networking</td>
+<td>Frontend/Backend, Networking &amp; Matchmaking, global + event</td>
+<td>Default OFF. ON adds the Speed Networking admin tab and menu item. [EP-26344]</td>
+</tr>
+<tr>
+<td>AI search</td>
+<td>Networking &amp; Matchmaking, global + event</td>
+<td>Standard one-way cascade. Has its own Open access / Sign-in Only state for unauthorized users. OFF = no AI search tab on the Exhibitors page. [EP-33164]</td>
+</tr>
+<tr>
+<td>Meeting Program</td>
+<td>Backend table, Networking &amp; Matchmaking, global + event</td>
+<td>Default OFF. ON shows the Meeting Program admin page/menu item. [EP-41325]</td>
+</tr>
+<tr>
+<td>Lead Capture Pro</td>
+<td>Backend, Event Setup</td>
+<td>Must be enabled at BOTH global and event level; a "Lead Capture Pro" page then appears under Event Setup. [EP-40864, 1131249678]</td>
+</tr>
+<tr>
+<td>Onboarding (Visitor Onboarding Tool)</td>
+<td>Backend, global + event</td>
+<td>Module toggle in Global AND Event MM Backend controls. [EP-36617]</td>
+</tr>
+<tr>
+<td>Attend a Stand</td>
+<td>Global toggle, default OFF</td>
+<td>Two-level enablement: MM toggle AND per-participant-category setting "Enable Attend a Stand" (default OFF) — both must be ON for a user's category. [EP-46483]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>CHANGE:</strong> The "Matchmaking" frontend toggles for Participants, Buyers and Team Members were REMOVED from Global and Event Module Management; matchmaking access is now governed per category on the admin Recommendations page, and the "Include Matchmaking" toggle there also controls the App Builder Matchmaking item. [EP-27246]</li>
+<li><strong>CHANGE:</strong> The "My booking" module was removed from Module Management for Participants, Buyers and Team Members under the new Ticketing. [EP-26628]</li>
+<li><strong>RESTRUCTURE:</strong> A new top-level Admin Panel section "Meeting Formats" consolidates Speed Networking, Meeting Program, Concierge Meetings, Exhibitor Events and Round Tables (per-format Management, Config, Filters/Taxonomies, Email Templates). Older admin paths for these formats (e.g. Exhibitor Events config under Sessions) are superseded. [EP-49369]</li>
+</ul>
+<h4>1.4 Admin Permissions (Backend)</h4>
+<ul>
+<li><strong>RULE:</strong> Sub-modules have independent permission levels (Event Setup &gt; General, Build Website, Sign In Page, etc.).</li>
+<li><strong>RULE:</strong> Admin categories are purely informational labels. No functional restrictions.</li>
+<li><strong>RULE:</strong> Admin actions are logged under <code>Data &gt; Log Info</code>. Exportable.</li>
+<li><strong>RULE:</strong> Clicking Save/Apply on Admin Panel module pages keeps the admin on the current page (no redirect away). Applied to Exhibitor Manual &gt; Vendors; Marketing &gt; News, Slugs, Campaigns; Mobile App Builder. [EP-47917]</li>
+</ul>
+<hr />
+<h3 id="part-2-platform-objects-and-lifecycle">Part 2: Platform Objects and Lifecycle</h3>
+<p>Every core entity: definition, lifecycle states, properties, capabilities, edge cases. Cross-entity interactions live in Part 3.</p>
+<h4>2.1 Visitor</h4>
+<p>The base human account. Every person starts as a Visitor. Other roles (Team Member, Speaker, Moderator, Buyer) layer on top.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global properties</td>
+<td>Name, Email, Company, Job Title, Photo, Login credentials, Behavioural data, External QR.</td>
+</tr>
+<tr>
+<td>Local properties</td>
+<td>Interest categories, Activity categories, T+C acceptance, Notification settings.</td>
+</tr>
+<tr>
+<td>Category</td>
+<td>Assigned during registration, import, API, or Default. Drives permissions, limits, visibility.</td>
+</tr>
+<tr>
+<td>Capabilities</td>
+<td>Browse marketplace, request meetings (regular/online/stand/other), send messages, add sessions to schedule, block time, favourite, book sessions, manage own connection settings, delete own account.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Login and activation</strong></p>
+<ul>
+<li><strong>RULE:</strong> OTP login (Event Setup &gt; General &gt; Settings): enabling the OTP toggle reveals two sub-toggles, SMS and WhatsApp. Email is the default OTP channel; channels can be enabled individually or simultaneously (the user then receives the OTP on all enabled channels). [EP-26859]</li>
+<li><strong>RULE:</strong> OTP validity window is 3 minutes. WhatsApp uses a fixed pre-configured template (no custom text); SMS has a custom text box. Variables available for both: Name, Last Name, Visitor Email, Title, Login, Login URL, OTP Code. [EP-26859]</li>
+<li><strong>RULE:</strong> Badge Scan Login for App — Event Setup &gt; General &gt; Settings toggle (default OFF) + "Categories allowed" (default All) + optional "Check category during Badge Scan Login". Scanning their own badge logs the user in AND activates the account if it was inactive. Fixed errors: account not found → "Your account could not be found. Please contact registration support."; category not allowed → "The badge scanner login function is not available for your category." Button text/colour configured in App Builder. [EP-19419]</li>
+<li><strong>RULE:</strong> Visitor export includes a final "Activation Timestamp" column — set when the account is activated via the activation link OR an API call; format dd-mm-yy hh:mm:ss in the event's local timezone. [EP-26794]</li>
+<li><strong>RULE:</strong> The "Activation Link" variable is available in Marketing &gt; Email Sender (in addition to registration emails); clicking it opens the user's frontend profile and immediately activates it (status → Activated). The link must not work if no profile exists. [EP-27950]</li>
+</ul>
+<p><strong>Edge cases</strong></p>
+<ul>
+<li>A Visitor can simultaneously be Team Member + Speaker + Buyer. <strong>Most permissive role wins.</strong></li>
+<li><code>Enable Required Fields</code> ON forces redirect to edit profile on login until all required fields are complete.</li>
+<li>Visitors can manage their own privacy if <code>Allow visitors to manage reception</code> is enabled.</li>
+<li>Opting out of networking makes the user invisible to all others. Overrides the Permissions Matrix.</li>
+</ul>
+<h4>2.2 Exhibitor Company</h4>
+<p>A company-level entity (not a person). Container for company profile, products, brands, team members, stand, sponsorship. Does not attend sessions or request meetings directly. Team Members do.</p>
+<p><strong>Settings Layers</strong></p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Source</th>
+<th>Override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category-level settings</td>
+<td>Inherited from exhibitor category</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>Custom exhibitor-level settings</td>
+<td>Set per exhibitor</td>
+<td>Overrides category. <code>Reset All to Category</code> reverts.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Self-service content (exhibitor-created)</strong></p>
+<ul>
+<li><strong>RULE:</strong> Exhibitor-created news require two-level enablement: event-level setting Admin &gt; Registration &gt; Exhibitor registration &gt; Additional settings "Allow exhibitor news" PLUS the per-exhibitor "Allow exhibitor news" toggle in the admin exhibitor profile. [EPLEGACY-2399]</li>
+<li><strong>RULE:</strong> Exhibitor news statuses: waiting for approval / approved / rejected. Approved news appear on the system news page; rejected news never appear. [EPLEGACY-2399]</li>
+<li><strong>SIDE EFFECT:</strong> Editing an already-approved exhibitor news item resets it to re-approval; the OLD version stays live on the news page until the organiser approves the edit. [EPLEGACY-2399]</li>
+<li><strong>EDGE CASE:</strong> Once rejected, the exhibitor can still edit/save the news item but the status remains rejected permanently; the organiser can only delete it. [EPLEGACY-2399]</li>
+<li><strong>RULE:</strong> The organiser can edit exhibitor news pre-approval; "Save" keeps the status, "Save and publish" approves and publishes. [EPLEGACY-2399]</li>
+<li><strong>RULE:</strong> "Additional video" — a second embed-code block on the exhibitor public profile, using the same two-level enablement pattern (event setting "Allow additional video" + per-exhibitor toggle); renders as a separate full-width block under the main profile blocks. [EPLEGACY-2409]</li>
+<li><strong>RULE:</strong> Custom online-room branding: exhibitors get an "Online room settings" frontend tab (event setting "Allow background image" + per-exhibitor toggle "Allow customize room") with background image (aspect ratio 1.8) and text colour; the branding applies to all online meetings initiated by that exhibitor and/or its team members. Sessions get the same background image + text colour pickers in session edit when "online session" is on. [EPLEGACY-2405]</li>
+</ul>
+<p><strong>Edge cases</strong></p>
+<ul>
+<li><code>Meet</code> button only appears if at least one team member is available (checked against permissions, opt-in, slots, limits).</li>
+<li><code>Disable meetings/messages without Team Members</code> ON: exhibitors without TMs cannot send/receive. Existing chats/meetings created before continue.</li>
+<li><code>Hide exhibitors without team members</code> ON: hides them plus products and brands. Sync up to 15 minutes.</li>
+<li>Exhibitor registration does not pre-populate from existing accounts with the same email.</li>
+<li>Exhibitor-to-Sponsor conversion creates a separate entity. Changes no longer sync.</li>
+<li>Online/Onsite meeting settings on exhibitor page: restriction source is always Category, cannot be changed to Custom.</li>
+<li>RFP setting: Category-only control. No custom override possible.</li>
+<li>After setting a new category, settings with existing custom values are NOT overwritten.</li>
+</ul>
+<h4>2.3 Exhibitor Team Member</h4>
+<p>A person linked to an Exhibitor. Simultaneously a Visitor (personal account) AND a Team Member (exhibitor context). Acts on behalf of the Exhibitor.</p>
+<p><strong>Key Rules</strong></p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Category inheritance</td>
+<td>Inherits exhibitor category of parent Exhibitor. No independent exhibitor categories.</td>
+</tr>
+<tr>
+<td>Limits</td>
+<td>Meeting/chat limits inherited from exhibitor category. No separate custom limits.</td>
+</tr>
+<tr>
+<td>Connection settings</td>
+<td><code>Meetings Allowed</code>, <code>Chats Allowed</code> per TM. Bidirectional sync between exhibitor and TM.</td>
+</tr>
+<tr>
+<td>Locality</td>
+<td>Local to each event. Must be assigned per event.</td>
+</tr>
+<tr>
+<td>Headcount limits</td>
+<td>Set per exhibitor category and/or per individual exhibitor.</td>
+</tr>
+<tr>
+<td>Creation form</td>
+<td>6 default fields (Name, Last Name, Phone, Email, Role, Job Title) + visitor fields with <code>Use for Team Member Creation</code> checked.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>CONSTRAINT:</strong> One email = one exhibitor. A team member email can be assigned to only ONE exhibitor company profile; managing multiple companies requires separate logins or a parent-child structure. [EP-47989 context]</li>
+</ul>
+<p><strong>Removal cascade.</strong> Removing a TM from an exhibitor reverts them to default participant category AND removes them from all chats/meetings of that exhibitor (confirmed v10 behaviour).</p>
+<ul>
+<li><strong>RULE:</strong> Detach via API (<code>/account/set</code> with both <code>exhibitor_id</code> and <code>exhibitor_external_id</code> = 0/"0") detaches the team member; cascade: removed from the exhibitor's TM lists (frontend, admin exhibitor profile, Exhibitor Manual), removed from the Share-My-Profile dashboard image, and removed from ALL their meetings and chats. Idempotent if already detached; applies to the current event only (detach-from-all-events was not implemented). [EP-35903]</li>
+<li><strong>RULE:</strong> Admin exhibitor profile → Team Members table: Email is merged with First &amp; Last Name into a single "Team Member" column; the Job Title column also shows Company Name; new Phone Number column added. [EP-44527]</li>
+<li><strong>EDGE CASE:</strong> If exhibitor disables TM's meetings/chats via connection settings, TM gets a notification. TM can re-enable themselves (sync is bidirectional).</li>
+<li><strong>EDGE CASE:</strong> If <code>Allow exhibitors to manage connection settings of TMs</code> is OFF, import values in <code>Meetings Allowed</code> and <code>Chats Allowed</code> columns are ignored.</li>
+<li><strong>EDGE CASE:</strong> Error on confirming meeting with restricted TM: "You can't confirm meetings with this user because of their connection settings."</li>
+</ul>
+<h4>2.4 Speaker</h4>
+<p>Role assigned when a Visitor is added to <code>Management &gt; Sessions &gt; Speakers</code>. Always also a Visitor. Elevated capabilities in session rooms.</p>
+<ul>
+<li><strong>EDGE CASE:</strong> Hiding Favourite for Participants also hides it for Speakers (shared participant base).</li>
+<li><strong>EDGE CASE:</strong> Role-level settings take precedence over category settings.</li>
+<li><strong>EDGE CASE:</strong> Session <code>Visible to</code> restrictions do NOT apply to Speakers. They always see their assigned sessions.</li>
+<li><strong>EDGE CASE:</strong> Speaker profile shows both regular sessions AND exhibitor events they speak at.</li>
+</ul>
+<h4>2.5 Moderator</h4>
+<p>Role assigned when added to the Moderators list. Highest control in session rooms. Always also a Visitor.</p>
+<p><strong>Capabilities</strong></p>
+<ul>
+<li>Enable/disable participant microphones, cameras, screen sharing</li>
+<li>Q+A management: respond, publish, dismiss</li>
+<li>Poll management</li>
+<li>Attendee role management</li>
+<li>Green Room access (Livestream)</li>
+<li>Start/stop broadcast (Livestream)</li>
+<li>
+<p>View analytics: viewer count, engagement</p>
+</li>
+<li>
+<p><strong>EDGE CASE:</strong> In Breakout: participants can only enable camera/mic if Moderator grants access. Without moderator action, all are muted/camera-off by default.</p>
+</li>
+<li><strong>EDGE CASE:</strong> Participant logged in on multiple devices may appear as "Undefined" in the participants list.</li>
+<li><strong>EDGE CASE:</strong> Session <code>Visible to</code> restrictions do NOT apply to Moderators.</li>
+</ul>
+<h4>2.6 Sessions</h4>
+<p>Organiser-created content events. Scheduled presentations, panels, workshops, or other content activities.</p>
+<p><strong>Key Properties</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property Group</th>
+<th>Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taxonomy</td>
+<td>Tags, Tracks, Types</td>
+</tr>
+<tr>
+<td>Visibility</td>
+<td><code>Visible to</code> (category restriction), <code>Make visible to all</code> toggle (view but restrict interaction)</td>
+</tr>
+<tr>
+<td>Booking</td>
+<td>Pricing (paid sessions), Schedule limit (max bookings)</td>
+</tr>
+<tr>
+<td>Status flags</td>
+<td>Active/Inactive, Featured, Critical</td>
+</tr>
+<tr>
+<td>Internal fields</td>
+<td>Notes (backend-only), Flag as Critical</td>
+</tr>
+<tr>
+<td>Room settings</td>
+<td>Disable video/mic by default, Disable raise hand, Disable participant count, Disable Q+A, Disable polls, Disable chat, Custom text colour and background</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Sessions (and Exhibitor Events) carry an internal "Notes" field — backend-only, never shown on the frontend; included in session export (Notes column) AND session import at Data &gt; Import/Export. [EP-29190]</li>
+<li><strong>RULE:</strong> "Flag as Critical" checkbox (default unchecked), backend-only; visual indicator in the session list; filterable in session management; included in session export and import. [EP-29221]</li>
+<li><strong>RULE:</strong> Creating a session that conflicts with another (overlapping time or location) raises a warning popup, on frontend and backend scheduling alike; the user may ignore and proceed, or adjust. [EP-16924]</li>
+</ul>
+<p><strong>Module split and admin structure</strong></p>
+<ul>
+<li><strong>RULE (supersession):</strong> Sessions and Exhibitor Events are now SEPARATE modules. Sessions live under Management &gt; Sessions; Exhibitor Events under Meeting Formats &gt; Exhibitor Events. Each has its own independent Types, Subject Tags and Tracks — the Exhibitor Events taxonomies were CLONED from Sessions at the Meeting Formats restructure and are independent thereafter (Sessions taxonomy changes no longer propagate). This supersedes the earlier rule that Exhibitor Events share Tracks/Types/Tags with Sessions. [EP-49369, EP-48239]</li>
+<li><strong>RULE:</strong> Admin list filters: the Sessions page gained filters Session Type, Subject Tags, Tracks, Speaker, Moderator, Location; the Exhibitor Events page gained the same six PLUS Custom Questions (exhibitor-event custom questions become filters) and an Exhibitor/Created-By filter. [EP-48239]</li>
+</ul>
+<p><strong>Invite links and deeplinks</strong></p>
+<ul>
+<li><strong>RULE:</strong> Direct invite link — auto-generated per session after first save (Management &gt; Sessions add/edit). Using it books the session and redirects to My Schedule. Exhibitors cannot use invite links; impersonate mode cannot use them. Access/visibility/payment/limit restrictions still apply everywhere EXCEPT My Schedule once booked via the link. [EPLEGACY-2408]</li>
+<li><strong>RULE:</strong> Meeting "Copy invite link" exists only on Confirmed, future meetings; the joiner is added to Additional participants (a member of one of the two main parties joins their owner's side, preventing duplicate presence). The link is invalid if the meeting is rescheduled/cancelled/past, and blocked if the joiner's timeslot is occupied. [EPLEGACY-2408]</li>
+<li><strong>RULE:</strong> Deeplinks for Sessions and Exhibitor Events: session create/edit gains a read-only system-generated URL field (mirrors Direct invite link logic; includes the deeplink variant when deeplinks are enabled for the event). Sessions export gains a "URL" column. Open behaviour: app installed → session page in app; not installed → web. Not-logged-in app open → login prompt then redirect to the session. No permission / nonexistent session / Sessions disabled in app → redirect to main page with "Sorry, this page is not accessible." Links honour session visibility/permissions. [EP-44893]</li>
+</ul>
+<p><strong>Reminders and ratings</strong></p>
+<ul>
+<li><strong>RULE (supersedes hardcoded behaviour):</strong> Session/exhibitor-event reminder times are a configurable multiselect at /admin/events/config → General Settings ("Notifications Before Session/Exhibitor Event Start (mins)"), default 10, 15, 30, 60; values 0–60, no duplicates; no values selected = no reminders. Replaces the previously hardcoded 60/30/15/10. Applies to web AND app, only for events in the user's schedule. A given reminder is sent once; if the session start changes after a reminder was sent, it is re-armed against the new time. [EP-36743]</li>
+<li><strong>RULE:</strong> Session ratings exist on web and app: after a session ends the user can rate (stars + comment) or mark "Session did not take place"; ratings are editable afterwards. Entry points in app include an automatic post-session prompt, a rate-list page, the session page button, and an App Builder menu block. [EP-19438, EP-33802]</li>
+<li><strong>CONSTRAINT:</strong> Speakers and Moderators cannot rate sessions/events. Team Members cannot rate their own exhibitor's sessions (bias prevention). Rating exists only for sessions and events — no other content types. [EP-33802]</li>
+</ul>
+<p><strong>Schedule limits are client-side only.</strong> Session schedule limits run as client-side JavaScript. No server-side validation. Advanced users can bypass.</p>
+<ul>
+<li><strong>EDGE CASE:</strong> Breakout hard cap: <strong>250 participants</strong>.</li>
+<li><strong>EDGE CASE:</strong> On-Demand: invisible on frontend after the To date passes.</li>
+<li><strong>EDGE CASE:</strong> <code>Make visible to all</code> ON: all users see session, but only specified categories can add to schedule. Tooltip can explain restriction.</li>
+<li><strong>EDGE CASE:</strong> Removing paid session from schedule: impersonate participant via <code>Management &gt; Participant</code>.</li>
+</ul>
+<h4>2.7 Exhibitor Events</h4>
+<p>Sub-events created by exhibitors within the organiser's event. Layered enablement, a submission approval status machine, and an optional participant application/approval process.</p>
+<p><strong>Enablement Cascade</strong></p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Where</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Module Management enables <code>Exhibitor Events</code></td>
+<td>Toggle turns the functional on/off. [EP-931]</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Exhibitor Category</td>
+<td>"Allow host Exhibitor Events" (default OFF) per category. [EP-931]</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Individual Exhibitor</td>
+<td>Same settings overridable per exhibitor. [EP-931]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>CONDITION:</strong> Exhibitor category settings (also settable per individual exhibitor): "Allow host Exhibitor Events" (default OFF); limit of created Exhibitor Events; "Blocks timeslot" (default OFF — whether exhibitor events affect timeslot availability); "Auto Approve Exhibitor Events" (default OFF, shown only when Exhibitor Events are on — auto-approves submissions and changes). [EP-931]</li>
+<li><strong>EDGE CASE:</strong> Submission auto-approval triggers at 3 independent levels: per category, per session type, per exhibitor. Any one being ON triggers it.</li>
+</ul>
+<p><strong>Submission lifecycle (status machine) — CORRECTED</strong></p>
+<p>Full status set: <strong>New → Approved / Rejected / Edited / Changes Rejected</strong>, plus terminal <strong>Rejected for Security Concern</strong>. (Supersedes the earlier "4 approval states" description.) [EP-931, 726990849]</p>
+<ul>
+<li><strong>RULE:</strong> A newly submitted event has status "New" — visible only to the creating exhibitor (frontend profile section) and the organiser (admin); not on the public profile or Sessions page until approved. Editing a "New" event keeps status "New". [EP-931]</li>
+<li><strong>RULE:</strong> Rejecting a "New" event → "Rejected" (last info kept); the exhibitor can re-edit → status "Edited" → can be approved/rejected again; rejected again → "Rejected". [EP-931]</li>
+<li><strong>RULE:</strong> Editing an already-approved event ("Approved" or "Changes Rejected") sets status "Edited" and requires re-approval. Frontend users keep seeing the LAST-APPROVED version until the changes are re-approved. (Supersedes the earlier statement that only the organiser can edit after approval — exhibitors CAN edit, triggering re-approval.) [EP-931]</li>
+<li><strong>RULE:</strong> If changes are rejected, the event reverts to last-approved info for exhibitor and organiser, status "Changes Rejected"; users can still see and sign up for the old version, and it stays in their schedules. [EP-931]</li>
+<li><strong>SIDE EFFECT:</strong> Auto-expiry — a "New" event whose end datetime has passed flips automatically to "Rejected"; an expired "Edited" event flips to "Changes Rejected". [EP-931]</li>
+<li><strong>RULE:</strong> Statuses are visible only to admins and the creating exhibitor, never to frontend users. [EP-931]</li>
+<li><strong>RULE:</strong> "Save without approval" — third action button on event review (between Reject and Approve &amp; Save): saves organiser edits (e.g. internal Notes, Critical flag) without changing the approval status; the event stays invisible on the frontend until Approved. Available for any status. [EP-32197]</li>
+<li><strong>RULE:</strong> Event creation date/time and last-edit date/time are logged (recorded for exhibitor-made changes only) and appear as "date of creation" / "date of last edit" columns in the Session export. [EP-31429]</li>
+</ul>
+<p><strong>Permanent rejection.</strong> <code>Rejected for Security Concern</code> is permanent. No edit, resubmit, or appeal. The organiser picks a rejection reason from a predefined, editable list (Admin &gt; Management &gt; Session &gt; Session Config); the reason is shown to the exhibitor on the frontend event card. [726990849]</p>
+<p><strong>Submission requirements and content safety</strong></p>
+<ul>
+<li><strong>RULE:</strong> The organiser can attach a custom question form to exhibitor event submission (reuses session-registration custom forms). Exhibitors must answer during event creation; answers display READ-ONLY at the bottom of Event details in admin; the organiser approves/rejects based on the answers. [EP-26093]</li>
+<li><strong>RULE:</strong> Policy compliance — "Ask for Policy compliance" + "Content Submission Policy" textbox (Session Config, default OFF): the exhibitor must tick a Policy checkbox (Policy opens on a separate page) before saving the event submission. [726990849, EP-26093, EP-31429]</li>
+<li><strong>RULE:</strong> Offensive-content reporting (Session Config, all defaults OFF): "Allow Report Offensive Content" lets frontend users report exhibitor events; the organiser manages a predefined report-reason list (CRUD); "Allow Exhibitors to see reports" exposes report counts + details to the exhibitor WITHOUT reporter personal data and with no download. [726990849]</li>
+<li><strong>SIDE EFFECT:</strong> A Session email template notifies the organiser of reports, batched every 15 minutes (no email if no reports in the window). On marking "Rejected for Security Concern", the organiser can tick a checkbox notifying all reporters of the removal. [726990849]</li>
+<li><strong>RULE:</strong> The /admin/events list gains a "Report" column (count of reporters per event); the Session export gains columns "Exhibitor event status" and "Offensive content reports". [726990849]</li>
+<li><strong>RULE:</strong> Status-change notifications: organiser emails on submission and on changes to approved events; exhibitor emails on approval, approval-of-changes, rejection, security rejection and rejection-of-changes (same set as bell notifications). Platform notifications are gated by a toggle at /admin/management/session/config (default OFF); emails are configured under Session → Templates. [810450952]</li>
+</ul>
+<p><strong>Participant application / approval process</strong></p>
+<ul>
+<li><strong>CONDITION:</strong> Optional per-event approval: "Enable Approval Process" toggle on Exhibitor Event create/edit (default OFF); "Application Deadline" date+time (required when enabled; after it users can no longer apply); "Autoapproval" toggle (default OFF). [EP-39836]</li>
+<li><strong>RULE:</strong> With approval on, users see "Submit Request"/"Apply" instead of Add to Schedule. The event appears in the user's schedule immediately on application with status "Waiting for Approval" (blocking its timeslot if the event type blocks); approved → scheduled; rejected → removed from Schedule with no re-apply. Removing an approved event triggers a confirmation modal warning that reapplying requires approval again. Applying to a timeslot-blocking event while a conflicting time-blocking item exists is prevented with an error. [EP-39836, EP-39841]</li>
+<li><strong>RULE:</strong> Deadline autoapproval — event with a capacity limit → approve first-come-first-served until full, rest rejected; no limit → approve all pending. Respects blocked timeslots (a user whose schedule conflicts is rejected). [EP-39836]</li>
+<li><strong>CONSTRAINT:</strong> Approval cannot coexist with an unlimited Schedule limit: saving with "Enable Participant Approval" ON and Schedule limit = 0 is blocked ("Unlimited participation is not allowed together with the Approval process…"). On-Demand exhibitor events hide the limit field, so the approval toggle is hidden for them too. [EP-46203]</li>
+<li><strong>RULE:</strong> Application page — a tab on the Exhibitor Event edit page, reachable from the pending-applications indicator on the events list. Application statuses: <strong>Pending, Approved, Rejected, Autoapproved, Autorejected</strong>. Approve/Reject buttons exist only for Pending; actions are one-time and irreversible. Per-applicant insights: Exclusive Attendance Yes/No (only exhibitor event in their schedule at that time) and Conflicting Events count + titles. The organiser may manually approve beyond the participant limit (warning modal). [EP-41663]</li>
+<li><strong>RULE:</strong> Attendees tab — lists users with the event in their schedule (approval-process events show approved users only); the admin can add/remove users and toggle Attended without resaving the event. <strong>Attended</strong> is set when: the user is scanned in via the check-in app; OR an Exhibitor scans the badge of a user who has that exhibitor's event scheduled, during its active time INCLUDING a 1-hour window before and after; OR the admin marks it manually. Attended also surfaces in the exhibitor view (Total Attended counter, Attendance Status filter) and the leads file. [EP-41665, EP-39837]</li>
+<li><strong>RULE:</strong> Approval notification: "Application Approved" notification + email template (Management → Sessions → Templates). <strong>CHANGE:</strong> ALL rejection notifications (platform + email) and rejection indications on cards were subsequently REMOVED — users receive nothing when rejected, whether manually or automatically. [EP-41666, superseded in part by EP-46207]</li>
+<li><strong>EDGE CASE:</strong> Disabling the Approval Process mid-flight triggers the autoapproval mechanism; users can then add the event directly. Re-enabling later: existing schedule holders keep Approved state; new users must apply. [EP-39836]</li>
+<li><strong>RULE (exhibitor view):</strong> An approved event with approval enabled shows "Organizer manages approval process", the application deadline, and an Approved Participants counter/list. [EP-39836]</li>
+</ul>
+<p><strong>Algorithmic batch auto-approval (supersedes scheduled auto-approval)</strong></p>
+<ul>
+<li><strong>RULE:</strong> "Initiate auto-approval algorithm" button at Sessions Config (with confirmation popup): the organiser selects Exhibitor Events to process (events WITHOUT a limit are disabled in the selector with an explanatory tooltip) and runs the algorithm on demand. The previously released scheduled per-event auto-approval was REMOVED; manual approval remains. [EP-46110, EP-46201]</li>
+<li><strong>RULE:</strong> Algorithm behaviour: respects blocked-slots logic; maximises total approvals; ensures every user gets ≥1 approval if they have none; never approves overlapping events for one user; balances approvals across users; under-subscribed events (applications &lt; limit) approve all. [EP-46110, EP-46204]</li>
+<li><strong>RULE:</strong> Re-runnable: approved users keep their status; algorithm-rejected users may be approved in later runs; MANUALLY rejected users stay rejected. [EP-46110, EP-46204]</li>
+<li><strong>RULE:</strong> Exclusions: events with status Rejected or Rejected for Security Concern are not processed (Approved/Edited/Changes Rejected are); On-Demand-type exhibitor events are excluded. [EP-46204]</li>
+<li><strong>EDGE CASE:</strong> No exhibitor events with approval enabled → "There are no Exhibitor events with the approval process enabled."; events exist but all Application Lists are empty → "There are no Exhibitor event applications to process." [EP-46201]</li>
+</ul>
+<p><strong>Settings, taxonomy and creation rules</strong></p>
+<ul>
+<li><strong>CONDITION:</strong> Settings group "Exhibitor Events" (now under Meeting Formats &gt; Exhibitor Events after the restructure): Allow Speakers / Allow Moderators / Allow Sponsors (default OFF; sponsors = system Sponsors); Allow Online / Allow Hybrid (default OFF); Allow other location (default OFF). [EP-931, EP-49369]</li>
+<li><strong>CONDITION:</strong> Per-Track and per-Type "Available to" (multiselect of exhibitor categories; empty = allowed for all); Type "Visible to"; Type "Blocks calendar" (default OFF — whether events of this type block the calendar of users who scheduled them). [EP-931]</li>
+<li><strong>RULE:</strong> Taxonomy independence: Exhibitor Events have their own Types, Subject Tags and Tracks (cloned from Sessions at the Meeting Formats restructure, independent thereafter). [EP-49369, EP-48239]</li>
+<li><strong>RULE:</strong> Event creation date range is limited to exhibition dates; the exhibitor may pick any time within them. Max session time is taken from the Sessions settings block. [EP-931]</li>
+<li><strong>RULE:</strong> Parent Exhibitors get a multiselect to share an Exhibitor Event with chosen Child Exhibitors; those children then appear on the event card everywhere it is listed. [EP-931]</li>
+<li><strong>RULE:</strong> Deactivating an event (Active OFF) does not remove it from Schedules of users who already added it, and does not prevent adding via Direct invite link. [EP-931]</li>
+<li><strong>RULE:</strong> Files uploaded in the event-creation upload zone are online-room content only; not visible anywhere else. [EP-931]</li>
+<li><strong>EDGE CASE:</strong> Exhibitors cannot set their events as Featured (deliberately excluded to prevent abuse). [EP-931]</li>
+</ul>
+<hr />
+<h2 id="permissions-limits-and-interaction-logic-part-3">Permissions, Limits and Interaction Logic (Part 3)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<h3 id="part-3-permissions-limits-and-interaction-logic">Part 3: Permissions, Limits and Interaction Logic</h3>
+<p>Single source of truth for "Can X do Y to Z?" Covers the Permissions Matrix, the five-step evaluation chain, complete meeting/chat limits, override hierarchy, and exception rules.</p>
+<h4>3.1 The Five-Step Evaluation Chain</h4>
+<p>Every user-facing interaction (meet, message, view, favourite) passes through these checks in order. <strong>ALL must pass. Any single denial blocks the action.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Check</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Module Management</td>
+<td>Is the module enabled at Global MM AND Event MM?</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Permissions Matrix</td>
+<td>Is initiator's category/role allowed to act on receiver's category/role?</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Networking Opt-In</td>
+<td>Has receiver (and initiator) opted into networking?</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Connection Settings</td>
+<td>Has receiver (or their exhibitor) restricted this interaction?</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Limits</td>
+<td>Has initiator or receiver exhausted daily or total limits?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How the chain is enforced at runtime (Meet button)</strong></p>
+<ul>
+<li><strong>RULE:</strong> On WEB, when a user clicks "Meeting" on an Exhibitor-with-TMs / Pavilion-with-TMs card or profile (or related Product cards/profiles), the system runs the availability checks ON CLICK — the button is NOT pre-hidden. The pre-hide approach was dropped after load testing (decision revised 18.02.2025); target check time is under 1 second. [EP-35513]</li>
+<li><strong>RULE:</strong> Checks executed: Permission Matrix allows meetings; team member is opted into networking; exhibitor has not turned meetings off for that team member; team member has not disabled meetings in individual connection settings; a meeting limit is still available. [EP-35513]</li>
+<li><strong>RULE:</strong> If ANY web check fails, the error shown is: "There is currently no availability with this exhibitor. Please try messaging the exhibitor for more information." If all pass, the user proceeds to the Meeting request page. [EP-35513]</li>
+<li><strong>RULE:</strong> On the MOBILE APP, the same checks (Permission Matrix incl. parent exhibitor category, Networking Opt-in, exhibitor per-TM setting, individual connection settings, Meeting Limits) instead HIDE the "Meeting" button on exhibitor/product cards and profiles when no team member passes. Same checks for any user type. [EP-37473]</li>
+</ul>
+<h4>3.2 Permissions Matrix</h4>
+<p>Configured at <code>Event Setup &gt; Networking and Matchmaking &gt; Manage Permissions</code>. Y-axis (left column) = Initiator ("who"), X-axis (top row) = Receiver ("with whom"). Three toggles per intersection: <strong>Meet, Message, View Profile</strong>. "Guest User" = a user not logged into the event. [697434241]</p>
+<ul>
+<li><strong>RULE:</strong> Matrix permissions are ONE-WAY: cat1→cat2 is independent of cat2→cat1. A blocked side can still respond in an existing chat and accept meetings initiated by the allowed side. [EP-56]</li>
+<li><strong>RULE:</strong> View Profile OFF = users in that category are hidden from listing pages (toggling it off also hides the object's listing from the respective listing page for that category). [697434241]</li>
+<li><strong>RULE:</strong> If NOT allowed for at least one category/role, also NOT allowed for Guest (unlogged) users — most-restrictive rule for unlogged visitors. [EP-56, 697434241]</li>
+<li><strong>RULE:</strong> Multi-role users: permissive union (OR). If any one role/category permits, the action succeeds; prohibited only if ALL roles/categories prohibit it. [EP-56, 697434241]</li>
+<li><strong>RULE:</strong> The matrix supports bulk row/column on/off controls per interaction type. [EP-4168]</li>
+<li><strong>SIDE EFFECT:</strong> Implementing the matrix REMOVED these legacy settings — if older documentation lists them as active, they are obsolete: category-level "hide Messages/Meetings" functions, exhibitor "Restriction of searching each other", "Not allow Buyer to Buyer", and the Module Management "Make a Meeting" permissions (local and global). [EP-56]</li>
+<li><strong>EDGE CASE:</strong> View Profile OFF for participant to exhibitor: participant cannot see the exhibitor profile, but CAN still see that exhibitor's products.</li>
+</ul>
+<h4>3.3 Override Hierarchy (Priority Order)</h4>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Rule</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Module Management OFF</td>
+<td>Overrides everything. Disabled = no permission can enable it.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Networking Opt-Out</td>
+<td>Overrides Permissions Matrix. User who opted out is invisible.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Connection Settings</td>
+<td>Overrides Permissions Matrix for the specific user.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Permissions Matrix</td>
+<td>Default when no overrides apply.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Limits</td>
+<td>Final gate. Exhausted limits block even fully permitted actions.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Networking Opt-In data rules</strong></p>
+<ul>
+<li><strong>RULE:</strong> Networking Opt-in is a predefined registration field (Registration Settings &gt; Visitor &gt; Registration Pipeline &gt; drag "Networking Opt-in"). Its DEFAULT value is NO — every account created via external registration or API is opted OUT of networking unless the field is explicitly set. Import value 1 = opt-in. [736067609]</li>
+<li><strong>RULE:</strong> "Enable inversion for networking opt-in" (Registration Settings &gt; Visitor &gt; Additional Settings) flips the question to opt-OUT phrasing. <strong>SIDE EFFECT:</strong> enabling inversion INVERTS ALL EXISTING participant data; with inversion ON, import value 1 = opt-out. [736067609]</li>
+<li><strong>CONSTRAINT:</strong> At database level the value is stored invariantly: Opt-in = 1, Opt-out = 0, regardless of the inversion setting. [736067609]</li>
+</ul>
+<h4>3.4 Badge Scan Exception (Mobile App)</h4>
+<p><strong>Badge scan bypasses the permission matrix.</strong> Once two users have scanned each other, normal restrictions no longer apply.</p>
+<ul>
+<li><strong>RULE:</strong> Badge scan adds the scanned user to the scanner's list, and the scanner ignores ALL permission restrictions toward the scanned user (view / message / meet). Chat and meeting buttons always appear. [EP-56]</li>
+<li><strong>RULE:</strong> Mutual scan: messaging and meetings permitted regardless of GDPR opt-in.</li>
+<li><strong>RULE:</strong> Existing chats: messaging remains enabled regardless of subsequent GDPR or permission changes.</li>
+<li><strong>RULE:</strong> Favouriting after badge scan might bypass permission restrictions.</li>
+</ul>
+<h4>3.5 Chat (Message) Limits</h4>
+<p><strong>Global Hard Limit</strong></p>
+<table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>Value</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initiated chats per day</td>
+<td>300</td>
+<td>Per account, hard cap, cannot be overridden</td>
+</tr>
+</tbody>
+</table>
+<p>Applies to: Exhibitor company accounts, Team Members, Visitors, Buyers.</p>
+<p>Applies <strong>only</strong> to creating new chats. No limit on messages within existing chats.</p>
+<ul>
+<li><strong>RULE:</strong> The 300/day limit is specifically a NEW-CHAT-CREATION rate limit. It is enforced via sockets (backend pushes the limit; web/iOS/Android apply it automatically), applies to everyone on all events by default, and has NO admin enable/disable. [EP-35014]</li>
+<li><strong>RULE:</strong> The 24-hour window counts from the FIRST message sent. On exceeding, the user is blocked from creating new chats with the warning: "You are creating new conversations too quickly and have reached the limit. Please try again in __ hours and ___ minutes." [EP-35014]</li>
+<li><strong>EDGE CASE:</strong> Chat-initiation limits do not apply when a chat with that user already exists. [EP-24046]</li>
+</ul>
+<p><strong>Value Interpretation (Chat and Meeting Limits)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Setting Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Toggle OFF</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Blocked — silently (most common misconfiguration on the platform)</td>
+</tr>
+<tr>
+<td>N</td>
+<td>Capped at N</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>EDGE CASE:</strong> A chat limit of 0 causes a SILENT failure: messages appear to send on the sender's side but are never delivered, with no error shown. The Opt-in Speed Networking buyer meeting/chat limits also default to 0 and fail silently if not set at event setup. [697401523, 809893924]</li>
+</ul>
+<p><strong>Exhibitor vs. Team Member Chat Limits</strong></p>
+<ul>
+<li><strong>RULE:</strong> Chat limits POOL at the EXHIBITOR ENTITY level: the exhibitor company account and ALL its team members draw from one shared pool. Per-team-member chat limits are not supported. [697401523]</li>
+<li><strong>RULE:</strong> TM chat limits come from the TM's participant badge category first: if the team member's badge (participant) category has its own limits set, those apply INSTEAD of the exhibitor pool. [697401523]</li>
+<li><strong>RULE:</strong> If the TM badge category has no limits set, the exhibitor category limit applies as fallback.</li>
+</ul>
+<p><strong>Setup:</strong> Exhibitor "Gold" = 20 daily chats. 3 TMs in "Exhibitor Staff" category.</p>
+<ul>
+<li><strong>Case A:</strong> "Exhibitor Staff" toggle OFF. TMs fall back to the exhibitor pool. <strong>20 chats shared</strong> across company account + 3 TMs.</li>
+<li><strong>Case B:</strong> "Exhibitor Staff" daily limit = 10. <strong>Each TM has own limit of 10</strong> (from participant category). Exhibitor company has separate limit of 20.</li>
+</ul>
+<p><strong>Frontend Behaviour (Chat Limit Reached)</strong></p>
+<ul>
+<li>User redirected to community page with popup: "You used your chats initiations limit!"</li>
+<li>Existing chats continue to function. Only new chat initiation is blocked.</li>
+</ul>
+<h4>3.6 Meeting Limits</h4>
+<p><strong>Configuration Locations</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exhibitor categories</td>
+<td><code>Registration Settings &gt; Exhibitor &gt; Categories &gt; gear icon</code></td>
+</tr>
+<tr>
+<td>Participant categories</td>
+<td><code>Registration Settings &gt; Visitor &gt; Categories &gt; gear icon</code></td>
+</tr>
+<tr>
+<td>Individual exhibitor override</td>
+<td><code>Exhibitor profile &gt; Settings tab</code> (takes precedence over category)</td>
+</tr>
+</tbody>
+</table>
+<p>Onsite/Offline and Online meeting limits are configured independently with the same four settings each. Value interpretation matches chat limits.</p>
+<ul>
+<li><strong>RULE:</strong> All 8 meeting-limit fields (daily/total × pending/confirmations × onsite/online) exist identically for exhibitor AND participant categories, including the default categories. [697401494]</li>
+</ul>
+<p><strong>How limits are counted (counting sides)</strong></p>
+<ul>
+<li><strong>RULE:</strong> Two limit kinds per category: "Pending requests limit" (simultaneous pending meetings) and "Confirmations limit", each in daily and total variants, separately for online/offline. [EP-24046, 697401494]</li>
+<li><strong>RULE:</strong> PENDING limits count against the INITIATOR side. CONFIRMATION limits count against the RECEIVER side. [EP-24046, 697401494, 767885647]</li>
+<li><strong>CONDITION:</strong> Autoconfirm ON → pending limits are NOT applied to either side (no meeting is ever in pending state); the confirmation limit is still counted against the receiver. [EP-24046, 697401494, 767885647]</li>
+<li><strong>CONDITION:</strong> Autoconfirm OFF → pending limit counted on the initiator side; confirmation limit on the receiver side. [EP-24046, 767885647]</li>
+<li><strong>RULE (compliance fix, Nov–Dec 2025):</strong> Category-level meeting CONFIRMATION limits are enforced even with auto-confirm ON — auto-confirmed requests stop once the limit is reached. This does not change the rule above that pending limits are skipped under autoconfirm: pending and confirmation limits are different counters. [1462075393]</li>
+<li><strong>EDGE CASE:</strong> Rescheduling a pending OR confirmed meeting never re-applies category limits. [EP-24046, 697401494, 767885647]</li>
+<li><strong>RULE:</strong> Table (concierge) meetings use the same limit logic as regular onsite/offline meetings. [EP-24046, 697401494, 705233031]</li>
+<li><strong>RULE:</strong> When a pending limit is reached, the corresponding location type (online/offline) is HIDDEN from the meeting form's Location field. [EP-24046]</li>
+<li><strong>EDGE CASE:</strong> If both the total AND daily limit of one meeting type are reached, only the TOTAL-limit error is shown. [EP-24046]</li>
+<li><strong>RULE:</strong> Online "minutes credit" exhaustion does NOT block creating online meetings; it hides the "Join room" button and kicks the user from the room when the credit runs out mid-meeting. [EP-24046]</li>
+<li><strong>RULE:</strong> Meeting and message category limits are enforced identically on the mobile app and web, including the full error mechanism. [EP-24046, 767885647]</li>
+<li><strong>ERROR TEXT:</strong> "Some users you are requesting a meeting with have exceeded the online/offline confirmation limit." — the request/Next-step button is disabled. [697401494]</li>
+</ul>
+<p><strong>Meeting Auto-confirm (global and category level)</strong></p>
+<ul>
+<li><strong>RULE:</strong> Global "Meetings autoconfirm" lives at <code>/admin/appointments</code>. A participant-category-level "Meeting autoconfirm" toggle also exists in the category settings pop-up: it auto-confirms requests CREATED by that category (initiator side). [705233031]</li>
+<li><strong>RULE:</strong> The global /admin/appointments autoconfirm SUPERSEDES category-level autoconfirm rules. [705233031]</li>
+<li><strong>RULE:</strong> A reschedule is auto-confirmed only if it is initiated by the autoconfirm-enabled side. [705233031]</li>
+<li><strong>RULE:</strong> With category autoconfirm, the Pending status filter is hidden only after existing pending meetings are accepted/cancelled — existing pending meetings remain visible until resolved. [705233031]</li>
+</ul>
+<p><strong>Meeting-Specific Rules</strong></p>
+<ul>
+<li><strong>RULE:</strong> <code>Meetings Auto Expire</code>: auto-cancels pending meetings after set time. Frees pending limit slots.</li>
+<li><strong>RULE:</strong> <code>Block time slots for pending meetings</code> ON: pending/incoming timeslots blocked for new meetings.</li>
+<li><strong>RULE:</strong> <code>Auto-complete outside meeting time</code>: badge scan marks meeting Complete regardless of timing.</li>
+<li><strong>RULE:</strong> Meetings created by organiser via Meeting Wizard are automatically Confirmed.</li>
+</ul>
+<p><strong>Blocked time and schedule interaction</strong></p>
+<ul>
+<li><strong>RULE:</strong> Toggle "Allow blocked time outside the event days" at <code>/admin/general/settings &gt; Schedule settings</code> (default ON). When OFF, the Add/Edit blocked time pop-up disables dates/times outside event dates and the picker autofocuses the nearest event date; applies to BOTH exhibitor (incl. managing team members' blocked time) and participant blocked time. Existing blocked times persist when the toggle flips or event dates change. [EP-34594]</li>
+<li><strong>EDGE CASE (overlap asymmetry):</strong> An Opt-in Speed Networking session card MAY be laid over existing blocking schedule items (users can be enrolled while already busy), but no new blocking item can be added over the Opt-in SN session. [EP-30302]</li>
+</ul>
+<p><strong>Meetings minimal requirements (per category)</strong></p>
+<ul>
+<li><strong>RULE:</strong> "Meetings minimal requirements" — per-category setting "Required number in total" (positive integer; 0/empty not allowed) in visitor/exhibitor category settings. Users see the disclaimer "Your confirmed meetings: X / Required meetings: Y" on My meetings / Team meetings. <strong>CONSTRAINT:</strong> failing the requirement triggers NO sanctions. [EP-23256]</li>
+<li><strong>RULE:</strong> "Required confirmed meetings reminder" block at <code>/admin/appointments/reminders</code>: Frequency (integer &gt; 0 + Minutes/Hours/Days), Start-from datetime, Email toggle (default OFF), Chaser email template (recurs until requirement met) and Success email template (sent once on reaching it). Email variables: Confirmed meetings Actual / Required / Left (counts online + onsite). [EP-23256]</li>
+<li><strong>RULE:</strong> Only meetings INITIATED by the user count toward the requirement; team member counts accrue cumulatively against the exhibitor's requirement, and the chaser email goes to the exhibitor, not the TMs. [EP-23256]</li>
+</ul>
+<p><strong>Personal meeting notes and meeting tags</strong></p>
+<ul>
+<li><strong>RULE:</strong> Personal (private) meeting notes: 500-character limit; attachable from the meeting request form; visible ONLY to the author; shown on the meeting detail page for ANY meeting status; "My Notes" list under the My Schedule 3-dot menu. In the app, all note operations are online-only ("Action cannot be performed as you are offline"). <strong>EDGE CASE:</strong> editing a note that was deleted on web → "Note cannot be saved as it has been deleted from the web." [EP-23843]</li>
+<li><strong>RULE:</strong> Meetings export (<code>/admin/data</code>) includes a "Meeting tags" column (multiple tags comma+space separated); <code>/api/v2/meetings/export</code> adds a "Meeting tags" parameter (multiple tags double-pipe <code>||</code> separated). [EP-28229]</li>
+</ul>
+<h4>3.7 Display Filters Driven by Interaction State</h4>
+<ul>
+<li><strong>RULE:</strong> Display filters "Existing Meeting Initiator" (frontend label "Existing Meetings") and "Existing Meeting Status" at <code>/admin/displayFilters</code> for tabs Delegates, Speakers, Buyers, Exhibitors, Pavilions, Products; default OFF. [EP-27888]</li>
+<li><strong>RULE:</strong> "Existing Meetings" options: "Meetings I have requested with others" / "Meetings requested with me" (factors in Confirmed, Pending and Incoming). "Existing Meeting Status" options: Incoming / Pending / Confirmed / No Meetings; a card shows if ≥1 meeting matches a selected status. Logic: AND between filters, OR between options within a filter. [EP-27888]</li>
+<li><strong>CONDITION:</strong> When "Meetings autoconfirm" at /admin/appointments is ON, the Incoming and Pending options are hidden from the status filter. [EP-27888]</li>
+<li><strong>RULE:</strong> Company-account aggregation: filtering checks meetings of the Exhibitor AND all its team members (incl. TMs attached later); TMs count as Exhibitors in exhibitors/products lists but individually in the delegates list. [EP-27888]</li>
+<li><strong>RULE:</strong> "Existing Chat" filters are enabled per tab at /admin/displayFilters for the same six tabs; default OFF. Frontend options: "People or exhibitors I've messaged" and "People or exhibitors who messaged me"; OR logic between options; no option selected = all cards visible. <strong>SIDE EFFECT:</strong> the "Copy link to applied filters" button is hidden while a chat filter is enabled. [EP-32152]</li>
+<li><strong>RULE:</strong> "Meeting availability" display filter (same admin page/tabs, default OFF) with single option "Appointments still available": shows users whose meeting-confirmation limits are not exhausted. Calculation: online and offline limits both considered (unless only one meeting type is enabled); user shown if at least one type is still available; hidden if the daily OR total confirmation limit of BOTH types is reached. Team members inherit exhibitor limits; products are filtered by their exhibitor's limits. [EP-23255]</li>
+</ul>
+<h4>3.8 Contact Sharing (lead reasons)</h4>
+<ul>
+<li><strong>RULE:</strong> "Contact Sharing" (Admin &gt; Networking &amp; Matchmaking, <code>/admin/appointments/shared</code>) defines the conditions under which interacted users' contact data becomes downloadable; the front-end "Scanned Contacts" button is named "Download Leads", and the export carries a "Reason" column (scan / meeting / favourite / message). [EPLEGACY-2517]</li>
+<li><strong>RULE:</strong> Configurable lead reasons include the renamed entries: "Booked an exhibitor event" (formerly "Booked an event") and "Watch On-demand/Online sponsored session" (formerly "Watch On-demand/Online session"; export reason field "Watched On-demand/Online sponsored session"). [EP-28237, EP-28308]</li>
+<li><strong>RULE:</strong> Leads export can include a "Meeting Rating Notes" column, controlled by a toggle (default OFF) under Contact Sharing &gt; "What Data Should be Shared?". [EP-24161]</li>
+</ul>
+<h4>3.9 Limits Troubleshooting Checklist</h4>
+<p>When meeting or message buttons do not work, check in this order:</p>
+<ol>
+<li>Permission Matrix (correct categories on X and Y axis? Remember permissions are ONE-WAY — check the initiator's row [EP-56])</li>
+<li>Module Management (Meetings/Messages enabled at Global AND Event level?)</li>
+<li>Daily and Total chat/meeting limit settings (value = 0? Note: 0 fails SILENTLY for chats — messages look sent but are not delivered [697401523])</li>
+<li>Which side's limit is exhausted: pending limits hit the INITIATOR, confirmation limits hit the RECEIVER; with autoconfirm ON only confirmation limits apply [EP-24046, 1462075393]</li>
+<li>Missing online/offline option in the meeting form's Location field = that side's pending limit is reached [EP-24046]</li>
+<li>Table meetings toggle (if applicable)</li>
+<li>Connection settings (exhibitor or TM disabled meetings/chats?)</li>
+<li>Networking Opt-in (user opted out? Accounts created via API/external registration default to opted OUT [736067609])</li>
+<li>Chat pool: exhibitor + team members share ONE chat pool unless the TM's badge category sets its own limits [697401523]</li>
+<li>New-chat rate limit: 300 new chats per 24h from first message, socket-enforced, no admin override [EP-35014]</li>
+<li>Online meetings: user can CREATE meetings with exhausted minutes credit but cannot JOIN the room [EP-24046]</li>
+<li>On web the Meet button shows an error only on click; on the app it is hidden — absence of the button on app vs error on web can be the SAME root cause [EP-35513, EP-37473]</li>
+</ol>
+<hr />
+<h2 id="lifecycle-registration-marketplace-and-networking-parts-4-7">Lifecycle, Registration, Marketplace and Networking (Parts 4-7)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<blockquote>
+<p><strong>Amendment status:</strong> Parts 4–7 below retain the validated v10 baseline. Verified, shipped post-v10 additions from the Jira/Confluence sweep are consolidated in the <em>Post-v10 amendments</em> section at the foot of this page (each carries its evidence key). In-flight items live in the Post-v10 Delta &amp; In-Flight Register.</p>
+</blockquote>
+<h3 id="part-4-event-lifecycle">Part 4: Event Lifecycle</h3>
+<h4>4.1 Event Creation</h4>
+<p><strong>Required fields:</strong> Event Name, Country, City. All other settings configured after creation and approval.</p>
+<ul>
+<li><strong>RULE:</strong> Frontend requires ~5 minutes after creation before becoming accessible. <code>403 Forbidden</code> is expected during this window.</li>
+<li><strong>RULE:</strong> Event ID assigned automatically. Cannot be changed.</li>
+</ul>
+<h4>4.2 Event Approval</h4>
+<p>Every new event (created or cloned) must be approved by internal EP approvers before full functionality unlocks. <strong>TAM manages this process.</strong></p>
+<h4>4.3 Real vs. Test Events</h4>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>External Domain</th>
+<th>Billing Impact</th>
+<th>Other Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Real</td>
+<td>Available</td>
+<td>Yes</td>
+<td>Identical</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>NOT available</td>
+<td>No</td>
+<td>Identical</td>
+</tr>
+</tbody>
+</table>
+<h4>4.4 Event Cloning</h4>
+<p><strong>Pre-clone checklist</strong></p>
+<ul>
+<li>Products default to <strong>inactive</strong> unless <code>Retain Product Status</code> is checked.</li>
+<li>ExpoFP integration must be OFF before cloning, then re-activated after.</li>
+<li>Registration settings cloning is a separate, irreversible function.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Cloned?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exhibitor settings, Marketing, Meeting zones, Interaction Scores</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Participant profiles, Interactions (favourites, messages, meetings), Hosted Buyer records</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Exhibitor products (if checkbox selected)</td>
+<td>Yes (inactive by default)</td>
+</tr>
+</tbody>
+</table>
+<h4>4.5 Core Event Settings</h4>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event Dates</td>
+<td>If saved empty, auto-fill with current date. <strong>Breaks all scheduling.</strong></td>
+</tr>
+<tr>
+<td>Location (Country/City)</td>
+<td>Determines time zone. Changing after content exists shifts all timestamps.</td>
+</tr>
+<tr>
+<td>External URL</td>
+<td>Requires DNS + AWS validation. Not available for Test events.</td>
+</tr>
+<tr>
+<td>Email Domain</td>
+<td>Requires AWS validation. <code>include:amazonses.com</code> must be in SPF record.</td>
+</tr>
+<tr>
+<td>Languages</td>
+<td>Two-step cascade: Engineering enables at Client level, organiser selects at Event level.</td>
+</tr>
+<tr>
+<td>Fake Email Generation</td>
+<td>ON: import/API with existing emails creates new accounts with fake emails instead of updating.</td>
+</tr>
+</tbody>
+</table>
+<h4>4.6 Time Zone Logic</h4>
+<ul>
+<li><strong>RULE:</strong> Time zone derived from City/Country. No standalone timezone selector.</li>
+<li><strong>RULE:</strong> Changing location after setup shifts all existing timestamps. Warning popup shown.</li>
+<li><strong>RULE:</strong> Mobile app shows event time + local time if user is in a different zone.</li>
+<li><strong>RULE:</strong> Analytics granularity: daily for events up to 12 days, weekly for 12 days to 12 weeks, monthly beyond.</li>
+</ul>
+<h3 id="part-5-registration-and-data-pipeline">Part 5: Registration and Data Pipeline</h3>
+<h4>5.1 Registration Flow Types</h4>
+<table>
+<thead>
+<tr>
+<th>Flow</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public Events</td>
+<td>Open to all. No vetting.</td>
+</tr>
+<tr>
+<td>With Approval</td>
+<td>User registers, requires organiser approval.</td>
+</tr>
+<tr>
+<td>Simple Registration</td>
+<td>Skips summary. Active immediately on public events.</td>
+</tr>
+<tr>
+<td>Private Event</td>
+<td>Invitation only. Public page redirects to home.</td>
+</tr>
+<tr>
+<td>Limited Registration</td>
+<td>Capped registrants. Overflow goes to waiting list.</td>
+</tr>
+</tbody>
+</table>
+<h4>5.2 Pipeline Architecture</h4>
+<p>Multi-step pipeline. Steps can be reordered, disabled, deleted, or created.</p>
+<p><strong>Standard sections:</strong> Contact Details (cannot remove) → Personal Information → Custom Sections → Ticketing → T+C → Summary → Confirmation</p>
+<ul>
+<li><strong>RULE:</strong> Sections can be hidden on Registration Form, Summary Page, and Edit Profile independently.</li>
+</ul>
+<h4>5.3 Form Builder</h4>
+<p><strong>Field types:</strong> Predefined system fields (Name, Email, etc.) + Custom fields (Text, Select, Radio, Checkbox, File Upload, Date).</p>
+<ul>
+<li><strong>RULE:</strong> First Name, Last Name, Email are mandatory. Cannot be made optional.</li>
+</ul>
+<p><strong>Field Attributes</strong></p>
+<p>Required, Sensitive (GDPR), Hidden, Disabled, Not Editable, Help Text, Show in Visitor Card, Use for TM Creation, Capture Input Timestamp, Use for Speed Networking, Personal Assistant Email.</p>
+<h4>5.4 Conditional Logic</h4>
+<p>Grid sections shown/hidden based on multi-select field answers or user category.</p>
+<ul>
+<li><strong>RULE:</strong> Conditional field options appear in <code>Visible to</code> of all Grids EXCEPT the one containing the conditional field.</li>
+<li><strong>EDGE CASE:</strong> Deleting a form element <strong>permanently loses</strong> all data entered into that field.</li>
+</ul>
+<h4>5.5 Category Assignment</h4>
+<p><strong>Sources:</strong> Self-select during registration, Import, API, or Default. TMs inherit parent Exhibitor's category.</p>
+<h4>5.6 Ticketing (baseline)</h4>
+<ul>
+<li><strong>RULE:</strong> Expiry deadlines are exclusive (Dec 26 expires at midnight on the 26th).</li>
+<li><strong>RULE:</strong> Only one payment system active at a time.</li>
+<li><strong>RULE:</strong> Ticket validity follows event timezone, not user's local time.</li>
+</ul>
+<p><em>(The New Ticketing system supersedes much of this baseline — see the Post-v10 amendments, Part 5.)</em></p>
+<h4>5.7 Data Matching</h4>
+<p>Maps registration question answers to Interest/Activity categories. Feeds matchmaking. Visitors only.</p>
+<ul>
+<li><strong>EDGE CASE:</strong> Removing/modifying questions used in Data Matching orphans category mappings.</li>
+</ul>
+<h4>5.8 Networking Opt-In and GDPR</h4>
+<ul>
+<li><strong>RULE:</strong> Opt-OUT = invisible on all listings, cannot be contacted, excluded from matchmaking.</li>
+<li><strong>RULE:</strong> Independent of Permissions Matrix. Opt-out overrides all matrix permissions. (Default value and inversion behaviour: see Part 3, Networking Opt-In data rules.)</li>
+</ul>
+<h3 id="part-6-exhibitor-marketplace">Part 6: Exhibitor Marketplace</h3>
+<h4>6.1 Profile Structure</h4>
+<p>Logo (500x500), Banner (1200x400), Description, Categories, Contact, Video, Marketing Content, Products, Brands, Team Members, Sessions, Stand Location.</p>
+<h4>6.2 Parent-Child Hierarchy</h4>
+<p>Enabled via Module Management. <strong>Child category options:</strong> Without category, Inherit from parent, Organiser-specified.</p>
+<ul>
+<li><strong>EDGE CASE:</strong> Adding child from another event loses their products and TMs (warned, irreversible).</li>
+<li><strong>EDGE CASE:</strong> Module OFF hides the page but does not remove existing relationships.</li>
+<li><strong>EDGE CASE:</strong> Labels (<code>Parent</code> / <code>Child</code>) can be renamed under <code>Registration &gt; Exhibitor &gt; Additional Settings</code>.</li>
+</ul>
+<h4>6.3 Product Catalogue</h4>
+<ul>
+<li><strong>RULE:</strong> Products created globally, activated/deactivated per event.</li>
+<li><strong>RULE:</strong> Product Form fields with <code>Use as filter</code> become marketplace filters.</li>
+<li><strong>EDGE CASE:</strong> PDF exhibitor list rebuilds every 30 minutes (may be incomplete mid-rebuild).</li>
+</ul>
+<h4>6.4 Brands</h4>
+<p>Sub-entity of Exhibitor. Must be enabled in Module Management AND added to Website Builder. <strong>Can only be created from exhibitor frontend or API</strong> (not admin panel).</p>
+<h4>6.5 Marketplace Display Logic</h4>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default sorting</td>
+<td>Alphabetical</td>
+</tr>
+<tr>
+<td>Matchmaking sorting</td>
+<td>By match score (when enabled)</td>
+</tr>
+<tr>
+<td>Filter persistence</td>
+<td>Persist across page refresh. Only Clear Filters resets them.</td>
+</tr>
+<tr>
+<td>Filter logic</td>
+<td>Multiple choices within one filter = OR. Two distinct filters = AND.</td>
+</tr>
+<tr>
+<td>AI search</td>
+<td>English only, web only, max 500 results, no chat history saved</td>
+</tr>
+</tbody>
+</table>
+<h4>6.6 Exhibitor Manual</h4>
+<p>Configurable self-service area where organisers provide exhibitors with forms, documents, instructions and purchasing. 8 section types (Documents, Table Form, Equipment, Lead Capture, Service Badges, Manual Summary, Team Members, Edit Profile). Per-section deadlines; vendors; Firebird SSO; deadline-warning notifications (Days/Frequency). <em>(Post-v10 changes — deadline change now preserves submissions, translation tool, badge hard cap, Equipment discount codes — see the Post-v10 amendments, Part 6.)</em></p>
+<h3 id="part-7-networking-matchmaking-and-meetings">Part 7: Networking, Matchmaking and Meetings</h3>
+<h4>7.1 Matchmaking Algorithm</h4>
+<p>Connects <strong>Interest</strong> categories to <strong>Activity</strong> categories.</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Logic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default Matchmaking</td>
+<td>Flat category matching</td>
+</tr>
+<tr>
+<td>Multi-Space</td>
+<td>Categories grouped into spaces, weighted by spaces matched then categories within</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> <code>Enable Matchmaking</code> toggle is OFF by default after creation/cloning.</li>
+<li><strong>RULE:</strong> <code>Meetings</code> module must be ON for Recommendations to work (interconnected visibility).</li>
+<li><strong>EDGE CASE:</strong> Empty recommendations in emails = user has no interest categories populated.</li>
+</ul>
+<h4>7.2 Exclusion Filters</h4>
+<p>Map registration answers to prevent specific user pairs from being matched. <strong>Removed users are completely hidden from each other</strong>, not just shown a reduced match percentage.</p>
+<h4>7.3 Meeting Types</h4>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Origin</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regular (Self-Managed)</td>
+<td>User-initiated</td>
+<td>Visitor-Visitor, Visitor-TM, TM-TM</td>
+</tr>
+<tr>
+<td>Curated (Table)</td>
+<td>Organiser-assigned</td>
+<td>Zones &gt; Tables &gt; Time Slots</td>
+</tr>
+<tr>
+<td>Speed Networking</td>
+<td>Auto-generated</td>
+<td>Matchmaking during timed sessions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Location types:</strong> Exhibitor Stand, Other Location, Online, Table (Zone/Table).</p>
+<p><strong>Meeting state machine (self-managed):</strong> Pending (initiator side) → Incoming (receiver side) → Confirmed / Declined / Cancelled / Rescheduled. (Distinct from Meeting Program statuses — see the Glossary.)</p>
+<h4>7.4 Curated Meetings</h4>
+<p><strong>Hierarchy:</strong> Zones (physical areas with capacity, time slots, location) → Tables (within zones, numbered, tied to slots) → Wizard for assignment → Dashboard for real-time management.</p>
+<ul>
+<li><strong>RULE:</strong> Zone time applies to all tables unless table has custom time (takes priority).</li>
+<li><strong>RULE:</strong> Deleting a zone cancels all meetings in that zone.</li>
+<li><strong>EDGE CASE:</strong> Manual table assignment can double-book. Wizard prevents this.</li>
+<li><strong>EDGE CASE:</strong> <code>Marked as Completed</code> checkbox is organiser-only. Does not affect participant schedules.</li>
+</ul>
+<h4>7.5 Speed Networking</h4>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Flow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Walk-In</td>
+<td>Badge scan adds to session. Timeline: Check-in Start → Check-in End → Send Schedules → Meeting Start → End</td>
+</tr>
+<tr>
+<td>Pre-Matched (Opt-In)</td>
+<td>Pre-registered with conditions. Users vote on match relevance before generation.</td>
+</tr>
+</tbody>
+</table>
+<p><em>(Full rebuilt Speed Networking + Meeting Program + Round Tables logic — the major post-v10 change — is in the Post-v10 amendments, Part 7.)</em></p>
+<h4>7.6 Favourites, Messaging and Schedule</h4>
+<ul>
+<li><strong>RULE:</strong> <code>Only Mutual Connection Interaction</code> restricts interactions to mutual favourites only.</li>
+<li><strong>RULE:</strong> Schedule page contains: Meetings, Sessions, Exhibitor Events, Blocked Times, Speed Networking. Calendar + List views.</li>
+<li><strong>RULE:</strong> Speed networking overlaps with existing items are allowed, but new items overlapping speed networking are not.</li>
+<li><strong>RULE:</strong> External calendar sync available: Google, Outlook, Apple.</li>
+</ul>
+<hr />
+<h3 id="post-v10-amendments-verified-shipped">Post-v10 amendments (verified, shipped)</h3>
+<p>Sourced from the Jira (EP/EPLEGACY) + Confluence sweep, 2024-01 → 2026-06. Shipped (Done) only; each carries its evidence key. In-flight work (Registration &amp; Ticketing 2.0, selective cloning, Qdrant V1 spec, etc.) is in the Post-v10 Delta &amp; In-Flight Register.</p>
+<h4>Part 4 — Event Lifecycle</h4>
+<ul>
+<li><strong>RULE:</strong> Event cloning options — "Exhibitors and their products" (products arrive INACTIVE by default) reveals sub-options: Product category relations (+ copy Product Category custom filters), "Retain Product Status During Clone", and "Exhibitors' brands remain". Interactions (favourites, meetings, messages) are NEVER cloned. Sessions are ALWAYS cloned in full — no opt-out, no bulk delete. Real vs test choice at clone (test = no external domain). [EP-29011, EP-29132, 874053650, EP-47919]</li>
+<li><strong>RULE:</strong> After saving an external domain and clicking the SSL certificate button, a warning explains the options (upload own SSL or auto-generate); auto-generation may take up to 2 hours, during which the external URL will not work. [EP-28249]</li>
+<li><strong>RULE:</strong> Country Manager is backed by an external API source (WikiData) supplying country/city/region names + translations in all platform languages, refreshed automatically; manual edits are preserved and not overwritten by sync. [EP-28301]</li>
+<li><strong>RULE:</strong> Admin Panel event URLs carry the event ID as a URL parameter, so shared links open the exact same event. [EP-39637]</li>
+<li><strong>RULE:</strong> All admin reports/exports use the EVENT timezone (Time settings at /admin/general/settings dominate the country at /admin/general/edit); the filename embeds the generation timestamp + timezone; a timezone change applies to future reports only. [EP-29932]</li>
+</ul>
+<h4>Part 5 — Registration and Ticketing</h4>
+<ul>
+<li><strong>RULE:</strong> "Disable Repeated Registration" (Registration Settings &gt; Visitor &gt; Additional Settings, default OFF) — when ON, registration skips the same-environment email check (no OTP/password challenge) and starts a fresh registration; unfinished registration on the current event still resumes; already-registered users are still blocked from re-registering (except the Participant→Buyer upgrade flow). [EP-42940]</li>
+<li><strong>RULE:</strong> Changing a participant's category triggers a confirmation warning (impact on access rights, visibility, matchmaking, meeting eligibility). "Disable category change" (Registration &gt; Settings, default OFF) hard-locks the participant category field read-only for ALL admins (e.g. for GES-authoritative integrations). [EP-39674, EP-45795]</li>
+<li><strong>RULE:</strong> Pay by Invoice in registration — toggle "Allow payment with Invoice in Registration" (Event Setup &gt; Payment &gt; General, default OFF). With ≥1 paid item, the Summary offers Pay by card / Pay by invoice. Invoice path: registration is submitted without card payment, the profile is NOT activated, but paid sessions ARE added to the schedule immediately; the standard registration email with the activation link is sent only after the organiser confirms the invoice payment (Payments &gt; Invoice payments). [EP-34905]</li>
+<li><strong>RULE:</strong> Registration email templates can use all system + custom registration-form fields (picker grouped General / System Fields / Custom Fields) across Visitor, Speaker, Moderator, Exhibitor emails. A form field can capture a consent timestamp (latest before completion, dd-mm-yy hh:mm:ss event-local); the export adds a "TS <field>" column. [EP-37164, EP-26281]</li>
+<li><strong>RULE:</strong> "Personal Assistant Email" registration field — every email to that participant (incl. Buyers and TMs) is CC'd to the address; empty = no CC. [EP-40074]</li>
+<li><strong>RULE:</strong> Onboarding Experience — Networking &amp; Matchmaking module + Global/Event Backend toggles: multilingual Category Groups, mandatory or optional completion, 24-hour reappearance (optional mode), writes selections to the user's Interest categories (limit ignored at onboarding), individual accounts only, shows after a 10-minute cooldown if required info was needed first. A "recommendations updated" notification is dispatched ~5 minutes after onboarding completion. [EP-36617, EP-40162, EP-40531]</li>
+<li><strong>RULE:</strong> Profile completion — a revised weighted algorithm; a completion indicator column in the Admin Participants list; a completion column in participant export reports. [EP-49202, EP-49221, EP-49223]</li>
+<li><strong>NEW TICKETING (supersedes 5.6 baseline):</strong> Two purposes — category upgrade + entry ticket. Statuses: On Hold (ticketing disabled) / Ready for Sale / On Sale / Sale Ended / Sold Out (limited-quantity only). Toggle disabled until ≥1 ticket exists; turning OFF hides purchasable tickets from the frontend but purchasers still see their own. Card actions: unpurchased = Edit/Hide/Clone/Delete; once purchased = Hide/Clone + read-only View only (Edit/Delete never restored, even after refunds). Validity = Specific dates (event days) or Non-specific (N flexible days). Price Type Fixed or Dynamic (multiple date ranges; each range's Sales start auto-set to the day after the previous range's Sales end; last range's Sales end bound to the validity). Category persistence: buying a category ticket sets that category unlimited until changed. Upgrade economics: replacement tickets' total must be ≥ the value of the tickets being replaced; the basket shows a "Ticket exchange discount" line equal to the old ticket value, applied BEFORE discount codes, floored at 0; the exchange discount applies only to UNUSED tickets. Country visibility ("Use Visibility by Country" + per-ticket country multiselect; "Don't hide tickets" allows a 0-price fallback for unconfigured combinations). Basket: add/remove, one active discount code, taxes, 15-minute reservation on Pay (immune to admin changes), availability re-checks. Profile tabs: Ordered Items (Tickets + Sessions) and Invoices. Check-in enforcement priority chain: (1) has a ticket, (2) not expired, (3) correct date, (4) correct check-in zone — only the highest-priority failure is shown; Buyers enter without a ticket; multiple same-day check-ins count as ONE attended day; switching to a zone needing a different ticket prompts to scan again. [EP-26628–26637, EP-26895, EP-26932, EP-30343, EP-33039, EP-34940, EP-37154, EP-33497, EP-37664, EP-37784, EP-38218, EP-28422]</li>
+</ul>
+<h4>Part 6 — Exhibitor Marketplace</h4>
+<ul>
+<li><strong>RULE:</strong> "Default Marketplace view" (admin/registration/esettings) — Cards / List / Short list (default Cards), across all Marketplace pages/widgets; ignored where a Custom listing view is enabled. Custom listing view is a third view mode; only one sort is active at a time (choosing a column sort deactivates "Recommended for you"). [EP-34438, EP-32584]</li>
+<li><strong>RULE:</strong> Country + City display on ALL exhibitor cards incl. Parent Exhibitors, on Exhibitors and Pavilions tabs (web and app). "Do not indicate Child companies" (default OFF) hides all child indications, leaving only the Parent indication. "Manage Parent-Child namings" pop-up sets multilingual labels (Pavilions / Parent Company / Child Company / Child Company(s) / Head office). [EP-39031, EP-37800, EP-37805, EP-37278]</li>
+<li><strong>RULE:</strong> Parent/Child auto-assign script (Event Setup &gt; General &gt; Settings) — matches exhibitors by Contact Person Email (<code>cp_email</code>); <code>is_parent_exhibitor:true</code> from API forces Parent; runs daily at a configured hour; produces a downloadable XLS report emailed to a <code>||</code>-separated stakeholder list. [EP-38486, EP-27619]</li>
+<li><strong>RULE:</strong> Category search results render hierarchically (parent + child + exact matches) across Marketplace/Delegates/News/product finder. "Search Within Filters" (admin/categorisation/general, default OFF) adds an in-filter search field for filters with ≥10 items. A two-panel category-selection pop-up appears when custom filters exist. [EP-40743, EP-36732, EP-35452]</li>
+<li><strong>RULE:</strong> "Allow only Exhibitor Activity Categories as Product Categories" (admin/registration/esettings, default OFF) restricts the product-category picker to the exhibitor's Activity categories. Deactivating a product via API/manual erases its Product TM, Sample event and Sponsorship parameters (must be reset on re-activation). [EP-33961, EP-26427]</li>
+<li><strong>RULE (Exhibitor Manual):</strong> Changing a section's submission deadline no longer deletes collected submissions (deadline saved via Ajax); modifying the FORM itself still forces refill. Translation tool added to every section except Summary. Badge allocation is a HARD cap (Add disabled at limit; no surcharge). Discount codes extend to Equipment items (exhibitor category-restricted; XLS usage report). While Lead Capture Pro packages are on sale, Manual lead-capture sections are disabled/hidden and "Enable for all (free)" is locked. [EP-23915, EP-20410, EP-38608, EP-40746, EP-40864]</li>
+<li><strong>RULE:</strong> Category management — participant/exhibitor categories can be duplicated (inherits all settings; duplicate name mask "…copy N"); category filter order is drag-and-drop (drives the "Add category" filter order on web + app); a per-category "Search weight" boosts that category's exhibitors/content in search. [EP-23224, EP-24228, EP-17102, 705659039]</li>
+</ul>
+<h4>Part 7 — Networking, Matchmaking and Meeting Formats</h4>
+<ul>
+<li><strong>RESTRUCTURE:</strong> "Meeting Formats" is a top-level Admin domain holding Speed Networking, Meeting Program, Concierge Meetings, Exhibitor Events and Round Tables, each with its own Management / Filters / Email templates tabs. Exhibitor Events and Round Tables are decoupled from Sessions with independently cloned taxonomies. [EP-49369]</li>
+<li><strong>RULE (regular meetings):</strong> Disabled-slot tooltips give canonical reasons; a schedule drawer ("See my/Team Schedule") opens beside the request form. The "Pause after meeting" value is INCLUDED in the displayed slot length (e.g. 15-min step + 5-min pause = 20-min slot), shown as an always-visible disclaimer. Meeting availability uses Offline/Online Time settings, each with Allowed + Blocked time (Blocked wins). Meetings can be reassigned between team members. App users can rate a completed meeting. [EP-24925, EP-29078, EPLEGACY-2944, EP-40631]</li>
+<li><strong>RULE (Speed Networking — two types):</strong> Walk-in (Check-in) — timeline checkpoints, auto-calculated max meetings per user (N×meeting + (N−1)×break ≤ duration), live match voting, manual table editing, Public Meeting Display "airport board", 3 email templates; the minimum gap between "Send Final Schedule" and "Meetings Start" was reduced from 5 to 1 minute. Opt-in (pre-matched) — participation conditions built from registration fields flagged "Use for Speed Networking"; hourly auto-enrolment; a status set (Pre-registered / Added by organiser / Added by meeting request / Removed / Cancel attendance); a Matches list in batches (Mutual Relevant → Marked me → I marked → Rest). The Meeting Sponsor role and all Sponsored-meeting logic were REMOVED from Opt-in SN (they live only in the Meeting Program); a two-sided visibility matrix + 3 recommended templates (Open Networking / Buyer-Focused / Structured Access) control who sees whom. Sponsored-limit validation applies only to newly created meetings. [EP-26344–26368, EP-30282–30302, EP-39133, EP-33959, EP-50818]</li>
+<li><strong>RULE (Meeting Program — rebuilt 2025; frontend renamed "Meetup"):</strong> Module Management toggle; 3-step config (General / Roles / Participation conditions); up to 10 Meeting Blocks; a days-only checkpoint timeline (Start → 1st Meetings Generation &amp; Confirmation → 2nd Generation → Table Placement → Send Final Schedules → Meeting Blocks → End). Roles: Hosted Buyer, General Buyer, Sponsored Team Member, Free Team Member, Participant (one participant category cannot map to two MP roles). Meeting statuses Pending / Accepted / Declined / Expired / Cancelled (distinct from self-managed meetings). Generation: MUTUAL relevance only, four strict tiers (SR↔SR → SR→R → R→SR → R↔R); matchmaking score does NOT influence generation; one pairing per company (matched by company NAME); sponsored generated before free; the 1st generation NOW ALSO generates free meetings (previously sponsored-only); Hosted Buyers never get free meetings; Sponsored TMs share the exhibitor's sponsored allocation (default 30; 0 = none; toggle off = unlimited; category-level only). Two-stage voting; decline requires a reason ("Expired" on timeout); the Mutual Matches tab was removed; a single confirmation list. A "Platform timeline" replaces the System timeline on the frontend when ≥1 organiser timepoint exists. Per-role timeslot blocking (Hosted/General Buyer 0, Sponsored TM 4, Free TM/Participant 12; admin impersonation is unlimited). Women Circle reserved tables. Manual meeting create/move/delete. Stand-attendance booking (Buyer→Exhibitor company, auto-confirmed, non-blocking). No-Show marking (admin + user). Per-program "Disable notifications". 5-tab XLS reports (+ meeting-source + ratings columns). Meeting ratings become available from the moment the Final Schedule is received (app). Participation conditions can optionally include/exclude team members. [EP-39145, EP-41245–41773, EP-43483–43924, EP-46376, EP-46480, EP-45790, EP-45791, EP-40448, EP-49069, EP-49073, EP-49075, EP-48314, EP-43263, EP-48386, EP-48851, EP-49879, EP-50569]</li>
+<li><strong>RULE (Round Tables):</strong> 3-level Session → Topics → Tables. Timeline stages (Registration start/end → Send Final Schedules → Session). "Max number of tables" (default 0 = unlimited; locked after Registration Ends); overflow applicants get an "Unassigned" status and their card is silently removed from the schedule after Final Schedule. Continuous table numbering across topics with smallest-missing-number reuse. Tables are editable after the session starts, until it ends. Optional Confirmation Process (one-time confirm/reject; a topic reassignment resets status to Pending, tagged System vs Organiser). "Roundtables Assigned Tables" XLS report. Deleted users are removed from Round Table sessions. [EP-28986–28995, EP-39819, EP-41016, EP-46474, EP-45793, EP-46473, EP-45794, EP-49077]</li>
+<li><strong>RULE (Matchmaking &amp; Recommendations):</strong> "Enable Matchmaking" drives the DS real-time recommender pipeline (statuses In Progress / Error / Completed; OFF calls a lambda to free resources; reset OFF on event create/clone). "Recommended for you" sorting on marketplace/delegate lists with defined search interplay (disabled during Elastic word search; %=0 → random; hidden for unlogged users); the separate esettings "Matchmaking sorting" setting was removed. Unified Recommendations Page (admin block ordering/visibility, default block names, app exclusions). "Recommend Related Exhibitors" post-meeting-request. Per-parent-category Include / Exclude / Strict Matchmaking control. Data Matching (question→category, visitors only). Like propagation across an exhibitor's team members (opt-in API param). [EP-34318, EP-27225, EP-32719, EP-27246, EP-38636, EP-39440, EP-28230, EP-44267, 1028489251, EP-50840]</li>
+<li><strong>RULE (AI search):</strong> A module in Networking &amp; Matchmaking; the ConnectAI widget on the web Exhibitor list is English-only, ≤500 results, ≤1000-char prompt, mutually exclusive with ElasticSearch, honours the Permission Matrix and visibility; 3 admin-defined prompt suggestions (≤85 chars each). Shipped ranking facts: exact-name matches rank above description matches; a lightweight prefix autocomplete endpoint handles partial typing. [EP-27547, EP-33164, EP-34248, EP-49803, EP-49805, EP-49807, EP-49808, EP-49809, EP-49810, EP-50317]</li>
+<li><strong>RULE (Favourites / Schedule / Attend a Stand):</strong> Meetings and sessions auto-sync to the user's external calendar every ~6 hours (web init enables Google AND Outlook; mobile init enables Google only). Google calendar GDPR mode toggles whether attendee emails are synced. Attend a Stand — two-level enablement (Module Management global toggle + per-participant-category "Enable Attend a Stand", both default OFF, both required); favouriting an exhibitor opens a "Plan Visit" popup (date + time required; skippable); date selector offers up to 10 future event dates, times 08:00–20:00 in 30-minute steps; unfavouriting does not delete the intention; a user profile "Attend a Stand" tab (edit/delete) and a read-only exhibitor-side tab; apps embed both via webview. [EP-30274, EP-18010, EP-46483]</li>
+</ul>
+<p><em>For the Admin Panel structure and settings-path registry see Part 18; for engine/server-side internals see Part 19; for terminology see the Platform Language Glossary; for shipped-after-v10 and in-flight items see the Post-v10 Delta &amp; In-Flight Register.</em></p>
+<hr />
+<h2 id="floor-plan-hosted-buyer-sponsorship-community-parts-8-11">Floor Plan, Hosted Buyer, Sponsorship, Community (Parts 8-11)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<h3 id="part-8-floor-plan-and-wayfinding">Part 8: Floor Plan and Wayfinding</h3>
+<h4>8.1 Hall, Stand, Exhibitor Mapping</h4>
+<p><strong>Hierarchy:</strong> Hall → Stand → Exhibitor</p>
+<table>
+<thead>
+<tr>
+<th>Hall Type</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exhibition Hall</td>
+<td>Stands placed inside</td>
+</tr>
+<tr>
+<td>Conference Hall</td>
+<td>Sessions held inside</td>
+</tr>
+<tr>
+<td>Check-in Zone</td>
+<td>Mapped for check-in operations</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Stands have visual configuration: shape, size, colour, label. Stand numbering is used across meeting location logic and wayfinding.</li>
+<li><strong>RULE:</strong> Stands can be imported from DXF files for architectural accuracy.</li>
+</ul>
+<h4>8.2 Wayfinding Logic</h4>
+<p>Users can get directions between stands and between stands and custom points (conference rooms, recreational areas). <code>From</code> and <code>To</code> support both dropdown selection and direct click on the floor plan.</p>
+<ul>
+<li><strong>CONSTRAINT:</strong> ExpoPlatform's native floor plan does not show estimated arrival time for wayfinding.</li>
+<li><strong>RULE:</strong> Bookmarking stands on ExpoFP floor plans is supported. Search and filtering on the floor plan respect exhibitor visibility rules.</li>
+</ul>
+<h4>8.3 ExpoFP Integration</h4>
+<p>Configured in the "ExpoFP integration" section at <code>/admin/general/settings</code> (event id, token, event name).</p>
+<ul>
+<li><strong>RULE:</strong> Outbound exhibitor data sync — checkbox "Transmit exhibitor data to ExpoFP" (default unchecked). When ON, every exhibitor create/edit/delete pushes to ExpoFP: Exhibitor Name, Stand ID (integration key), Order ID (so Only Parent Name shows on stand), Description, Image/Logo, Category. Deleting an exhibitor removes it from ExpoFP. When OFF, no updates flow. [EP-26327]</li>
+<li><strong>RULE:</strong> "Map with Hall" setting (passed to mobile apps via the getExhibition endpoint): OFF → stands mapped by stand name only (legacy); ON → "Hall + space + Stand" composite format (e.g. "Halle 3.0 G61") is used when pushing to and searching from ExpoFP, in both directions, on web/Exhibitor Integration/front-end APIs and in the apps. [EP-45853]</li>
+<li><strong>RULE:</strong> Full OFFLINE support for ExpoFP floor plans in mobile apps via the ExpoFP Offline Data API: versioned ZIP archives are downloaded and cached (fileName pattern <code>{expoKey}_{version}.zip</code>, build-status polling, base URL <code>app.expofp.com</code>); the app falls back to cached data when online requests fail. Previously only default SDK caching after an initial online load. [EP-45052]</li>
+<li><strong>RULE:</strong> Favourites ↔ ExpoFP stand bookmarks sync BI-DIRECTIONALLY (ExpoFP floor plans only). One stand can be linked to multiple exhibitors. Add stand bookmark → favourite ALL exhibitors linked to that stand; remove stand bookmark → unfavourite all of them; favourite an exhibitor → bookmark its stand (if not already); unfavourite an exhibitor → remove the stand bookmark ONLY if no other exhibitor on that stand is still favourited. [EP-44186]</li>
+<li><strong>RULE:</strong> Stand bookmarking on ExpoFP floor plans in the app (Stage 1): users (logged-in or not) can bookmark all stand types (exhibitor stands, sessions, events, custom locations); Bookmarks page lists stands A–Z (numeric first) with expandable child exhibitors; removal via cross icon with ~5s undo toast. <strong>STORAGE:</strong> Stage 1 bookmarks are stored only in the local device database, shared by all users of the device, cleared manually or on app reinstall. [EP-41743]</li>
+<li><strong>RULE:</strong> CrowdConnected indoor positioning — <code>/admin/general/settings</code> (CrowdConnected Integration block) has a 3-option selector: IPS only / GPS only / IPS+GPS (default IPS+GPS), self-service instead of per-customer support tasks. [EP-40363]</li>
+<li><strong>RULE:</strong> ExpoFP sync changes are logged to CloudWatch; admin settings include a resynchronization button (covering exhibitors, categories, halls, stands, with real-time status) and API-token/credential validation with informative errors. [Mar–Apr 2025 Release Notes]</li>
+</ul>
+<h4>8.4 Invisual Floor Plan Integration</h4>
+<ul>
+<li><strong>RULE:</strong> Admin block "Invisual Floor plan" at <code>/admin/general/settings</code>: Enable toggle; Floor plan link (required when enabled); Deep link event pattern (required when enabled); JSON file with conference rooms IDs (stage name → Invisual ID dictionary); link to map zip-archive for offline mobile use — all values sent to the mobile app via getExhibitions. [EP-27382]</li>
+<li><strong>RULE:</strong> Invisual integration is unidirectional (EP → floor plan), EXCEPT bookmarks/favourites which sync BOTH ways: floor plan bookmark → EP favourite (visible at <code>/newfront/profile/favourites</code>); EP favourite → floor plan bookmark; scheduled sessions/exhibitor events also bookmark on the floor plan. [EP-27382]</li>
+<li><strong>RULE:</strong> Bookmarking a session/exhibitor event from the floor plan adds it to the user's schedule only if it doesn't block a time slot; if it blocks and overlaps another blocking item, the bookmark is IGNORED. [EP-27382]</li>
+<li><strong>RULE:</strong> Exhibitor identification on Invisual uses a vendor ID (external exhibitor ID or EP internal ID); agenda mapping is by Stand Name; sessions/exhibitor events use an "External ID" field filled from the external data provider. The floor plan opens in an iframe/webview, supports offline mode; interface/search/filters are owned by Invisual. [EP-27382]</li>
+<li><strong>RULE:</strong> QR wayfinding: a venue QR deep link (pattern per event, e.g. ep.invisual.app/ga1) opens the app floor plan if the event app is installed, otherwise a browser webview. [EP-27382]</li>
+</ul>
+<h4>8.5 Engine Notes</h4>
+<ul>
+<li><strong>ENGINE:</strong> A single shared floor-plan JS bundle (deployed to S3) is consumed by the front-end UI, admin panel and mobile apps; parent components add background/stands/events layers. [EP-19626]</li>
+<li><strong>ENGINE:</strong> The mobile app native floor plan is a webview of <code>{front url}/newfront/widgets/floorplan</code>. [EP-6677]</li>
+<li><strong>ENGINE:</strong> The floor plan renderer was rewritten in three.js (replacing react-konva) for performance at high stand counts; groundwork for a 3D floor plan view. [EP-18007]</li>
+</ul>
+<h3 id="part-9-hosted-buyer-programme">Part 9: Hosted Buyer Programme</h3>
+<h4>9.1 Programme Architecture</h4>
+<p>Centralised hub for buyer qualification, categorisation, benefits, agent tracking, and document management.</p>
+<h4>9.2 Agents</h4>
+<p>External contacts who bring buyers to the event.</p>
+<p><strong>Per-agent fields:</strong> Name, Contact Info, Agent Code, Password, Buyer Type, unique registration link.</p>
+<ul>
+<li><strong>RULE:</strong> Agent performance (number of buyers brought) is tracked in analytics.</li>
+<li><strong>RULE:</strong> Agent links are unique per agent and used to attribute buyer registrations.</li>
+</ul>
+<h4>9.3 Buyer Categories and Benefits</h4>
+<p>Created under <code>Hosted Buyer &gt; Categories</code> (<code>/admin/hostedbuyers/categories</code>). Each category has: name, colour, description, assigned benefits, attached documents.</p>
+<ul>
+<li><strong>RULE:</strong> A buyer category requires name + colour as the minimum; the category description shows on <code>/newfront/profile/benefits</code> only when ≥1 document is attached. Document types: upload-only, download-only, download+upload, documents-to-sign (the sign type requires the document builder). [667353723]</li>
+</ul>
+<p><strong>Benefit Types</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td>Basic allocation and redemption</td>
+</tr>
+<tr>
+<td>With Refund</td>
+<td>Allocation, redemption, and refund tracking</td>
+</tr>
+<tr>
+<td>Static</td>
+<td>Fixed value, no redemption tracking</td>
+</tr>
+<tr>
+<td>Document-based</td>
+<td>Tied to document submission</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Deleting a buyer category automatically unassigns it from all buyers who had that category. [667353723]</li>
+<li><strong>RULE:</strong> The <code>Is Buyer</code> toggle on a participant category activates the Buyer role. Separate from Hosted Buyer categories.</li>
+<li><strong>RULE:</strong> The <code>Badge</code> checkbox on a benefit adds a <code>Minimum confirmed meetings to show badge/ticket</code> field. Badge appears on frontend only when threshold is met. Set 0 for no minimum.</li>
+</ul>
+<h4>9.4 Automated Filters</h4>
+<p>Match filter criteria to a Buyer Status and Category. When a buyer matches filter criteria, status changes automatically and the organiser receives a notification (if enabled).</p>
+<ul>
+<li><strong>RULE:</strong> Filter criteria = Agents (multi-select) + Buyer Status (single select: Accepted / Pre-Accepted / Pre-Rejected / Rejected) + Buyer's Questionnaire answers. [667222829]</li>
+<li><strong>RULE:</strong> Only one buyer status can be selected per filter. [667222829]</li>
+<li><strong>RULE:</strong> Buyer Category field only appears if status is <code>Accepted</code> or <code>Pre-Accepted</code>; the filter then also assigns that Buyer Category. [667222829]</li>
+<li><strong>SIDE EFFECT:</strong> "Buyer Filter Auto Status Notification" emails the organiser on each filter-driven status change. [667222829]</li>
+<li><strong>WORKFLOW:</strong> Bulk-approve pattern — register buyers via an Agent's unique registration link combined with an "Accepted" filter tied to that Agent. [667222829]</li>
+</ul>
+<h4>9.5 Document Dashboard</h4>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Visual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Not Started</td>
+<td>Not Started</td>
+</tr>
+<tr>
+<td>In Progress</td>
+<td>In Progress</td>
+</tr>
+<tr>
+<td>Uploaded</td>
+<td>Uploaded</td>
+</tr>
+<tr>
+<td>Approved</td>
+<td>Approved (green row background)</td>
+</tr>
+</tbody>
+</table>
+<p>Individual and bulk email chasers can be sent for pending documents.</p>
+<h4>9.6 Buyers List (Frontend)</h4>
+<p>Only <code>Accepted</code> buyers appear in the frontend Buyers tab. Interactions follow standard permission matrix, connection settings, and networking opt-in rules. Buyers also appear in the Delegate List unless explicitly excluded.</p>
+<h4>9.7 Buyer Emails and Approval Flows</h4>
+<ul>
+<li><strong>RULE:</strong> The "Print Badge Link" variable is available in the Hosted Buyer Accept email (as in visitor registration emails) for direct badge download without account activation. [EP-8170]</li>
+<li><strong>RULE:</strong> Single-approval setting for Private events with Public access (visible only in that configuration; default OFF): a registering team member with a Buyer category skips the separate team-member approval and moves straight to the buyer side for the single Accept step; only the Buyer Accept email template fires. [EP-2749]</li>
+<li><strong>RULE:</strong> "Participant Information Request" email template (modeled on the Hosted Buyer "Buyer Document Information Request" email; default subject "Additional Information Required", variables {Name} and {custom_text}) extends individualized organizer→participant requests beyond Hosted Buyers. "Send Information Request" buttons in the Participant profile (Admin) and the Participants-list 3-dots menu open a "Custom message" popup (may be submitted empty) whose text is injected into {custom_text}. [EP-45418]</li>
+</ul>
+<h3 id="part-10-sponsorship-and-monetisation">Part 10: Sponsorship and Monetisation</h3>
+<h4>10.1 Sponsor Entity</h4>
+<ul>
+<li><strong>RULE:</strong> Sponsors created in <code>Management &gt; Sponsors</code> without an exhibitor connection are NOT displayed in the Exhibitor Marketplace. They appear via a separate Sponsor block in the Website Builder.</li>
+<li><strong>RULE:</strong> An existing exhibitor can be set as a Sponsor. After conversion, sponsor becomes a separate entity. Changes to the exhibitor no longer sync.</li>
+<li><strong>RULE:</strong> Sponsor priority in search results: <code>Management &gt; Sponsors &gt; Set Priority</code>. Affects exhibitor list page only, not banner ads.</li>
+<li><strong>RULE:</strong> Sponsor sorting has 3 modes for both Sponsors (Exhibitor list) and Sponsored Products (Products list): <strong>By Set Priority</strong>, <strong>By Matchmaking</strong> (MM score high→low, ties alphabetical; no MM results or all-zero scores → fallback to set priority; unlogged users → set priority; sponsored products inherit their exhibitor's MM rank), and <strong>Random</strong> (re-shuffled per page open, never persisted). Random mode is shipped on WEB [EP-50051]; the mobile-app implementation is staged for release and not yet shipped — treat the 3-mode selector as web-only for now.</li>
+<li><strong>RULE:</strong> The sponsor display limit for the legacy view is 150. [EP-52414] <em>(Note: the story states 150 while the originating spec title said "Limit to 60" — story value taken as authoritative.)</em></li>
+<li><strong>RULE:</strong> The sponsor Organisation Name is ALWAYS displayed (below the logo, or beside a standardized placeholder when there is no logo) on Session cards, Session pages, Session modals, Recommendation cards, On-demand session cards, Exhibitor Event cards/pages, and Round Table cards/pages. [EP-53036]</li>
+<li><strong>RULE:</strong> <code>api/v2/exhibitor/set</code> accepts a boolean <code>sponsor_popup</code> parameter toggling the exhibitor "Sponsor pop-up" setting (empty or invalid value → treated as False). [EP-32201]</li>
+<li><strong>API:</strong> V3 sponsor endpoints — <code>GET /api/v3/events/{eventId}/sponsors</code> (profile fields + full visibility/placement boolean flags) and <code>GET /api/v3/events/{eventId}/sponsor-categories</code> (flat, non-localized) — see Part 16: API for full contracts. [EP-51830, EP-52613]</li>
+</ul>
+<h4>10.2 Banner System</h4>
+<table>
+<thead>
+<tr>
+<th>Placement</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top banners</td>
+<td>1 or 2</td>
+</tr>
+<tr>
+<td>Left sidebar banners</td>
+<td>1, 2, or 3 (square or rectangular)</td>
+</tr>
+<tr>
+<td>Sponsors block</td>
+<td>Configurable name, max 60 characters</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> <code>admin/sponsors/settings</code> includes "Name on the Exhibitors List Page" and "Name on the Products List Page" fields (60 characters max each, any symbols): customise the Sponsors section name on the Exhibitors list and the Sponsored Products section name on the Products list, applied on web AND app (e.g. rename to "Featured Exhibitors"); web appearance further customisable via CSS. [EP-27558]</li>
+<li><strong>RULE:</strong> Every Banner Ad Settings block (web and app) has a "Disable Links" toggle (default disabled): when ON, banner clicks do nothing AND click statistics are NOT recorded; OFF restores redirection + stats. Applies regardless of whether 1/2/3 banners are displayed. [EP-35019]</li>
+<li><strong>RULE:</strong> App banner placement blocks exist alongside the web blocks: App exhibitor list, App products catalogue, App speakers page, App visitors/buyers page, App sessions page. [EP-35019]</li>
+<li><strong>RULE:</strong> Full banner placement inventory (as tracked in Banner statistics): Search page (Top), Search page (Left), Delegates page, Speaker page, Sessions page, News list, Floor plan page (Top), Floor plan (Left), Article page, Community page, Group page, Feed page, Visitor's My Profile, Exhibitor's My Profile, App exhibitor list, App products catalogue, App speakers page, App visitors/buyers page, App sessions page. All banners are listed in statistics even without an uploaded image. [EP-26041]</li>
+</ul>
+<h4>10.3 Sponsored Products</h4>
+<p>Products with <code>Sponsored</code> status get a distinct visual frame and elevated visibility in carousels. <strong>Sponsored product limits</strong> can be configured per exhibitor category, only at the individual exhibitor level, not in the category popup.</p>
+<h4>10.4 Sponsor Entrance Video (Online Session Rooms)</h4>
+<ul>
+<li><strong>RULE:</strong> A sponsor entrance video can be uploaded per sponsor (<code>Management &gt; Sponsors</code>, also exhibitor profile Sponsorship section); max 50Mb, .MP4 only. [EPLEGACY-2645]</li>
+<li><strong>RULE:</strong> Setting <code>Management &gt; Sponsors &gt; Settings</code> "Certain sponsor video duration" (seconds, ≥0, default 0) blocks the room Continue button with a countdown; if the video is shorter than the setting, the block lasts only the video length; pausing the video pauses the countdown; no seeking allowed. If the setting is &gt;0 but no active sponsor has a video, the button is not blocked. [EPLEGACY-2645]</li>
+<li><strong>RULE:</strong> Video rotation: the sponsor with the highest matchmaking result for the user is shown; shown sponsor IDs are remembered and excluded from the pool on subsequent room entrances until 10 MM-sourced sponsors have been shown (or MM results are exhausted), then the pool resets. If there are NO MM results for any sponsor with video, fallback is sponsor priority order with the same remember/exclude cycle. [EPLEGACY-2645]</li>
+<li><strong>EDGE CASE:</strong> Speakers and Moderators never see the sponsor video in their own sessions. [EPLEGACY-2645]</li>
+<li><strong>RULE:</strong> Sponsor "Video Statistics" tab shows Show Total (video watches) and Click Total (clicks on sponsor name/logo at room entrance) per sponsor, with per-participant drill-down. [EPLEGACY-2645]</li>
+</ul>
+<h3 id="part-11-community-and-365">Part 11: Community and 365</h3>
+<h4>11.1 Community Entity</h4>
+<p>A persistent, year-round engagement layer within a Client. Events attach to a Community.</p>
+<p><strong>Features:</strong> Home page, sessions, groups, feeds, news, membership management.</p>
+<ul>
+<li><strong>RULE:</strong> All "events" lists on New UI community pages exclude the current event. [EPLEGACY-4211]</li>
+<li><strong>RULE:</strong> Community page Events / News / Products / Exhibitors components: the products and exhibitors sliders show 18 random items (re-randomised per refresh) for unlogged users or users without matchmaking results, or up to 18 matchmaking-recommended items for logged users with MM results; sponsor exhibitors are marked with a gold border; "new"/"launched" ribbons and the online indicator carry over. [EPLEGACY-4103]</li>
+<li><strong>RULE:</strong> Multi-profile users switch accounts via the account switcher dropdown (top-right burger menu AND the name on the profile page); more than 5 accounts adds a scrollbar; mobile-browser adaptive; display-only — no backend behaviour change. [EP-28676]</li>
+</ul>
+<h4>11.2 SSO Across Community Events</h4>
+<ul>
+<li><strong>RULE:</strong> <code>Allow SSO Login</code> for community events enables cross-event login. One login covers linked events.</li>
+<li><strong>CONSTRAINT:</strong> Only works if user account exists separately on each event AND events are connected via the <code>Events that belong to this Community</code> dropdown.</li>
+</ul>
+<h4>11.3 Micro-Community Groups</h4>
+<p>Groups create micro-communities around topics. <strong>Features:</strong> visibility (public/private), tags and categories, sponsors, privacy settings, invitation/joining, approval logic.</p>
+<ul>
+<li><strong>RULE:</strong> Groups can only be created by admin users on the frontend.</li>
+<li><strong>RULE:</strong> Group short description character limit is 400 (raised from 200). [EP-39625]</li>
+<li><strong>RULE:</strong> Group posts can require approval. Pending posts are visible only to admins and moderators.</li>
+<li><strong>RULE:</strong> Feeds sync between an event and its linked community. Posts in one appear in the other.</li>
+</ul>
+<h4>11.4 Feed Page</h4>
+<ul>
+<li><strong>RULE:</strong> The Feed (participant profile) aggregates: publications and content from joined groups, connection publications, favourited-exhibitor activity (new products, brands, exhibitor news, content, video, webinars), sessions/on-demands where a favourited exhibitor is sponsor or its team member is a speaker, and organiser News. [EP-920]</li>
+<li><strong>RULE:</strong> A participant's own publications in the Feed are visible only to participants who added them to connections (no audience picker). [EP-920]</li>
+<li><strong>RULE:</strong> Own-post actions: Delete (removes from all participants' feeds), Edit, Disable/Enable Comments (hides/shows already-added comments for everyone), Share. [EP-920]</li>
+<li><strong>RULE:</strong> Per-source mute actions: "Don't receive publications from this Group / author / exhibitor" and "Don't receive News". [EP-920]</li>
+<li><strong>RULE:</strong> The Feed stats block shows: profile viewed, profile favourited, My posts, My posts Liked, My posts Commented. [EP-920]</li>
+</ul>
+<h4>11.5 News List and News Page</h4>
+<ul>
+<li><strong>RULE:</strong> News List slider: 10 random news items (by publication date) for unlogged users or users without matchmaking results; 10 latest matchmaking-recommended news items for logged users with MM results. [EPLEGACY-3817]</li>
+<li><strong>RULE:</strong> News search remembers the user's last two search queries and offers them under the search field. Filters: Categories (local category tree), Archive (year/month tree of publication dates), Tags (only tags assigned to at least one news item; filter hidden if none). [EPLEGACY-3817]</li>
+<li><strong>RULE:</strong> News results sort selector Latest / Most popular: "Most popular" uses the popularity score from the leaderboard functionality, and the selector shows only if interaction scores are enabled on the event — otherwise always Latest. [EPLEGACY-3817]</li>
+<li><strong>RULE:</strong> News page: banner displays/clicks are written to the statistics database; banners rotate on each page open/refresh; the full description is shown if present, else the short one. The Recent news block shows the latest 4 items. [EPLEGACY-3818]</li>
+</ul>
+<hr />
+<h2 id="communications-website-mobile-lead-mgmt-api-data-parts-12-17">Communications, Website, Mobile, Lead Mgmt, API, Data (Parts 12-17)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<blockquote>
+<p><strong>Amendment status:</strong> Parts 12–17 below retain the validated v10 baseline. Verified, shipped post-v10 additions from the Jira/Confluence sweep are consolidated in the <em>Post-v10 amendments</em> section at the foot of this page (each carries its evidence key). In-flight items live in the Post-v10 Delta &amp; In-Flight Register.</p>
+</blockquote>
+<h3 id="part-12-communications-and-email-engine">Part 12: Communications and Email Engine</h3>
+<h4>12.1 Email Variables</h4>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td>First Name, Last Name, Email, Platform Link, Login URL, Event Name, Exhibitor Name, Activation Link, Print Badge Link, Badge Bar Code, Badge QR Code, Profile URL</td>
+</tr>
+<tr>
+<td>Recommended Content</td>
+<td>Visitors, Exhibitors, Products, Speakers, Sessions, Sponsors, News</td>
+</tr>
+<tr>
+<td>User Engagement Metrics</td>
+<td>Views, Meetings, Chats, Incoming Meetings, Incoming Messages</td>
+</tr>
+<tr>
+<td>Event Information</td>
+<td>Event-level metadata</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> If user has not pre-selected a language preference, emails are sent in default language only.</li>
+<li><strong>RULE:</strong> Recommended content variables show cards picked by matchmaking algorithm. Card count is configurable via gear icon.</li>
+<li><strong>RULE:</strong> Clicking a card in email applies autologin and directs to frontend profile.</li>
+<li><strong>EDGE CASE:</strong> Blank <code>Recommended Exhibitors</code> in emails = recipient has no interest categories. Same cause for blank <code>Recommended Products</code>.</li>
+</ul>
+<h4>12.2 Mailing Lists</h4>
+<p>Custom mailing lists can be created for non-platform users. <strong>Required fields:</strong> Name, Surname, Email.</p>
+<p><strong>Limitation.</strong> Variables like Barcode, QR, Print Badge, and Activation Link work only for accounts that already exist on the platform.</p>
+<h4>12.3 Standard Notifications</h4>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Notifications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sessions</td>
+<td>Added to schedule, Removed from schedule, Starts in 10 minutes</td>
+</tr>
+<tr>
+<td>Meetings</td>
+<td>Confirmation, Reschedule, Cancellation, Reminders</td>
+</tr>
+<tr>
+<td>Speed Networking</td>
+<td>Check-in, Personal schedule, Rate session</td>
+</tr>
+</tbody>
+</table>
+<h4>12.4 Push Notifications</h4>
+<p>Scheduled push notifications can be sent to mobile app users. Separate from email campaigns.</p>
+<h3 id="part-13-website-builder-and-frontend">Part 13: Website Builder and Frontend</h3>
+<h4>13.1 Site Management</h4>
+<p>Block-based builder. Sites can be cloned, renamed, published, and versioned (site history). <strong>Autosave is recommended</strong> to prevent data loss.</p>
+<ul>
+<li><strong>RULE:</strong> Publishing makes the site live. Saving stores changes as draft without going live.</li>
+<li><strong>RULE:</strong> Changes after publishing remain in draft until re-published.</li>
+<li><strong>EDGE CASE:</strong> If two admins edit the website builder simultaneously, changes may overwrite each other. Only one admin should edit at a time.</li>
+</ul>
+<h4>13.2 Block Types</h4>
+<table>
+<thead>
+<tr>
+<th>Block Type</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard Blocks</td>
+<td>Static content</td>
+</tr>
+<tr>
+<td>System Blocks (dynamic)</td>
+<td>Exhibitors, Products, Sessions, Speakers, Sponsors, News (each with configurable filtering and display)</td>
+</tr>
+<tr>
+<td>Custom Forms</td>
+<td>Form builder output</td>
+</tr>
+</tbody>
+</table>
+<h4>13.3 SSO/SAML Logic</h4>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SAML configured + <code>Enable EP Authorization</code> OFF</td>
+<td>Sign In auto-redirects to SAML provider. No native login.</td>
+</tr>
+<tr>
+<td>SAML configured + <code>Enable EP Authorization</code> ON</td>
+<td>Popup shows explicit SSO option alongside native login.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> A custom error page can be configured for non-existing records accessed via SAML SSO.</li>
+</ul>
+<h4>13.4 GDPR and Embedded Content</h4>
+<ul>
+<li><strong>RULE:</strong> Embedded YouTube videos are subject to GDPR cookie consent rules.</li>
+<li><strong>RULE:</strong> SEO settings (Title Tag, Keywords, Description, Meta Tags) configurable per page.</li>
+</ul>
+<h3 id="part-14-mobile-application">Part 14: Mobile Application</h3>
+<h4>14.1 App Types</h4>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single-Event App</td>
+<td>One app per event</td>
+</tr>
+<tr>
+<td>Multi-Event App</td>
+<td>Uses Event Tags to determine which events appear. Configured at Client level.</td>
+</tr>
+</tbody>
+</table>
+<h4>14.2 App Builder</h4>
+<p><strong>Configuration includes:</strong> splash screen, colour, font, app menu (drag-and-drop blocks with category-level visibility), content pages, floor plan integration.</p>
+<p><code>In preparation</code> status means builder config is finished and app can be pushed to publication.</p>
+<h4>14.3 App-Specific Logic</h4>
+<ul>
+<li><strong>RULE:</strong> Badge scanning, lead capture, push notifications, and offline behaviour are app-specific features.</li>
+<li><strong>RULE:</strong> Block time items are view-only in the app (create/edit on web only).</li>
+<li><strong>RULE:</strong> Mobile app displays event time + local time for items if user is in a different timezone.</li>
+<li><strong>RULE:</strong> App menu blocks can have category-level visibility restrictions.</li>
+<li><strong>RULE:</strong> Different homepages can be configured for Visitors and Exhibitors using custom blocks with category visibility.</li>
+</ul>
+<h4>14.4 App Networking Permissions</h4>
+<p>Same permission matrix as web, with additional GDPR checks. Scanned contacts bypass the matrix entirely. Mutual scan exception allows messaging regardless of GDPR opt-in.</p>
+<h4>14.5 Account Deletion</h4>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Scope</th>
+<th>Reversible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cancel Registration</code></td>
+<td>Current event only</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Delete My Account Globally</code></td>
+<td>All events</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Both options are always available in Settings (burger menu). Cannot be hidden.</li>
+</ul>
+<h3 id="part-15-lead-management-check-in-and-analytics">Part 15: Lead Management, Check-in and Analytics</h3>
+<h4>15.1 Lead Capture</h4>
+<p>Badge scanning is the primary lead capture mechanism.</p>
+<table>
+<thead>
+<tr>
+<th>Actor</th>
+<th>Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Team Members</td>
+<td>Rate leads, add notes (if Lead Capture enabled in <code>Exhibitor Manual &gt; Global Settings</code>)</td>
+</tr>
+<tr>
+<td>Visitors</td>
+<td>Save contact details. Cannot rate or add notes.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Lead data auto-saves to EP database. Eliminates risk of lost leads.</li>
+<li><strong>RULE:</strong> Co-located scanning allows cross-event badge scanning within the same backend (enabled via <code>Networking and Matchmaking &gt; Contact Sharing</code>).</li>
+<li><strong>RULE:</strong> <code>Allow Any Code Scan</code> ON: saves unknown barcodes. OFF: unknown codes return error.</li>
+</ul>
+<h4>15.2 Badge Scan Flow</h4>
+<p>Mobile app scans badge → attempts local resolution (barcode to account ID) → if found, uses account ID (fast path) → if not found, sends raw barcode to backend (slow path) → backend searches barcode types (<code>barcode_new</code>, <code>external_qr</code>, <code>external_barcode</code>, <code>external_code</code>).</p>
+<p><strong>Critical edge cases</strong></p>
+<ul>
+<li><strong>Barcode collision:</strong> if a barcode value equals another user's Account ID, the scan attributes to the wrong person.</li>
+<li><strong>Account ID overflow:</strong> max value 2,147,483,647 (32-bit integer). Barcodes exceeding this cause overflow errors.</li>
+</ul>
+<h4>15.3 Check-in App</h4>
+<p>Separate from the event app. Used by organisers to record attendance.</p>
+<p><strong>Methods:</strong> Badge scanning (back camera recommended), Face recognition (third-party integration), Search-from-list (name/email).</p>
+<ul>
+<li><strong>RULE:</strong> API URL entered <strong>without trailing slash</strong>. Correct: <code>https://api-name.expoplatform.com</code>. Incorrect: with trailing /.</li>
+<li><strong>RULE:</strong> Check-in zones are ordered: conference halls, conference rooms, check-in zones in halls, check-in zones at stands, custom zones. <strong>Order cannot be changed.</strong></li>
+<li><strong>RULE:</strong> Check-in report includes: ID, Name, Date/Time, Status, Zone.</li>
+</ul>
+<h4>15.4 Exhibitor Analytics</h4>
+<p>Exhibitor dashboard includes lead capture scans (categories, ratings, types), chat metrics (total chats, messages, average per chat, initiated vs. received), and comparative benchmarks against event-wide averages.</p>
+<ul>
+<li><strong>RULE:</strong> If Lead Capture is disabled for an exhibitor, the entire lead capture widget disappears from their dashboard.</li>
+</ul>
+<h3 id="part-16-integration-and-api-layer">Part 16: Integration and API Layer</h3>
+<h4>16.1 Open API</h4>
+<p>REST APIs for: Visitor, Exhibitor, Product, Categories, Event, Speakers, Sessions, Meetings, Floor Plan, Statistics/Interactions. <strong>API keys are managed per environment.</strong></p>
+<ul>
+<li><strong>RULE:</strong> API operations respect <code>Fake email generation</code> setting. ON: API pushes with existing emails create new accounts instead of updating.</li>
+<li><strong>RULE:</strong> Product status via API: <code>0</code> = inactive, <code>1</code> = active.</li>
+<li><strong>RULE:</strong> Account External ID is set via <code>/api/v2/account/set</code> for third-party system integration.</li>
+</ul>
+<h4>16.2 SAML 2.0 SSO</h4>
+<p>Native SAML support. Custom error page for non-existing records. Login popup checkbox option. <code>Enable EP Authorization</code> toggle controls whether native login is available alongside SSO.</p>
+<h4>16.3 Webhooks</h4>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buyer Status / Category change</td>
+</tr>
+<tr>
+<td>Buyer Agent Change</td>
+</tr>
+<tr>
+<td>Visitor Registration cancellation</td>
+</tr>
+<tr>
+<td>Global Visitor Removal</td>
+</tr>
+<tr>
+<td>Session Booked</td>
+</tr>
+</tbody>
+</table>
+<p>Webhooks can be tested using dummy endpoints.</p>
+<h4>16.4 Interaction Statistics API</h4>
+<p>Endpoint: <code>/api/v2/statistics/accountsInteractions</code> provides detailed interaction data: views, favourites, meetings, chats, scans. Each interaction has a type code and action code. Supports filtering by date range and pagination.</p>
+<h3 id="part-17-data-management-and-import-export">Part 17: Data Management and Import/Export</h3>
+<h4>17.1 Import Logic</h4>
+<table>
+<thead>
+<tr>
+<th>Import Type</th>
+<th>Key Rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Participants (Visitors)</td>
+<td>If email exists and <code>Fake email generation</code> OFF, account updated. ON: new account with fake email.</td>
+</tr>
+<tr>
+<td>Exhibitors</td>
+<td>Match order Exhibitor ID → External ID → Exhibitor name; unmatched = CREATE; matched = UPDATE (blank fields not overwritten). Includes <code>Assigned Admin Email</code> column.</td>
+</tr>
+<tr>
+<td>Team Members</td>
+<td>Requires Exhibitor ID and Exhibitor Role. Connection settings (<code>Meetings Allowed</code>, <code>Chats Allowed</code>) imported as Yes/No.</td>
+</tr>
+<tr>
+<td>Products</td>
+<td>Requires Exhibitor ID, Product Name, Product Category IDs (comma-separated).</td>
+</tr>
+</tbody>
+</table>
+<p>Each import has a downloadable example file. Imports are asynchronous and may take time.</p>
+<h4>17.2 Export Logic</h4>
+<p><strong>Available exports:</strong> Visitors, Exhibitors, Products, Team Members, Meetings, Sessions, Check-in List, Scanned Contacts, Speed Networking Feedback. Each export has its own column structure and data scope.</p>
+<h4>17.3 Cloning Registration Settings</h4>
+<p><strong>Cannot be undone.</strong> All standard and custom fields are copied.</p>
+<ul>
+<li><strong>RULE:</strong> Separate from event cloning. Located at <code>Registration &gt; Settings &gt; Additional Settings</code>.</li>
+<li><strong>RULE:</strong> Source dropdown includes all events in the environment, not just current ones.</li>
+</ul>
+<h4>17.4 Log Info (Audit Trail)</h4>
+<p>All admin actions are logged under <code>Data &gt; Log Info</code>.</p>
+<p><strong>Filterable by:</strong> Event, Date Range, Username, Controller (module), Action type. All log data is exportable.</p>
+<hr />
+<h3 id="post-v10-amendments-verified-shipped-1">Post-v10 amendments (verified, shipped)</h3>
+<p>Sourced from the Jira (EP/EPLEGACY) + Confluence sweep, 2024-01 → 2026-06. Every item is shipped (Done); each carries its evidence key. In-flight work is in the Post-v10 Delta &amp; In-Flight Register.</p>
+<h4>Part 12 — Communications and Email Engine</h4>
+<ul>
+<li><strong>RULE:</strong> Two email tools — <strong>Campaigns</strong> (scheduling, segmentation, triggers, open/click tracking, analytics, multi-send) vs <strong>Email Sender</strong> (real-time, one-off transactional sends, no scheduling).</li>
+<li><strong>RULE:</strong> Campaign triggers — condition (Opened / Clicked matches / Clicked activation link / Clicked speakers/exhibitors/visitors/sessions) + action <strong>Switch</strong> (leave current campaign, join selected), <strong>Add</strong> (stay + join), or <strong>Unsubscribe</strong>. The email must contain the variable that corresponds to the trigger condition. [EP-20661]</li>
+<li><strong>RULE:</strong> Campaign duplication copies everything EXCEPT send-out history; name = "Copy of {name}". Recommended-content variables have a per-variable count setting (min 1 / max 10; recommended buyers default 5). A campaign cannot be created when no email template exists (blocking modal); saving without a send date/time is forbidden. Stats export continues generating if the page is left and is also available at <code>/admin/campaigns/stat/{id}</code>. [EP-20661, EP-23413]</li>
+<li><strong>RULE:</strong> Single mass send-out of &gt;1000 recipients by segmentation, each recipient exactly once (no duplicates). [EP-35350]</li>
+<li><strong>RULE:</strong> Centralized Email Template Management — templates are organised under <strong>Meeting Formats &gt; [Format] &gt; Email templates</strong>; behaviour, triggers and template IDs are unchanged. The Concierge tab holds 6 "Meeting Wizard" templates + 19 "General email templates" that are two-way-synced clones of the Networking &amp; Matchmaking General Templates. [1830551556]</li>
+<li><strong>RULE:</strong> Advanced recipient filters for Campaigns AND Admin Notifications — by Session/Round Table/Exhibitor Event attributes (Tags, Types, Tracks, Event Names) and by activity/profile status (Profile Incomplete, RT Topics Not Selected, No Meeting Requests Sent, Low Opt-ins/Mutual Matches with thresholds, Rejected Meetings, Sessions Not Booked, Specific User). The "Cancelled Meetings" filter was dropped (users cannot cancel after the confirmation period). [EP-40078, EP-40080]</li>
+<li><strong>RULE:</strong> New campaign variable groups for Meeting Program / Round Tables — Admin Details, User Details, Meeting Statistics (relevant/sponsored/free splits), Pending/Unaccepted/Rejected Meetings, Round Table Details, User Meeting Limits. "Number of Recommended selections" = Sponsored Team Members: 4 × their exhibitor's sponsored limit; all others: the value configured in Meeting Program settings. [EP-40081]</li>
+<li><strong>RULE:</strong> Multilanguage Admin Notifications (Marketing &gt; Admin Notifications) — per-language title/message when Multilanguage is ON. Delivery language: WEB = user's profile language (falls back to current browsing language); APP = account language; unconfigured → event default. Already-sent notifications are not re-translated. A "Non-Logged In App Users" checkbox also pushes to non-logged-in app users (with a defined tap-behaviour matrix). [EP-31011, EP-32750]</li>
+<li><strong>RULE:</strong> The Admin-Notifications "Additional filters" block (Meeting Program + Round Tables) is shown only when the Meeting Program module is ON. [EP-44892]</li>
+<li><strong>RULE:</strong> Unsaved-changes warning + saved toast on template editors: /admin/appointments/emails, /admin/events/templates, /admin/email/templates, /admin/emails, /admin/exhibitormanual/templates, /admin/hostedbuyers/emails. [EP-30386]</li>
+<li><strong>RULE:</strong> Campaign email recommendation blocks (Recommended Exhibitors/Products/News/Sponsors) render full-width with a consistent boundary container on desktop and mobile; existing campaigns adopt the layout automatically. [EP-50897]</li>
+<li><strong>ENGINE (current state):</strong> All email flows share a single AWS SES pipeline with a platform-wide bounce kill-switch on aggregate bounce rate — one noisy client can pause delivery for all. (A per-client transactional/marketing split is in rollout — see the Register.) [EP-53519]</li>
+</ul>
+<h4>Part 13 — Website Builder and Frontend</h4>
+<ul>
+<li><strong>RULE: Custom Grids</strong> — flexible 1–6 cell layouts at the top of the builder's "Layout" section (Custom Grid, Text, Button, Image, Video). Banners moved out of Layout to Static Blocks only. Plus a simple <strong>Buttons Block</strong>. [EP-47651–47658, EP-42261]</li>
+<li><strong>RULE: Custom Form</strong> block family — Simple / With image / With video / Pop-Up / Sidebar. Forms are authored at Marketing &gt; Forms; the block is not shown on the frontend until a form is created and selected. Pop-Up/Sidebar variants have display triggers (Close Automatically, Click-outside, Exit Intent, Time Delay, Page Scroll %, Page/Clicks Count, Inactivity) and per-device display toggles. [EP-32969–32972]</li>
+<li><strong>RULE: Pages Access</strong> tab + per-element "Visible For" (All / Logged / Unlogged) on header links, footer links and block buttons. The old Role setting (None / Sign-in / Require Sign-in) is replaced everywhere by a single "Require Sign-In"; Pages Access sets per-custom-page All/Logged/Unlogged. [EP-38225]</li>
+<li><strong>RULE:</strong> Outdated-block update mechanism — new block settings are NOT auto-applied to existing blocks; outdated blocks show an indicator + per-block "Update" (with change list) and a page-level "Update all". [EP-38778]</li>
+<li><strong>RULE:</strong> SSR/SEO contract for all builder blocks — blocks must render server-side (present in source), text wrapped in configurable H1–H6 tags, IMG carries ALT, parent container is a <code>section</code>, buttons are not wrapped in anchors; footer phone/email use <code>tel:</code> / <code>mailto:</code>. [EP-32698–32713, EP-33022/33023, EP-36691–36695]</li>
+<li><strong>RULE:</strong> Alt-text inputs on every image; header/footer logo controls (clickable toggle, URL, window, colours) and footer column alignment/width; header menu font-size slider (16–48px, overflow → "Show More"); header Title/Subtitle on mobile with limits/colours; image links on cards; drag-and-drop card re-arrangement. [EP-36256, EP-35265, EP-37947, EP-39361, EP-40342, EP-35968, EP-35443]</li>
+<li><strong>RULE:</strong> New-builder FAQ block limit raised from 8 (shipped cap 30 per the tech brief; 30-vs-50 unverified). [EP-25939]</li>
+<li><strong>RULE (SAML):</strong> With "Enable EP authorization" ON, the sign-in modal keeps native EP login AND adds a "Continue with SSO" button below it (use case: buyers via SSO, API-created team members via EP login). [EP-48719]</li>
+</ul>
+<h4>Part 14 — Mobile Application</h4>
+<ul>
+<li><strong>RULE:</strong> OCR badge scanning (MVP) — the organiser can enforce OCR-only per event (QR/barcode scanning then disabled). OCR extracts First Name, Last Name, Job Title, Company; a minimum of 3 lines must be extracted else "Scan Failed". Matching is exact 100% on all four fields, local DB first then server; multiple matches → top 5 for selection. Flash cycles OFF → ON → AutoFlash. Cross-event when "Allow users to scan badges from other events" is ON. OCR is lead scanning only, never login. [EP-45778]</li>
+<li><strong>RULE:</strong> Lead autosave — a lead is created on autosave even with partial or NO data (badge scan alone suffices). Triggers: device back button, app back, swipe back, or exiting the app. Network loss → saved locally, pushed when the connection resumes. [EP-47877]</li>
+<li><strong>RULE:</strong> Manual "Re-sync" button in app Settings for ALL users (active only if ≥1 hour since the last manual re-sync); Global Force Resync (admin) no longer logs users out. [EP-41330, EP-49211]</li>
+<li><strong>RULE:</strong> Session ratings in the app — entry points: automatic post-session prompt (Drawer iOS / Dialog Android), a rate-list page, the session page button ("Rate this Session" → "Edit Rating"), and a "Rate Session" App Builder menu block. Speakers/Moderators and a team member's own-exhibitor sessions cannot be rated. [EP-33802]</li>
+<li><strong>RULE:</strong> App login type "Both" — native EP login button PLUS a second external login button (own text/colour/on-off) opening a configured web-view URL; after web-view login the user returns into the app. [EP-49318]</li>
+<li><strong>RULE:</strong> App validates the logged-in event against the backend event list — missing event forces logout; one event → direct login, many → selection screen. [EP-31013]</li>
+<li><strong>RULE:</strong> Aditus custom badge — when the badge cannot be retrieved the app shows a dedicated error page (with German variants) instead of falling back to the native badge page. [EP-48297]</li>
+<li><strong>RULE:</strong> Mobile exhibitor search ranking — exact name match &gt; partial/substring name match &gt; description match; alphabetical within each rank; matched substring highlighted; no fuzzy/typo matching. [EP-48511]</li>
+<li><strong>RULE:</strong> <code>locationUrl</code> on session/exhibitor-event objects renders as a location button (internal links open in-app, external in the device browser); tiered app browser menu (expandable subcategories); custom Event-Info pages support "Visible only for users who are not logged in". [EP-32851, EP-27309, EP-32358]</li>
+</ul>
+<h4>Part 15 — Lead Management, Check-in and Analytics</h4>
+<ul>
+<li><strong>RULE: Lead Capture Pro</strong> — a sellable module (Module Management, global + event). Base package (grants Scan Badge + scan list to ALL the exhibitor's team members) + add-ons Custom Questions and Product QR codes (each requires the base). Payments run through ExpoPlatform's OWN Stripe account (not the client's); receipts/invoices carry ExpoPlatform branding. An exhibitor/team member tapping Scan Badge with LCP ON but unpurchased is redirected to <code>/newfront/widgets/lead-capture-pro</code>. While LCP packages are on sale, Exhibitor Manual free lead-capture sections are force-disabled and hidden (mutual exclusion). [EP-40864, EP-43200, EP-44306, 1131249678, 1746599981]</li>
+<li><strong>RULE: AI Meeting Note Taker (MTT) Stage 1</strong> — one-time 30-second voice-sample onboarding + explicit consent; "Record Conversations" after a badge scan; recording lifecycle Processing → Uploading → Processed → Failed; offline-capable with auto-resume upload. On Processed, both scanning and scanned users receive the transcript by email (templates at /admin/appointments/emails, {AI notes} variable, EN &amp; DE); users can delete a recording (GDPR). Action points are a single combined list; outputs are generated in the meeting's language. Admin toggle at /admin/appbuilder/feature/2. [EP-42801, EP-43652, EP-48113, EP-49217]</li>
+<li><strong>RULE:</strong> "Simplified Participant QR" badge type — encodes only the attendee ID (smaller QR for external integrations). [EP-44749]</li>
+<li><strong>RULE:</strong> Digital badge — animated moving coloured ring around the QR, colour mapped to the attendee category (static screenshots become visibly invalid). [EP-43589]</li>
+<li><strong>RULE:</strong> Check-in section consolidated into one "Check-in" module: Check-in Zones, Check-in List, Check-in Analytics. Zone card order is fixed (conference hall → conference room → check-in zone (Hall) → check-in zone (Stand) → custom zone) regardless of sorting; list pagination 24/48/96(default)/192. Kiosk/Onsite email input no longer force-uppercased (Turkish casing fix). Participant category shown on the post-scan success screen, in manual-add lists, and in the Scanned list. Co-located check-in comparison + crossover check-ins with badge-origin filter. [EP-23831, EP-28682, EP-51601, EP-42609, EP-44841, EP-49438]</li>
+<li><strong>RULE:</strong> Easy Entrance — users check in at a session/exhibitor-event entrance without it being in their schedule; check-in data is still captured. [EP-40189]</li>
+<li><strong>RULE:</strong> Invite Visitors statistics (admin + exhibitor views) — statuses Sent / In Progress / Done / Active / Checked-In / Error; "Scanned at Stand" green tick when the invited visitor's badge is scanned by the inviting exhibitor. [EP-27290]</li>
+<li><strong>RULE:</strong> Lead Dashboard (refreshed Interaction Dashboard) — checkmarks for one-time actions, counts for repeated; per-exhibitor vs event-average comparison; sponsor-only tabs (Sponsors pop-up interactions, Banner statistics, Exhibitor/Product list interactions, QR Scans) shown only when the exhibitor is also a sponsor. Exhibitor Top Performers block shows all-time data (date selector removed). [EP-26041, EP-45361]</li>
+<li><strong>ENGINE:</strong> ALL badge scans (recognised and unrecognised) are stored server-side and later reconciled against the event database; offline lead edits are stored locally until "Force scans sync". [EP-21095, EP-23400]</li>
+<li><strong>RULE (embedded analytics — shipped dashboards):</strong> Exhibitor / Attendee / Platform Performance dashboards (Embeddable.com) with defined metrics — e.g. engagement = deduplicated union of profile-completion + meeting-initiator + message-initiator actions ÷ total; Customer-Service logins excluded from login counts; unique logins de-duplicated by ID. [EP-52363, EP-52364, EP-52365]</li>
+</ul>
+<h4>Part 16 — Integration and API Layer</h4>
+<ul>
+<li><strong>RULE: API v3 foundation</strong> — own router/entry point, Bearer auth, camelCase JSON, {code,data,errors} envelope, ISO 8601 dates, hard 422 validation (v2 silently skipped invalid items), Swagger docs, Grafana monitoring; existing API keys keep working. [EP-45962]</li>
+<li><strong>RULE (shipped v3 endpoints):</strong> <code>GET /api/v3/meetings</code> (paginated, timestamp incremental, rich fields); <code>GET /api/v3/statistics/checkindata</code>; events list; exhibitor + participant categories; <code>account/getcustomquestions</code>; deleted participants; <code>GET /api/v3/events/{eventId}/sponsors</code> (profile + full visibility/placement flags); <code>GET /api/v3/events/{eventId}/sponsor-categories</code> (flat, non-localized); <code>GET /api/v3/events/{eventId}/products</code> (with customFields); floorplan stands &amp; halls GETs. [EP-47892, EP-45958, EP-51830, EP-52613, EP-51438, EP-51337, EP-51338] <em>(The broader v3 create/update migration wave is in-flight — see the Register.)</em></li>
+<li><strong>RULE (v2 additions):</strong> <code>/api/v2/participants/list</code> and a v2 exhibitor-list endpoint (replacing v1 Synchronize, paginated + timestamp filtering); <code>/api/v2/meetings/export</code> created_from/created_to + lastmodified_from/to; <code>/account/set</code> detach (exhibitor_id=0) cascades removal from meetings and chats; <code>/api/v2/exhibitor/getcustomquestions</code>; <code>/api/v2/product/set</code> status param (deactivation erases Product TM/Sample/Sponsorship params); statistics unix from/to filters; participants deleted_users param; badge QR deep-link param. [EP-35897, EP-36021, EP-35900, EP-40013, EP-35903, EP-45065, EP-26427, EP-25280, EP-44632, EP-40281]</li>
+<li><strong>RULE (integrations):</strong> GES / Visit / N200 API V2 — two-way sync via per-field push-back checkboxes, real-time inbound webhooks + configurable end-of-day push, deletion cascades (participant → inactivate + cancel meetings/sessions; partner → detach + cancel sponsored meetings/exhibitor events + deactivate TMs/products), Super-Admin API logs with XLSX export, 6-step retry ladder (15s/30s/60s/90s/10min/1h) + stakeholder alerting, <code>allow_meeting</code> gating via a custom question, SSO relocated to the exhibitor menu as "Register Your Staff", and EP-as-source profile-photo push-back. [EP-42360–42364, EP-39524/39525, EP-41108, EP-50158]</li>
+<li><strong>RULE (Integration Hub):</strong> Native integrations migrated to the Abstract Integration Schema; connectors incl. A2Z, Map Your Show, CDS (pagination), D2i (delta sync), Genesis World (HINTE), Aventri/Stova V2, InfoSalons/Aditus, Reach5, Klipso, ASP (Showoff). [EP-50076, EP-45439, EP-45440, EP-48618, EP-52290, EP-41867, EP-46288, EP-40301, EP-36147]</li>
+<li><strong>RULE (webhooks):</strong> Trigger set includes Buyer Registration in addition to the v10 list; Session Booked fires when a participant books a PAID session added to their schedule. [1027113186]</li>
+</ul>
+<h4>Part 17 — Data Management and Import/Export</h4>
+<ul>
+<li><strong>RULE (exhibitor import matching):</strong> Match order Exhibitor ID → External ID → Exhibitor name; unmatched = CREATE (required: Company Name, Email); matched = UPDATE with blank fields NOT overwritten. "Upload &amp; Email" mails newly-created exhibitors and those whose username/password changed. Avoid importing the same file twice (breaks usernames). Halls/Stands multi-values are semicolon-separated and auto-match the floor plan (0-pixel stands created if not found). [v10 confirmed; EP-38098]</li>
+<li><strong>RULE:</strong> Multilingual session import — per-language Session name/description system fields, mapped manually via a "Merge headers" popup; other_location supported in session import and <code>/api/v2/sessions/set</code>. [EP-16932, EP-19915]</li>
+<li><strong>RULE:</strong> Exports gained columns — Check-in List Export: Session ID + Session Name; Meetings export: "Parent exhibitor name" and "Meeting tags"; new "Speed Networking Feedback" export; visitor export (buyers-only) adds Agent Name + Agent Code. [EP-38213, EP-25833, EP-28229, EP-30268, EPLEGACY-2410]</li>
+<li><strong>RULE:</strong> All admin report/export download links use the EVENT timezone (Time settings at /admin/general/settings dominate the country at /admin/general/edit); the filename embeds the generation timestamp + timezone; a timezone change applies to future reports only. [EP-29932]</li>
+</ul>
+<p><em>For the Admin Panel structure and settings-path registry see Part 18; for engine/server-side internals see Part 19; for terminology see the Platform Language Glossary; for shipped-after-v10 and in-flight items see the Post-v10 Delta &amp; In-Flight Register.</em></p>
+<hr />
+<h2 id="backend-admin-panel-logic-part-18">Backend: Admin Panel Logic (Part 18)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<h3 id="part-18-backend-admin-panel-logic">Part 18: Backend — Admin Panel Logic</h3>
+<p>The organiser-facing control surface. This part documents the Admin Panel's structure, the settings-path registry (where a given control actually lives), admin access control, and the backend behaviours that govern how changes are saved, cached and cascaded. Runtime/server-side internals are in Part 19.</p>
+<h4>18.1 Admin Panel Structure</h4>
+<p>The Admin Panel is organised into top-level domains, each with sub-modules that carry independent permission levels. The confirmed top-level domains:</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event Setup</td>
+<td>General settings, website, sign-in page, module management, payment, languages</td>
+</tr>
+<tr>
+<td>Registration Settings</td>
+<td>Visitor + Exhibitor registration pipelines, categories, form builder, data matching</td>
+</tr>
+<tr>
+<td>Networking &amp; Matchmaking</td>
+<td>Permissions matrix, recommendations, contact sharing, appointments/reminders</td>
+</tr>
+<tr>
+<td>Meeting Formats</td>
+<td>Speed Networking, Meeting Program, Concierge Meetings, Exhibitor Events, Round Tables</td>
+</tr>
+<tr>
+<td>Management</td>
+<td>Sessions, Speakers, Sponsors, Participant, Exhibitor</td>
+</tr>
+<tr>
+<td>Hosted Buyers</td>
+<td>Categories, agents, filters, documents, buyer emails</td>
+</tr>
+<tr>
+<td>Exhibitor Manual</td>
+<td>Sections, vendors, global settings, templates</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td>News, Slugs, Campaigns, Email Sender, Forms, Admin Notifications, Banners</td>
+</tr>
+<tr>
+<td>Mobile</td>
+<td>App Builder, feature toggles</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>Import/Export, Log Info</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Sub-modules have INDEPENDENT permission levels — an admin can be granted access to Event Setup &gt; General without access to Build Website or Sign In Page. [Part 1.4]</li>
+<li><strong>RULE:</strong> Admin categories are purely informational labels with NO functional restrictions. [Part 1.4]</li>
+<li><strong>RESTRUCTURE:</strong> "Meeting Formats" is a top-level domain consolidating Speed Networking, Meeting Program, Concierge Meetings, Exhibitor Events and Round Tables, each with its own Management / Config / Filters-Taxonomies / Email Templates tabs. Older admin paths for these formats are superseded. [EP-49369]</li>
+<li><strong>RESTRUCTURE:</strong> Check-in is consolidated into a single "Check-in" module holding Check-in Zones, Check-in List and Check-in Analytics. [EP-51601]</li>
+</ul>
+<h4>18.2 Global vs. Event Admin Surfaces</h4>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Path</th>
+<th>Access</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global Module Management</td>
+<td><code>/admin/manage</code></td>
+<td>SuperAdmin only</td>
+<td>All events under the Client (Frontend + Backend module tables + Settings) [872087577]</td>
+</tr>
+<tr>
+<td>Events list</td>
+<td><code>/admin/exhibitions/list</code></td>
+<td>Admin</td>
+<td>Entry point to individual events and to Global MM</td>
+</tr>
+<tr>
+<td>Event Module Management</td>
+<td>Event Setup → Module Management</td>
+<td>Event admin</td>
+<td>"Sub/Event Module Management" within Global constraints</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>RULE:</strong> Global MM changes are CACHED server-side; the cache must be cleared after saving for changes to take effect. [872087577]</li>
+<li><strong>RULE:</strong> Disabling a module at Global MM removes its toggle from Event MM entirely — event admins cannot re-enable and may not know the feature exists. [Part 1.3]</li>
+<li><strong>RULE:</strong> Admin Panel event URLs carry the event ID as a URL parameter, so a shared link opens the exact same event. [EP-39637]</li>
+</ul>
+<h4>18.3 Save / Apply Behaviour</h4>
+<ul>
+<li><strong>RULE:</strong> Clicking Save/Apply on Admin Panel module pages keeps the admin on the CURRENT page (no redirect away). Confirmed for Exhibitor Manual &gt; Vendors; Marketing &gt; News, Slugs, Campaigns; Mobile App Builder. [EP-47917]</li>
+<li><strong>RULE:</strong> Unsaved-changes warnings + saved-confirmation toasts are present on email-template editors: <code>/admin/appointments/emails</code>, <code>/admin/events/templates</code>, <code>/admin/email/templates</code>, <code>/admin/emails</code>, <code>/admin/exhibitormanual/templates</code>, <code>/admin/hostedbuyers/emails</code>. [EP-30386]</li>
+<li><strong>RULE:</strong> Changing an Exhibitor Manual section deadline saves via Ajax and no longer deletes collected submissions; modifying the section FORM still forces refill. [EP-23915, EP-20410]</li>
+<li><strong>RULE:</strong> Country Manager manual edits are preserved and not overwritten by the WikiData sync. [EP-28301]</li>
+</ul>
+<h4>18.4 Settings-Path Registry</h4>
+<p>Where key controls actually live. Paths are canonical admin routes.</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global Module Management</td>
+<td><code>/admin/manage</code></td>
+</tr>
+<tr>
+<td>Events list</td>
+<td><code>/admin/exhibitions/list</code></td>
+</tr>
+<tr>
+<td>Event general settings</td>
+<td><code>/admin/general/settings</code></td>
+</tr>
+<tr>
+<td>Event location / country</td>
+<td><code>/admin/general/edit</code></td>
+</tr>
+<tr>
+<td>Schedule settings ("Allow blocked time outside event days")</td>
+<td><code>/admin/general/settings</code> → Schedule settings</td>
+</tr>
+<tr>
+<td>Permissions Matrix (Manage Permissions)</td>
+<td><code>Event Setup &gt; Networking and Matchmaking &gt; Manage Permissions</code> [697434241]</td>
+</tr>
+<tr>
+<td>Appointments (global meeting autoconfirm)</td>
+<td><code>/admin/appointments</code> [705233031]</td>
+</tr>
+<tr>
+<td>Meeting reminders / required-meetings reminder</td>
+<td><code>/admin/appointments/reminders</code> [EP-23256]</td>
+</tr>
+<tr>
+<td>Contact Sharing (lead reasons)</td>
+<td><code>/admin/appointments/shared</code> [EPLEGACY-2517]</td>
+</tr>
+<tr>
+<td>Recommendations page</td>
+<td>Admin Recommendations page ("Include Matchmaking" per category) [EP-27246]</td>
+</tr>
+<tr>
+<td>AI search prompts / suggestions</td>
+<td>Networking &amp; Matchmaking &gt; AI search</td>
+</tr>
+<tr>
+<td>Display Filters</td>
+<td><code>/admin/displayFilters</code> [EP-27888]</td>
+</tr>
+<tr>
+<td>Participant categories</td>
+<td><code>Registration Settings &gt; Visitor &gt; Categories &gt; gear icon</code></td>
+</tr>
+<tr>
+<td>Exhibitor categories</td>
+<td><code>Registration Settings &gt; Exhibitor &gt; Categories &gt; gear icon</code></td>
+</tr>
+<tr>
+<td>Networking Opt-in field / inversion</td>
+<td><code>Registration Settings &gt; Visitor &gt; Registration Pipeline</code> / <code>&gt; Additional Settings</code> [736067609]</td>
+</tr>
+<tr>
+<td>Exhibitor registration additional settings</td>
+<td><code>Admin &gt; Registration &gt; Exhibitor registration &gt; Additional settings</code></td>
+</tr>
+<tr>
+<td>Sessions management</td>
+<td><code>Management &gt; Sessions</code></td>
+</tr>
+<tr>
+<td>Session Config (rejection reasons, policy, reporting)</td>
+<td><code>Admin &gt; Management &gt; Session &gt; Session Config</code> [726990849]</td>
+</tr>
+<tr>
+<td>Speakers / Moderators lists</td>
+<td><code>Management &gt; Sessions &gt; Speakers</code> (+ Moderators list)</td>
+</tr>
+<tr>
+<td>Exhibitor Events (post-restructure)</td>
+<td><code>Meeting Formats &gt; Exhibitor Events</code> [EP-49369]</td>
+</tr>
+<tr>
+<td>Meeting Program config</td>
+<td>Meeting Formats &gt; Meeting Program</td>
+</tr>
+<tr>
+<td>Round Tables</td>
+<td>Meeting Formats &gt; Round Tables</td>
+</tr>
+<tr>
+<td>Sponsors</td>
+<td><code>Management &gt; Sponsors</code> (+ <code>Management &gt; Sponsors &gt; Set Priority</code>, <code>&gt; Settings</code>)</td>
+</tr>
+<tr>
+<td>Sponsor banner settings</td>
+<td><code>admin/sponsors/settings</code></td>
+</tr>
+<tr>
+<td>Hosted Buyer categories</td>
+<td><code>/admin/hostedbuyers/categories</code></td>
+</tr>
+<tr>
+<td>Hosted Buyer emails</td>
+<td><code>/admin/hostedbuyers/emails</code></td>
+</tr>
+<tr>
+<td>Marketing forms</td>
+<td><code>Marketing &gt; Forms</code></td>
+</tr>
+<tr>
+<td>Admin Notifications</td>
+<td><code>Marketing &gt; Admin Notifications</code></td>
+</tr>
+<tr>
+<td>Campaign stats (direct)</td>
+<td><code>/admin/campaigns/stat/{id}</code> [EP-23413]</td>
+</tr>
+<tr>
+<td>Email Sender</td>
+<td><code>Marketing &gt; Email Sender</code></td>
+</tr>
+<tr>
+<td>ExpoFP / CrowdConnected / Invisual integration</td>
+<td><code>/admin/general/settings</code> (integration blocks)</td>
+</tr>
+<tr>
+<td>App Builder</td>
+<td>Mobile &gt; App Builder</td>
+</tr>
+<tr>
+<td>App feature toggles (MTT, etc.)</td>
+<td><code>/admin/appbuilder/feature/{id}</code> [EP-42801]</td>
+</tr>
+<tr>
+<td>Lead Capture Pro redirect (frontend)</td>
+<td><code>/newfront/widgets/lead-capture-pro</code></td>
+</tr>
+<tr>
+<td>Data Import/Export</td>
+<td><code>Data &gt; Import/Export</code></td>
+</tr>
+<tr>
+<td>Log Info (audit trail)</td>
+<td><code>Data &gt; Log Info</code></td>
+</tr>
+</tbody>
+</table>
+<h4>18.5 Admin Reporting and Timezone</h4>
+<ul>
+<li><strong>RULE:</strong> All admin reports/exports use the EVENT timezone — Time settings at <code>/admin/general/settings</code> dominate the country set at <code>/admin/general/edit</code>. The download filename embeds the generation timestamp + timezone. A timezone change applies to FUTURE reports only. [EP-29932]</li>
+<li><strong>RULE:</strong> Analytics granularity is derived from event length: daily for events up to 12 days, weekly for 12 days–12 weeks, monthly beyond. [Part 4.6]</li>
+<li><strong>RULE:</strong> Banner statistics list ALL banner placements (web + app) even when no image is uploaded; the "Disable Links" toggle stops both redirection and click-stat recording. [EP-26041, EP-35019]</li>
+</ul>
+<h4>18.6 Admin-Initiated User Actions</h4>
+<ul>
+<li><strong>RULE:</strong> "Send Information Request" buttons in the Participant profile (Admin) and the Participants-list 3-dots menu open a "Custom message" popup (may be empty) injected into the {custom_text} variable of the "Participant Information Request" email. [EP-45418]</li>
+<li><strong>RULE:</strong> Impersonation ("Impersonate" via <code>Management &gt; Participant</code>) is used for organiser-side actions on behalf of a user, e.g. removing a paid session from a schedule; impersonate mode CANNOT use session Direct invite links. [Part 2.6, EPLEGACY-2408]</li>
+<li><strong>RULE:</strong> Meeting Wizard meetings created by the organiser are automatically Confirmed. [Part 3.6]</li>
+<li><strong>RULE:</strong> Organiser exhibitor-event review offers Reject / Save without approval / Approve &amp; Save; "Save without approval" persists edits (Notes, Critical flag) without changing approval status. [EP-32197]</li>
+<li><strong>RULE:</strong> Changing a participant's category triggers a confirmation warning; "Disable category change" hard-locks the field read-only for ALL admins. [EP-39674, EP-45795]</li>
+<li><strong>RULE:</strong> Global Force Resync (admin) pushes a re-sync to apps but no longer logs users out. [EP-49211]</li>
+</ul>
+<hr />
+<h2 id="backend-engine-services-logic-part-19">Backend: Engine &amp; Services Logic (Part 19)</h2>
+<p>This page is part of the <strong>ExpoPlatform Product Logic Reference</strong>. See the parent page for the full index.</p>
+<h3 id="part-19-backend-engine-services-logic">Part 19: Backend — Engine &amp; Services Logic</h3>
+<p>Server-side internals: the matchmaking / recommendation pipeline, the meeting-generation engines, the email/SES pipeline, badge-scan resolution, floor-plan rendering, integration sync and retry behaviour, caching, and the hard system limits that constrain all of the above. This is the "how it actually runs" layer beneath the product rules in Parts 1–17 and the admin surface in Part 18.</p>
+<h4>19.1 Matchmaking and Recommendation Pipeline</h4>
+<ul>
+<li><strong>ENGINE:</strong> "Enable Matchmaking" drives a Data Science real-time recommender pipeline with processing statuses <strong>In Progress / Error / Completed</strong>. Turning matchmaking OFF calls a lambda to FREE the allocated resources. The flag is reset to OFF on event create/clone. [EP-34318]</li>
+<li><strong>ENGINE:</strong> The recommender connects Interest categories (users) to Activity categories (content/exhibitors). Multi-Space mode groups categories into spaces and weights by spaces-matched first, then categories-within-space. [Part 7.1]</li>
+<li><strong>RULE:</strong> "Recommended for you" sorting interplay: disabled during Elastic word search; a match score of 0 → random order; hidden for unlogged users; sponsored products inherit their exhibitor's MM rank. The legacy esettings "Matchmaking sorting" control was removed. [EP-27225, EP-27246]</li>
+<li><strong>RULE:</strong> Onboarding completion dispatches a "recommendations updated" notification ~5 minutes after completion; the notification writes selections to the user's Interest categories (the interest-category limit is ignored during onboarding). [EP-40162, EP-40531]</li>
+<li><strong>RULE:</strong> Like propagation — a "like"/favourite can propagate across all team members of an exhibitor via an opt-in API parameter. [EP-50840]</li>
+<li><strong>EDGE CASE:</strong> Empty recommendation blocks (email or frontend) almost always mean the user has NO interest categories populated. [Part 7.1, Part 12.1]</li>
+</ul>
+<h4>19.2 Meeting-Generation Engines</h4>
+<p>Three distinct generation engines with different logic. They must not be confused.</p>
+<p><strong>Speed Networking — Walk-in (Check-in)</strong></p>
+<ul>
+<li><strong>ENGINE:</strong> Max meetings per user is auto-calculated from session geometry: <code>N × meeting_length + (N − 1) × break_length ≤ session_duration</code>. [EP-26344]</li>
+<li><strong>RULE:</strong> Live match voting feeds relevance before schedule generation; tables are manually editable; a Public Meeting Display ("airport board") shows assignments. The minimum gap between "Send Final Schedule" and "Meetings Start" was reduced from 5 minutes to 1 minute. [EP-26344, EP-30282]</li>
+</ul>
+<p><strong>Speed Networking — Opt-in (pre-matched)</strong></p>
+<ul>
+<li><strong>ENGINE:</strong> Participation conditions are built from registration fields flagged "Use for Speed Networking". Auto-enrolment runs HOURLY. A two-sided visibility matrix controls who can be matched with whom (recommended templates: Open Networking / Buyer-Focused / Structured Access). [EP-26368, EP-30282]</li>
+<li><strong>RULE:</strong> The Meeting Sponsor role and ALL sponsored-meeting logic were REMOVED from Opt-in SN (they exist only in the Meeting Program). Sponsored-limit validation applies only to newly created meetings. [EP-30282, EP-39133]</li>
+</ul>
+<p><strong>Meeting Program (rebuilt 2025; frontend "Meetup")</strong></p>
+<ul>
+<li><strong>ENGINE:</strong> Generation uses MUTUAL relevance only, in four strict tiers: <strong>SR↔SR → SR→R → R→SR → R↔R</strong> (SR = super-relevant, R = relevant). The matchmaking SCORE does NOT influence generation. [EP-41245, EP-43483]</li>
+<li><strong>RULE:</strong> One pairing per company (companies matched by NAME). Sponsored meetings are generated BEFORE free meetings. The 1st generation now ALSO generates free meetings (previously sponsored-only). Hosted Buyers never receive free meetings. Sponsored Team Members share the exhibitor's sponsored allocation (default 30; 0 = none; toggle off = unlimited; category-level only). [EP-41245, EP-43924, EP-49069]</li>
+<li><strong>RULE:</strong> Per-role timeslot blocking — Hosted/General Buyer = 0, Sponsored TM = 4, Free TM / Participant = 12; admin impersonation is unlimited. [EP-45790]</li>
+<li><strong>RULE:</strong> Two-stage voting; a decline requires a reason ("Expired" on timeout). Meeting statuses Pending / Accepted / Declined / Expired / Cancelled (distinct from the self-managed meeting state machine). [EP-41245]</li>
+<li><strong>RULE:</strong> Stand-attendance booking (Buyer → Exhibitor company) is auto-confirmed and non-blocking. No-Show marking is available to both admin and user. Reserved "Women Circle" tables are supported. [EP-49073, EP-48314, EP-43263]</li>
+</ul>
+<p><strong>Round Tables</strong></p>
+<ul>
+<li><strong>ENGINE:</strong> 3-level Session → Topics → Tables. "Max number of tables" (default 0 = unlimited) locks after Registration Ends; overflow applicants get status "Unassigned" and their card is silently removed from the schedule after the Final Schedule. Table numbering is continuous across topics with smallest-missing-number reuse. [EP-28986, EP-39819]</li>
+<li><strong>RULE:</strong> Optional Confirmation Process is one-time; a topic reassignment resets status to Pending (tagged System vs Organiser). Tables remain editable from session start until session end. [EP-41016, EP-46474]</li>
+</ul>
+<p><strong>Auto-approval algorithm (Exhibitor Events)</strong></p>
+<ul>
+<li><strong>ENGINE:</strong> On-demand batch algorithm (Sessions Config → "Initiate auto-approval algorithm") maximises total approvals, guarantees every applicant ≥1 approval where possible, never approves overlapping events for one user, and balances approvals across users; under-subscribed events approve all. It is re-runnable — algorithm-rejected users may be approved on a later run; MANUALLY rejected users stay rejected. Events without a limit, On-Demand types, and Rejected / Rejected-for-Security-Concern statuses are excluded. [EP-46110, EP-46204]</li>
+</ul>
+<h4>19.3 Email / SES Pipeline</h4>
+<ul>
+<li><strong>ENGINE:</strong> All email flows share a single AWS SES pipeline with a platform-wide bounce kill-switch keyed on aggregate bounce rate — one noisy client can pause delivery for ALL clients. A per-client transactional/marketing split is in rollout. [EP-53519]</li>
+<li><strong>RULE:</strong> Mass send-out supports &gt;1000 recipients by segmentation, delivering to each recipient exactly once (no duplicates). [EP-35350]</li>
+<li><strong>RULE:</strong> Offensive-content report emails to the organiser are BATCHED every 15 minutes (no email if there were no reports in the window). [726990849]</li>
+<li><strong>RULE:</strong> Delivery language resolution — WEB uses the user's profile language (fallback: current browsing language); APP uses the account language; unconfigured falls back to the event default. Already-sent notifications are never re-translated. [EP-31011]</li>
+<li><strong>RULE:</strong> Email autologin — clicking a recommended card (or the Activation Link) applies autologin and lands the user on the frontend profile; the Activation Link also activates the account and must not work if no profile exists. [Part 12.1, EP-27950]</li>
+</ul>
+<h4>19.4 Badge-Scan Resolution</h4>
+<ul>
+<li><strong>ENGINE:</strong> Scan resolution is fast-path/slow-path: the app first resolves the barcode to an account ID locally; on miss it sends the raw barcode to the backend, which searches barcode types <code>barcode_new</code>, <code>external_qr</code>, <code>external_barcode</code>, <code>external_code</code>. [Part 15.2]</li>
+<li><strong>RULE:</strong> ALL scans (recognised and unrecognised) are stored server-side and later reconciled against the event database; offline lead edits persist locally until a "Force scans sync". [EP-21095, EP-23400]</li>
+<li><strong>RULE:</strong> A lead is created on autosave even with partial or NO data; network loss saves locally and pushes on reconnection. [EP-47877]</li>
+<li><strong>EDGE CASE — barcode collision:</strong> if a barcode value equals another user's Account ID, the scan attributes to the WRONG person. [Part 15.2]</li>
+<li><strong>EDGE CASE — Account ID overflow:</strong> the maximum Account ID is 2,147,483,647 (signed 32-bit integer); barcodes exceeding this cause overflow errors. [Part 15.2]</li>
+<li><strong>RULE:</strong> OCR badge matching is exact 100% on First Name, Last Name, Job Title, Company; local DB first then server; multiple matches surface the top 5. A minimum of 3 extracted lines is required or the scan fails. OCR is lead scanning only, never login. [EP-45778]</li>
+</ul>
+<h4>19.5 Floor-Plan Rendering and Sync</h4>
+<ul>
+<li><strong>ENGINE:</strong> A single shared floor-plan JS bundle (deployed to S3) is consumed by the frontend UI, admin panel and mobile apps; parent components layer background / stands / events. [EP-19626]</li>
+<li><strong>ENGINE:</strong> The mobile native floor plan is a webview of <code>{front url}/newfront/widgets/floorplan</code>. [EP-6677]</li>
+<li><strong>ENGINE:</strong> The renderer was rewritten in three.js (replacing react-konva) for performance at high stand counts, laying groundwork for a 3D view. [EP-18007]</li>
+<li><strong>RULE:</strong> ExpoFP sync — every exhibitor create/edit/delete pushes to ExpoFP when "Transmit exhibitor data to ExpoFP" is ON; changes are logged to CloudWatch; a resynchronization button covers exhibitors/categories/halls/stands with real-time status; API-token/credentials are validated with informative errors. [EP-26327, Mar–Apr 2025 Release Notes]</li>
+<li><strong>RULE:</strong> ExpoFP offline support downloads versioned ZIP archives (<code>{expoKey}_{version}.zip</code>) cached on-device (base URL <code>app.expofp.com</code>, build-status polling), with fallback to cache when online requests fail. [EP-45052]</li>
+<li><strong>RULE:</strong> Favourites ↔ ExpoFP stand bookmarks sync BI-DIRECTIONALLY; one stand can link to multiple exhibitors, and an exhibitor unfavourite removes the stand bookmark only if no other exhibitor on that stand is still favourited. [EP-44186]</li>
+</ul>
+<h4>19.6 Integration Sync and Retry</h4>
+<ul>
+<li><strong>ENGINE:</strong> GES / Visit / N200 API V2 sync is two-way via per-field push-back checkboxes: real-time inbound webhooks + a configurable end-of-day push. [EP-42360]</li>
+<li><strong>RULE:</strong> Retry ladder is 6 steps — 15s / 30s / 60s / 90s / 10min / 1h — with stakeholder alerting on exhaustion. [EP-42360]</li>
+<li><strong>RULE:</strong> Deletion cascades — participant deletion inactivates the account and cancels its meetings/sessions; partner deletion detaches it and cancels sponsored meetings / exhibitor events and deactivates its team members/products. [EP-42360]</li>
+<li><strong>RULE:</strong> Super-Admin API logs are captured with XLSX export. [EP-42360]</li>
+<li><strong>RULE:</strong> Parent/Child auto-assign runs DAILY at a configured hour, matching by Contact Person Email (<code>cp_email</code>), with <code>is_parent_exhibitor:true</code> forcing Parent; a downloadable XLS report is emailed to a <code>||</code>-separated stakeholder list. [EP-38486]</li>
+<li><strong>RULE:</strong> External calendar auto-sync of meetings and sessions runs every ~6 hours; web init enables Google AND Outlook, mobile init enables Google only. [EP-30274, EP-18010]</li>
+<li><strong>RULE:</strong> CrowdConnected positioning mode (IPS only / GPS only / IPS+GPS, default IPS+GPS) is self-service at <code>/admin/general/settings</code>. [EP-40363]</li>
+</ul>
+<h4>19.7 Caching and Sync Windows</h4>
+<table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Window / Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global Module Management flags</td>
+<td>Cached server-side; cache must be cleared after saving [872087577]</td>
+</tr>
+<tr>
+<td>Frontend availability after event creation</td>
+<td>~5 minutes; <code>403 Forbidden</code> expected during the window [Part 4.1]</td>
+</tr>
+<tr>
+<td>"Hide exhibitors without team members"</td>
+<td>Sync up to 15 minutes [Part 2.2]</td>
+</tr>
+<tr>
+<td>PDF exhibitor list rebuild</td>
+<td>Every 30 minutes (may be incomplete mid-rebuild) [Part 6.3]</td>
+</tr>
+<tr>
+<td>Manual app "Re-sync" button</td>
+<td>Active only if ≥1 hour since the last manual re-sync [EP-41330]</td>
+</tr>
+<tr>
+<td>SSL auto-generation after external-domain save</td>
+<td>Up to 2 hours; external URL down during generation [EP-28249]</td>
+</tr>
+<tr>
+<td>Offensive-content report emails</td>
+<td>Batched every 15 minutes [726990849]</td>
+</tr>
+<tr>
+<td>External calendar auto-sync</td>
+<td>Every ~6 hours [EP-30274]</td>
+</tr>
+</tbody>
+</table>
+<h4>19.8 Hard System Limits</h4>
+<table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New chat creation</td>
+<td>300 per 24h (from first message), socket-enforced, no admin override</td>
+<td>[EP-35014]</td>
+</tr>
+<tr>
+<td>Breakout participants</td>
+<td>250 (hard cap)</td>
+<td>[Part 2.6]</td>
+</tr>
+<tr>
+<td>Account ID (max)</td>
+<td>2,147,483,647 (signed 32-bit)</td>
+<td>[Part 15.2]</td>
+</tr>
+<tr>
+<td>AI / ConnectAI search results</td>
+<td>≤500 results; ≤1000-character prompt; English + web only; no chat history saved</td>
+<td>[EP-33164]</td>
+</tr>
+<tr>
+<td>AI search prompt suggestions</td>
+<td>3 suggestions, ≤85 characters each</td>
+<td>[EP-49803]</td>
+</tr>
+<tr>
+<td>Sponsors block name</td>
+<td>60 characters</td>
+<td>[Part 10.2]</td>
+</tr>
+<tr>
+<td>Sponsor "Name on … Page" fields</td>
+<td>60 characters each</td>
+<td>[EP-27558]</td>
+</tr>
+<tr>
+<td>Personal meeting notes</td>
+<td>500 characters</td>
+<td>[EP-23843]</td>
+</tr>
+<tr>
+<td>Group short description</td>
+<td>400 characters</td>
+<td>[EP-39625]</td>
+</tr>
+<tr>
+<td>Meeting "Copy invite link"</td>
+<td>Confirmed, future meetings only; joiner added to Additional participants</td>
+<td>[EPLEGACY-2408]</td>
+</tr>
+<tr>
+<td>Sponsor entrance video</td>
+<td>50 MB, .MP4 only; rotation across up to 10 MM-sourced sponsors before pool reset</td>
+<td>[EPLEGACY-2645]</td>
+</tr>
+<tr>
+<td>Sponsor legacy display limit</td>
+<td>150</td>
+<td>[EP-52414]</td>
+</tr>
+<tr>
+<td>OCR badge scan</td>
+<td>≥3 extracted lines required; exact 100% match on 4 fields; top 5 on multiple matches</td>
+<td>[EP-45778]</td>
+</tr>
+<tr>
+<td>Value semantics (limits)</td>
+<td>Toggle OFF = unlimited; 0 = blocked (chats fail SILENTLY); N = capped at N</td>
+<td>[Part 3.5]</td>
+</tr>
+</tbody>
+</table>
+<h4>19.9 Counting and Enforcement Rules (engine summary)</h4>
+<ul>
+<li><strong>RULE:</strong> Meeting PENDING limits count against the INITIATOR; CONFIRMATION limits count against the RECEIVER. With autoconfirm ON, pending limits are not applied (nothing is ever pending), but the confirmation limit is still counted against the receiver — and category confirmation limits are enforced even under auto-confirm (auto-confirm stops at the limit). [EP-24046, 767885647, 1462075393]</li>
+<li><strong>RULE:</strong> Chat limits POOL at the exhibitor entity — company account + all team members share one pool — UNLESS a team member's participant badge category sets its own limits, which then apply instead. [697401523]</li>
+<li><strong>RULE:</strong> Rescheduling a meeting (pending or confirmed) never re-applies category limits. [EP-24046]</li>
+<li><strong>RULE:</strong> Reaching a pending limit HIDES the corresponding location type (online/offline) from the meeting form. Online minutes-credit exhaustion does NOT block creating online meetings — it removes "Join room" and ejects the user mid-meeting. [EP-24046]</li>
+<li><strong>RULE (runtime, Meet button):</strong> On WEB the availability chain runs ON CLICK (button not pre-hidden; target &lt;1s; generic failure message shown); on the APP the same chain HIDES the Meeting button when no team member passes. Same absence-vs-error symptom, same root cause. [EP-35513, EP-37473]</li>
+</ul>
+<hr />
+<p><em>End of the ExpoPlatform Product Logic Reference. Companion documents referenced throughout: the Platform Language Glossary (terminology), and the Post-v10 Delta &amp; In-Flight Register (shipped-after-v10 and in-flight items).</em></p>
+    </article>
+  </main>
+</div>
+<div class="doc-foot">ExpoPlatform internal reference &middot; hosted on GitHub Pages. Rendered from the source Markdown; content is unchanged.</div>
+
+<script>
+/* ---- mobile drawer ---- */
+var body=document.body,menuBtn=document.getElementById('menuBtn'),backdrop=document.getElementById('backdrop');
+function closeNav(){body.classList.remove('nav-open');}
+menuBtn.addEventListener('click',function(){body.classList.toggle('nav-open');});
+backdrop.addEventListener('click',closeNav);
+
+/* ---- TOC filter ---- */
+var filter=document.getElementById('tocFilter'),links=[].slice.call(document.querySelectorAll('#toc a'));
+filter.addEventListener('input',function(){
+  var q=filter.value.trim().toLowerCase();
+  links.forEach(function(a){
+    if(!q){a.classList.remove('hidden');return;}
+    var hit=a.textContent.toLowerCase().indexOf(q)!==-1;
+    a.classList.toggle('hidden',!hit);
+  });
+});
+
+/* ---- close drawer on nav click (mobile) ---- */
+document.getElementById('toc').addEventListener('click',function(e){
+  if(e.target.tagName==='A'&&window.innerWidth<=960)closeNav();
+});
+
+/* ---- scroll-spy on h1/h2 ---- */
+var spyLinks={},spyTargets=[];
+links.forEach(function(a){var t=a.getAttribute('data-target');if(t){spyLinks[t]=a;}});
+document.querySelectorAll('.content h1[id],.content h2[id]').forEach(function(h){
+  if(spyLinks[h.id])spyTargets.push(h);
+});
+var current=null;
+var spy=new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(en.isIntersecting){
+      var a=spyLinks[en.target.id];
+      if(a){
+        if(current)current.classList.remove('active');
+        // highlight nearest h2 link; h1 links are group headers
+        if(a.classList.contains('nav-h2')){a.classList.add('active');current=a;
+          a.scrollIntoView({block:'nearest'});}
+      }
+    }
+  });
+},{rootMargin:'-64px 0px -70% 0px',threshold:0});
+spyTargets.forEach(function(h){spy.observe(h);});
+
+/* ---- lazy Mermaid ---- */
+var mmdFigs=[].slice.call(document.querySelectorAll('figure.mmd'));
+if(mmdFigs.length){
+  var mermaidReady=null;
+  function loadMermaid(){
+    if(mermaidReady)return mermaidReady;
+    mermaidReady=new Promise(function(resolve,reject){
+      var s=document.createElement('script');
+      s.src='https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js';
+      s.onload=function(){
+        try{
+          window.mermaid.initialize({startOnLoad:false,securityLevel:'loose',
+            theme:'base',themeVariables:{
+              primaryColor:'#E9F5FF',primaryBorderColor:'#03A7FF',primaryTextColor:'#0D1230',
+              lineColor:'#5B6488',fontFamily:'Inter,system-ui,sans-serif',fontSize:'14px'},
+            flowchart:{useMaxWidth:true,htmlLabels:true},maxTextSize:200000});
+          resolve(window.mermaid);
+        }catch(e){reject(e);}
+      };
+      s.onerror=reject;
+      document.head.appendChild(s);
+    });
+    return mermaidReady;
+  }
+  var seq=0;
+  function renderFig(fig){
+    if(fig.dataset.state!=='pending')return;
+    fig.dataset.state='loading';
+    var code=fig.querySelector('.mmd-code').textContent;
+    loadMermaid().then(function(m){
+      var id='mmd-svg-'+(seq++);
+      return m.render(id,code);
+    }).then(function(res){
+      fig.querySelector('.mmd-render').innerHTML=res.svg;
+      if(res.bindFunctions)res.bindFunctions(fig.querySelector('.mmd-render'));
+      fig.dataset.state='done';
+    }).catch(function(){
+      fig.dataset.state='error';   // reveals the source block as a styled fallback
+    });
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){io.unobserve(en.target);renderFig(en.target);}
+    });
+  },{rootMargin:'400px 0px 400px 0px'});
+  mmdFigs.forEach(function(f){io.observe(f);});
+}
+</script>
+</body>
+</html>
